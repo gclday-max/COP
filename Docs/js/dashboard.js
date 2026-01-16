@@ -1,4 +1,4 @@
-// dashboard.js - Lógica del dashboard
+
 
 // Sistema de rangos
 function getRank(xp) {
