@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil | Call of Productivity</title>
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/profile.css">
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar (MISMA ESTRUCTURA QUE DASHBOARD) -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>COP</h1>
+                <span>Call of Productivity</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-radar"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="missions.html" class="nav-item">
+                    <i class="fas fa-crosshairs"></i>
+                    <span>Misiones</span>
+                </a>
+            
+                <a href="profile.html" class="nav-item active">
+                    <i class="fas fa-user-secret"></i>
+                    <span>Profile</span>
+
+                <a href="Logros.html" class="nav-item">
+                    <i class="fas fa-trophy"></i>
+                    <span>Logros</span>
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuración</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="profile-header">
+                <div class="header-left">
+                    <h2><i class="fas fa-user-secret"></i> Perfil del Operador</h2>
+                    <p class="header-subtitle">Gestión completa de tu identidad y estadísticas</p>
+                </div>
+                <div class="header-right">
+                    <div class="rank-display">
+                        <span class="rank-label">Rango Actual:</span>
+                        <span class="rank-value" id="currentRankDisplay">Recluta</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Grid Principal -->
+            <div class="profile-grid">
+                <!-- Columna Izquierda -->
+                <div class="profile-column">
+                    <!-- Información Personal -->
+                    <section class="profile-section personal-info">
+                        <h3 class="section-title">
+                            <i class="fas fa-id-card"></i>
+                            Información Personal
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label for="fullName">
+                                <i class="fas fa-user"></i>
+                                Nombre Completo
+                            </label>
+                            <input type="text" id="fullName" placeholder="Ej: Alex Johnson">
+                            <small class="form-hint">Tu nombre en el sistema</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="userEmail">
+                                <i class="fas fa-envelope"></i>
+                                Correo Electrónico
+                            </label>
+                            <input type="email" id="userEmail" disabled>
+                            <small class="form-hint">Usado para iniciar sesión</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="memberSince">
+                                <i class="fas fa-calendar-alt"></i>
+                                Miembro Desde
+                            </label>
+                            <input type="text" id="memberSince" disabled>
+                            <small class="form-hint">Fecha de registro en la operación</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="codename">
+                                <i class="fas fa-user-secret"></i>
+                                Nombre en Clave
+                            </label>
+                            <input type="text" id="codename" placeholder="Ej: Ghost">
+                            <small class="form-hint">Tu identificación táctica</small>
+                        </div>
+                        
+                        <button class="btn btn-primary" id="updateProfileBtn">
+                            <i class="fas fa-save"></i>
+                            Actualizar Perfil
+                        </button>
+                        
+                        <div id="profileMessage" class="message"></div>
+                    </section>
+
+                    <!-- Estadísticas -->
+                    <section class="profile-section stats-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-chart-line"></i>
+                            Estadísticas de Combate
+                        </h3>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="totalXP">0</div>
+                                    <div class="stat-label">XP Total</div>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-flag-checkered"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="missionsCompleted">0</div>
+                                    <div class="stat-label">Misiones Completadas</div>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-fire"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="currentStreak">0</div>
+                                    <div class="stat-label">Racha Actual (días)</div>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="totalHours">0h</div>
+                                    <div class="stat-label">Tiempo en Combate</div>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="successRate">0%</div>
+                                    <div class="stat-label">Tasa de Éxito</div>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-medal"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="achievementsCount">0</div>
+                                    <div class="stat-label">Logros Desbloqueados</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Columna Derecha -->
+                <div class="profile-column">
+                    <!-- Progreso del Rango -->
+                    <section class="profile-section rank-progress">
+                        <h3 class="section-title">
+                            <i class="fas fa-arrow-up"></i>
+                            Progreso de Rango
+                        </h3>
+                        
+                        <div class="xp-container">
+                            <div class="xp-header">
+                                <span class="xp-label">Progreso Actual</span>
+                                <span class="xp-value">
+                                    <span id="currentXP">0</span> / <span id="nextRankXP">1000</span> XP
+                                </span>
+                            </div>
+                            
+                            <div class="xp-bar">
+                                <div class="xp-fill" id="xpFill"></div>
+                            </div>
+                            
+                            <div class="rank-info">
+                                <div class="current-rank">
+                                    <strong>Rango Actual:</strong>
+                                    <span id="currentRank">Recluta</span>
+                                </div>
+                                <div class="next-rank">
+                                    <strong>Próximo Rango:</strong>
+                                    <span id="nextRank">Soldado</span>
+                                </div>
+                                <div class="xp-needed">
+                                    <strong>XP Necesaria:</strong>
+                                    <span id="xpNeeded">1000</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ranks-list">
+                            <h4><i class="fas fa-list-ol"></i> Tabla de Rangos</h4>
+                            <div class="ranks-container" id="ranksList">
+                                <!-- Lista de rangos se generará con JavaScript -->
+                                <div class="rank-item active">
+                                    <span class="rank-name">Recluta</span>
+                                    <span class="rank-xp">0 XP</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Logros Recientes -->
+                    <section class="profile-section achievements-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-trophy"></i>
+                            Logros Recientes
+                        </h3>
+                        
+                        <div class="achievements-list" id="achievementsList">
+                            <!-- Logros se cargarán con JavaScript -->
+                            <div class="achievement-item">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-medal"></i>
+                                </div>
+                                <div class="achievement-info">
+                                    <h4>Primera Misión</h4>
+                                    <p>Completa tu primera misión</p>
+                                    <small class="achievement-date">Desbloqueado hace 2 días</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="view-all">
+                            <a href="#" class="btn btn-secondary">
+                                <i class="fas fa-eye"></i>
+                                Ver Todos los Logros
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- Zona de Acciones -->
+                    <section class="profile-section actions-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-bolt"></i>
+                            Acciones Rápidas
+                        </h3>
+                        
+                        <div class="actions-grid">
+                            <button class="action-btn" id="exportDataBtn">
+                                <i class="fas fa-file-export"></i>
+                                <span>Exportar Datos</span>
+                            </button>
+                            
+                            <button class="action-btn" id="resetProgressBtn">
+                                <i class="fas fa-redo"></i>
+                                <span>Reiniciar Progreso</span>
+                            </button>
+                            
+                            <button class="action-btn" id="changeAvatarBtn">
+                                <i class="fas fa-user-edit"></i>
+                                <span>Cambiar Avatar</span>
+                            </button>
+                            
+                            <button class="action-btn" id="shareProfileBtn">
+                                <i class="fas fa-share-alt"></i>
+                                <span>Compartir Perfil</span>
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="profile-footer">
+                <div class="footer-left">
+                    <span>Perfil Operativo • Última actualización: <span id="lastUpdate">Hoy</span></span>
+                </div>
+                <div class="footer-right">
+                    <span>ID de Operador: <strong id="userId">COP-001</strong></span>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/supabaseClient.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

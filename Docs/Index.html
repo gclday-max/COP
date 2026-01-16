@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Sistema Táctico</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* PALETA MILITAR FUTURISTA */
+            --color-primary: #0A0A0A;           /* Negro profundo */
+            --color-secondary: #1C1C1C;         /* Gris arma */
+            --color-accent: #01e279;            /* Verde neón */
+            --color-accent-hover: #00CC6D;      /* Hover más oscuro */
+            --color-text: #e2e0e0;              /* Blanco humo */
+            --color-text-secondary: #555555;    /* Gris metálico */
+            --color-border: #333333;            /* Bordes */
+            --color-progress: linear-gradient(90deg, #00FF88 0%, #00CC6D 100%);
+            --color-card-bg: rgba(28, 28, 28, 0.95);
+            
+            /* Colores adicionales para los botones sociales */
+            --color-steam: #1b2838;
+            --color-google: #4285f4;
+            --color-facebook: #1877f2;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: var(--color-primary);
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(1, 226, 121, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(1, 226, 121, 0.03) 0%, transparent 50%),
+                linear-gradient(45deg, #0A0A0A 0%, #111111 100%);
+        }
+        
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(1, 226, 121, 0.1);
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            100% { transform: translateY(-100vh) translateX(100px); }
+        }
+        
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+            animation: scan 3s infinite linear;
+            z-index: 1;
+            opacity: 0.7;
+        }
+        
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        
+        .login-container {
+            background: var(--color-card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.8),
+                0 0 0 1px rgba(1, 226, 121, 0.1),
+                0 0 20px rgba(1, 226, 121, 0.05);
+            border: 1px solid var(--color-border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--color-progress);
+            animation: progress 4s infinite linear;
+        }
+        
+        @keyframes progress {
+            0% { width: 0%; left: 0; }
+            50% { width: 100%; left: 0; }
+            100% { width: 0%; left: 100%; }
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            color: var(--color-accent);
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(1, 226, 121, 0.5);
+        }
+        
+        .login-header h1 {
+            color: var(--color-text);
+            font-weight: 600;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Orbitron', 'Segoe UI', sans-serif;
+        }
+        
+        .login-header p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            background: rgba(10, 10, 10, 0.7);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            color: var(--color-text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 15px rgba(1, 226, 121, 0.2);
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-accent);
+            font-size: 1.2rem;
+        }
+        
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-text-secondary);
+        }
+        
+        .remember input {
+            accent-color: var(--color-accent);
+        }
+        
+        .forgot {
+            color: var(--color-accent);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+        
+        .forgot:hover {
+            color: var(--color-accent-hover);
+            text-decoration: underline;
+        }
+        
+        .login-btn {
+            background: var(--color-progress);
+            color: var(--color-primary);
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1.5px;
+            margin-top: 10px;
+            text-transform: uppercase;
+            font-family: 'Orbitron', 'Segoe UI', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s;
+        }
+        
+        .login-btn:hover::before {
+            left: 100%;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(1, 226, 121, 0.3);
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: var(--color-text-secondary);
+        }
+        
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--color-border);
+        }
+        
+        .divider span {
+            padding: 0 15px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            background: rgba(28, 28, 28, 0.9);
+            letter-spacing: 1px;
+        }
+        
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(1, 226, 121, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .social-btn:hover::before {
+            left: 100%;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+            border-color: var(--color-accent);
+            box-shadow: 0 5px 15px rgba(1, 226, 121, 0.2);
+        }
+        
+        .steam {
+            background: linear-gradient(45deg, rgba(27, 40, 56, 0.9), rgba(42, 71, 94, 0.9));
+        }
+        
+        .google {
+            background: linear-gradient(45deg, rgba(66, 133, 244, 0.9), rgba(52, 168, 83, 0.9));
+        }
+        
+        .facebook {
+            background: linear-gradient(45deg, rgba(24, 119, 242, 0.9), rgba(59, 89, 152, 0.9));
+        }
+        
+        .social-btn i {
+            font-size: 1.3rem;
+        }
+        
+        .signup-link {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .signup-link a {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .signup-link a:hover {
+            color: var(--color-accent-hover);
+            text-decoration: underline;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(1, 226, 121, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(1, 226, 121, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(1, 226, 121, 0); }
+        }
+        
+        .military-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(1, 226, 121, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(1, 226, 121, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+        
+        .status-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-accent);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--color-accent);
+            box-shadow: 0 0 10px var(--color-accent);
+            animation: blink 2s infinite;
+        }
+        
+        .version {
+                position: fixed;
+                bottom: 10px;
+                right: 15px;
+                font-size: 10px;
+                opacity: 0.5;
+                letter-spacing: 1px;
+}
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        @media (max-width: 500px) {
+            .login-container {
+                margin: 20px;
+                padding: 30px 25px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .login-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .status-indicator {
+                top: 15px;
+                right: 15px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Fondo con partículas animadas -->
+    <div class="bg-animation" id="particles"></div>
+    
+    <!-- Línea de escaneo -->
+    <div class="scan-line"></div>
+    
+    <!-- Contenedor principal del login -->
+    <div class="login-container">
+        <!-- Grid militar de fondo -->
+        <div class="military-grid"></div>
+        
+        <!-- Indicador de estado -->
+        <div class="status-indicator">
+            <div class="status-dot"></div>
+            <span>SISTEMA ACTIVO</span>
+        </div>
+        
+        <div class="login-header">
+            <div class="logo">
+                <i class="fas fa-crosshairs"></i>
+            </div>
+            <h1>ACCESO TÁCTICO</h1>
+            <p>Autenticación requerida para acceso al sistema</p>
+        </div>
+        
+        <form class="login-form" id="loginForm">
+            <div class="input-group">
+                <i class="fas fa-id-card"></i>
+                <input type="text" placeholder="IDENTIFICACIÓN" required>
+            </div>
+            
+            <div class="input-group">
+                <i class="fas fa-key"></i>
+                <input type="password" placeholder="CÓDIGO DE ACCESO" required>
+            </div>
+            
+            <div class="remember-forgot">
+                <label class="remember">
+                    <input type="checkbox"> MANTENER SESIÓN
+                </label>
+                <a href="#" class="forgot">CÓDIGO PERDIDO</a>
+            </div>
+            
+            <button type="submit" class="login-btn pulse">ACCEDER AL SISTEMA</button>
+        </form>
+        
+        <div class="divider">
+            <span>Autenticación externa</span>
+        </div>
+        
+        <div class="social-login">
+            <a href="dashboard.html" class="social-btn steam">
+                <i class="fab fa-steam"></i>
+                <span>ACCESO STEAM</span>
+            </a>
+            
+            <a href="dashboard.html" class="social-btn google">
+                <i class="fab fa-google"></i>
+                <span>ACCESO GOOGLE</span>
+            </a>
+            
+            <a href="dashboard.html" class="social-btn facebook">
+                <i class="fab fa-facebook-f"></i>
+                <span>ACCESO FACEBOOK</span>
+            </a>
+        </div>
+        
+            <span class="version">v2.0.0</span>
+
+        <div class="signup-link">
+            <p>¿SIN CREDENCIALES? <a href="#">SOLICITAR ACCESO</a></p>
+        </div>
+    </div>
+    
+    <script>
+        // Crear partículas para el fondo
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 25;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Tamaño aleatorio
+            const size = Math.random() * 8 + 4;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            // Posición aleatoria
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            
+            // Color con tonos verdes (paleta militar)
+            const opacity = Math.random() * 0.2 + 0.05;
+            particle.style.backgroundColor = `rgba(1, 226, 121, ${opacity})`;
+            
+            // Animación con duración aleatoria
+            const duration = Math.random() * 20 + 15;
+            particle.style.animationDuration = `${duration}s`;
+            
+            particlesContainer.appendChild(particle);
+        }
+        
+        // Manejar el formulario de login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Efecto de carga antes de redirigir
+            const btn = this.querySelector('.login-btn');
+            const originalText = btn.textContent;
+            btn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> VERIFICANDO...';
+            btn.disabled = true;
+            
+            // Simular verificación
+            setTimeout(() => {
+                // Redirigir al dashboard
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        });
+        
+        // Efecto especial para los botones sociales
+        const socialButtons = document.querySelectorAll('.social-btn');
+        socialButtons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Efecto de luz dinámica en el contenedor
+        const loginContainer = document.querySelector('.login-container');
+        document.addEventListener('mousemove', function(e) {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            loginContainer.style.boxShadow = `
+                0 10px 30px rgba(0, 0, 0, 0.8),
+                0 0 0 1px rgba(1, 226, 121, 0.1),
+                0 0 20px rgba(1, 226, 121, 0.05),
+                ${10 * x}px ${10 * y}px 30px rgba(0, 0, 0, 0.9)
+            `;
+        });
+        
+        // Efecto de tecleo en los inputs
+        const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+        
+        // Mostrar hora actual en tiempo real (estilo militar)
+        function updateMilitaryTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            // Podríamos agregar un elemento para mostrar la hora si lo deseas
+            // Por ahora solo lo dejamos en consola
+            console.log(`[${hours}:${minutes}:${seconds}] Sistema de autenticación activo`);
+        }
+        
+        setInterval(updateMilitaryTime, 1000);
+        updateMilitaryTime();
+    </script>
+</body>
+</html>

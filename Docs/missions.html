@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misiones | Call of Productivity</title>
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Nuestro CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/missions.css">
+</head>
+<body>
+    <!-- CONTENEDOR PRINCIPAL CON SIDEBAR -->
+    <div class="dashboard-container">
+        
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>COP</h1>
+                <span>Call of Productivity</span>
+            </div>
+    
+    <nav class="nav-menu">
+        <a href="dashboard.html" class="nav-item">
+            <i class="fas fa-radar"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="missions.html" class="nav-item active">
+            <i class="fas fa-crosshairs"></i>
+            <span>Misiones</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user-secret"></i>
+            <span>Profile</span>
+        </a>
+        <a href="Logros.html" class="nav-item">
+            <i class="fas fa-trophy"></i>
+            <span>Logros</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Configuración</span>
+        </a>
+    </nav>
+</aside>
+        
+        <!-- CONTENIDO PRINCIPAL COMPLETO -->
+        <main class="main-content">
+            <!-- Header principal -->
+            <header class="missions-header">
+                <div class="header-left">
+                    <h1 class="missions-title neon-text">
+                        <i class="fas fa-crosshairs"></i>
+                        CUARTEL DE MISIONES
+                    </h1>
+                    <p class="missions-subtitle">
+                        Selecciona y completa misiones para ganar XP y ascender de rango
+                    </p>
+                </div>
+                
+                <div class="header-right">
+                    <div class="xp-display glow-effect">
+                        <i class="fas fa-bolt"></i>
+                        <span class="neon-text" id="currentXP">1,850</span> XP
+                    </div>
+                    <button class="btn btn-primary" id="newMissionBtn">
+                        <i class="fas fa-plus-circle"></i>
+                        Nueva Misión
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Filtros rápidos -->
+            <section class="filters-section">
+                <div class="filter-tags">
+                    <button class="filter-tag active" data-filter="all">
+                        <i class="fas fa-globe"></i>
+                        Todas las Misiones
+                    </button>
+                    <button class="filter-tag" data-filter="daily">
+                        <i class="fas fa-sun"></i>
+                        Diarias
+                    </button>
+                    <button class="filter-tag" data-filter="weekly">
+                        <i class="fas fa-calendar-week"></i>
+                        Semanales
+                    </button>
+                    <button class="filter-tag" data-filter="special">
+                        <i class="fas fa-star"></i>
+                        Especiales
+                    </button>
+                </div>
+                
+                <div class="category-filters">
+                    <span class="filter-label">Categorías:</span>
+                    <button class="category-btn active" data-category="all">Todas</button>
+                    <button class="category-btn" data-category="work">
+                        <i class="fas fa-briefcase"></i>
+                        Trabajo
+                    </button>
+                    <button class="category-btn" data-category="health">
+                        <i class="fas fa-heartbeat"></i>
+                        Salud
+                    </button>
+                    <button class="category-btn" data-category="learning">
+                        <i class="fas fa-graduation-cap"></i>
+                        Aprendizaje
+                    </button>
+                    <button class="category-btn" data-category="personal">
+                        <i class="fas fa-user"></i>
+                        Personal
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Estadísticas rápidas -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card glow-effect">
+                        <div class="stat-icon">
+                            <i class="fas fa-target"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 class="neon-text" id="totalMissions">12</h3>
+                            <p>Disponibles</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card glow-effect">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-double"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 class="neon-text" id="completedMissions">8</h3>
+                            <p>Completadas Hoy</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card glow-effect">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 class="neon-text" id="activeTime">2h 30m</h3>
+                            <p>Tiempo Activo</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card glow-effect">
+                        <div class="stat-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 class="neon-text" id="streakDays">18</h3>
+                            <p>Días de Racha</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Misión Destacada del Día -->
+            <section class="featured-mission-section">
+                <div class="section-header">
+                    <h2 class="section-title neon-text">
+                        <i class="fas fa-crown"></i>
+                        MISIÓN DESTACADA DEL DÍA
+                    </h2>
+                    <div class="time-remaining">
+                        <i class="fas fa-clock"></i>
+                        <span id="missionTimer">23:45:12</span>
+                    </div>
+                </div>
+                
+                <div class="featured-mission-card glow-effect">
+                    <div class="featured-badge">
+                        <i class="fas fa-bolt"></i>
+                        TRIPLE XP
+                    </div>
+                    
+                    <div class="mission-category work">
+                        <i class="fas fa-briefcase"></i>
+                        TRABAJO
+                    </div>
+                    
+                    <h3 class="mission-title">OPERACIÓN: ENFOQUE TOTAL</h3>
+                    
+                    <p class="mission-description">
+                        Completa 4 sesiones de trabajo profundo de 25 minutos (Pomodoro) 
+                        sin distracciones. Cada sesión debe ser en una tarea diferente 
+                        y prioritaria.
+                    </p>
+                    
+                    <div class="mission-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-medal"></i>
+                            </div>
+                            <div class="detail-info">
+                                <div class="detail-value neon-text">450 XP</div>
+                                <div class="detail-label">Recompensa</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="detail-info">
+                                <div class="detail-value">100 min</div>
+                                <div class="detail-label">Duración</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-skull"></i>
+                            </div>
+                            <div class="detail-info">
+                                <div class="detail-value" style="color: #F44336;">ALTA</div>
+                                <div class="detail-label">Dificultad</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mission-progress">
+                        <div class="progress-header">
+                            <span>Progreso Actual</span>
+                            <span>1/4 sesiones</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 25%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mission-actions">
+                        <button class="btn btn-primary btn-lg" id="startFeaturedMission">
+                            <i class="fas fa-play-circle"></i>
+                            INICIAR MISIÓN
+                        </button>
+                        <button class="btn btn-secondary" id="viewDetailsBtn">
+                            <i class="fas fa-info-circle"></i>
+                            Ver Detalles
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Todas las Misiones -->
+            <section class="all-missions-section">
+                <div class="section-header">
+                    <h2 class="section-title neon-text">
+                        <i class="fas fa-list-ol"></i>
+                        TODAS LAS MISIONES
+                    </h2>
+                    
+                    <div class="sort-controls">
+                        <select class="sort-select" id="sortSelect">
+                            <option value="xp">Mayor XP</option>
+                            <option value="time">Menor Tiempo</option>
+                            <option value="difficulty">Dificultad</option>
+                            <option value="newest">Más Recientes</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Grid de misiones (se llena con JavaScript) -->
+                <div class="missions-grid" id="missionsGrid">
+                    <!-- Las misiones se cargan aquí dinámicamente -->
+                </div>
+                
+                <!-- Paginación -->
+                <div class="pagination">
+                    <button class="pagination-btn disabled">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <button class="pagination-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Misiones Completadas -->
+            <section class="completed-section">
+                <h2 class="section-title neon-text">
+                    <i class="fas fa-check-circle"></i>
+                    MISIONES COMPLETADAS RECIENTEMENTE
+                </h2>
+                
+                <div class="completed-list" id="completedList">
+                    <!-- Completadas se cargan aquí -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para detalles de misión -->
+    <div class="modal-overlay" id="missionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title neon-text" id="modalMissionTitle">Título de la Misión</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            
+            <div class="modal-body" id="modalMissionContent">
+                <!-- Contenido dinámico -->
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelMissionBtn">
+                    Cancelar
+                </button>
+                <button class="btn btn-primary" id="confirmMissionBtn">
+                    <i class="fas fa-play"></i>
+                    Iniciar Misión
+                </button>
+            </div>
+        </div>
+    </div>
+
+<!-- Todas las Misiones - CON CARDS -->
+<section class="all-missions-section">
+    <div class="section-header">
+        <h2 class="section-title neon-text">
+            <i class="fas fa-layer-group"></i>
+            GESTIÓN DE MISIONES
+        </h2>
+        
+        <div class="section-controls">
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid">
+                    <i class="fas fa-th-large"></i>
+                </button>
+                <button class="view-btn" data-view="list">
+                    <i class="fas fa-list"></i>
+                </button>
+            </div>
+            
+            <div class="sort-controls">
+                <select class="sort-select" id="sortSelect">
+                    <option value="xp">Mayor XP</option>
+                    <option value="time">Menor Tiempo</option>
+                    <option value="difficulty">Dificultad</option>
+                    <option value="priority">Prioridad</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <!-- CONTENEDOR DE CARDS -->
+    <div class="missions-cards-container" id="missionsContainer">
+        <!-- MODOS: grid o list -->
+        <div class="cards-grid active" id="cardsGrid">
+            <!-- Cards se cargan aquí dinámicamente -->
+        </div>
+        
+        <div class="cards-list" id="cardsList">
+            <!-- Lista se carga aquí dinámicamente -->
+        </div>
+    </div>
+    
+    <!-- Contador y paginación -->
+    <div class="missions-footer">
+        <div class="missions-count">
+            Mostrando <span class="neon-text" id="showingCount">8</span> de 
+            <span id="totalCount">12</span> misiones
+        </div>
+        
+        <div class="pagination">
+            <button class="pagination-btn disabled">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</section>
+
+
+    <!-- JavaScript -->
+    <script src="js/missions.js"></script>
+</body>
+</html>
