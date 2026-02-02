@@ -3,396 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Misiones | Call of Productivity</title>
-    
-    <!-- Fuentes -->
+    <title>Call of Productivity - Misiones</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Iconos -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Nuestro CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/missions.css">
 </head>
 <body>
-    <!-- CONTENEDOR PRINCIPAL CON SIDEBAR -->
+    <!-- FONDO DINÁMICO -->
+    <div class="background-overlay missions-bg" id="backgroundOverlay"></div>
+
+    <!-- CONTENEDOR PRINCIPAL -->
     <div class="dashboard-container">
-        
-
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">
-                <h1>COP</h1>
-                <span>Call of Productivity</span>
+        <!-- HEADER (FALTABA ESTO) -->
+        <header>
+            <div class="header-content">
+                <div class="logo-container" id="logoHome">
+                    <a href="dashboard.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 15px;">
+                        <div class="logo">COP</div>
+                        <div class="logo-text">CALL OF PRODUCTIVITY</div>
+                    </a>
+                </div>
+                <nav class="nav-menu">
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="missions.html" class="nav-link active">Misiones</a>
+                    <a href="profile.html" class="nav-link">Perfil</a>
+                    <a href="Logros.html" class="nav-link">Logros</a>
+                </nav>
             </div>
-    
-    <nav class="nav-menu">
-        <a href="dashboard.html" class="nav-item">
-            <i class="fas fa-radar"></i>
-            <span>Dashboard</span>
-        </a>
-        <a href="missions.html" class="nav-item active">
-            <i class="fas fa-crosshairs"></i>
-            <span>Misiones</span>
-        </a>
-        <a href="profile.html" class="nav-item">
-            <i class="fas fa-user-secret"></i>
-            <span>Profile</span>
-        </a>
-        <a href="Logros.html" class="nav-item">
-            <i class="fas fa-trophy"></i>
-            <span>Logros</span>
-        </a>
-        <a href="settings.html" class="nav-item">
-            <i class="fas fa-cog"></i>
-            <span>Configuración</span>
-        </a>
-    </nav>
-</aside>
-        
-        <!-- CONTENIDO PRINCIPAL COMPLETO -->
-        <main class="main-content">
-            <!-- Header principal -->
-            <header class="missions-header">
-                <div class="header-left">
-                    <h1 class="missions-title neon-text">
-                        <i class="fas fa-crosshairs"></i>
-                        CUARTEL DE MISIONES
-                    </h1>
-                    <p class="missions-subtitle">
-                        Selecciona y completa misiones para ganar XP y ascender de rango
-                    </p>
-                </div>
-                
-                <div class="header-right">
-                    <div class="xp-display glow-effect">
-                        <i class="fas fa-bolt"></i>
-                        <span class="neon-text" id="currentXP">1,850</span> XP
-                    </div>
-                    <button class="btn btn-primary" id="newMissionBtn">
-                        <i class="fas fa-plus-circle"></i>
-                        Nueva Misión
-                    </button>
-                </div>
-            </header>
-            
-            <!-- Filtros rápidos -->
-            <section class="filters-section">
-                <div class="filter-tags">
-                    <button class="filter-tag active" data-filter="all">
-                        <i class="fas fa-globe"></i>
-                        Todas las Misiones
-                    </button>
-                    <button class="filter-tag" data-filter="daily">
-                        <i class="fas fa-sun"></i>
-                        Diarias
-                    </button>
-                    <button class="filter-tag" data-filter="weekly">
-                        <i class="fas fa-calendar-week"></i>
-                        Semanales
-                    </button>
-                    <button class="filter-tag" data-filter="special">
-                        <i class="fas fa-star"></i>
-                        Especiales
-                    </button>
-                </div>
-                
-                <div class="category-filters">
-                    <span class="filter-label">Categorías:</span>
-                    <button class="category-btn active" data-category="all">Todas</button>
-                    <button class="category-btn" data-category="work">
-                        <i class="fas fa-briefcase"></i>
-                        Trabajo
-                    </button>
-                    <button class="category-btn" data-category="health">
-                        <i class="fas fa-heartbeat"></i>
-                        Salud
-                    </button>
-                    <button class="category-btn" data-category="learning">
-                        <i class="fas fa-graduation-cap"></i>
-                        Aprendizaje
-                    </button>
-                    <button class="category-btn" data-category="personal">
-                        <i class="fas fa-user"></i>
-                        Personal
-                    </button>
-                </div>
-            </section>
-            
-            <!-- Estadísticas rápidas -->
-            <section class="stats-section">
-                <div class="stats-grid">
-                    <div class="stat-card glow-effect">
-                        <div class="stat-icon">
-                            <i class="fas fa-target"></i>
+        </header>
+
+        <!-- PÁGINA: MISIONES -->
+        <section class="page active" id="missions-page">
+            <h1>MISIONES DISPONIBLES</h1>
+            <p class="hero-subtitle">Selecciona y gestiona tus misiones. Cada misión completada te acerca a tu objetivo de productividad.</p>
+
+            <div class="missions-container">
+                <!-- MISIÓN TIPO: TRABAJO -->
+                <div class="mission-type-section">
+                    <div class="mission-type-title">
+                        <div class="mission-type-icon">
+                            <i class="fas fa-briefcase"></i>
                         </div>
-                        <div class="stat-info">
-                            <h3 class="neon-text" id="totalMissions">12</h3>
-                            <p>Disponibles</p>
-                        </div>
+                        <h2>Misiones de Trabajo</h2>
                     </div>
-                    
-                    <div class="stat-card glow-effect">
-                        <div class="stat-icon">
-                            <i class="fas fa-check-double"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="neon-text" id="completedMissions">8</h3>
-                            <p>Completadas Hoy</p>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card glow-effect">
-                        <div class="stat-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="neon-text" id="activeTime">2h 30m</h3>
-                            <p>Tiempo Activo</p>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card glow-effect">
-                        <div class="stat-icon">
-                            <i class="fas fa-fire"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="neon-text" id="streakDays">18</h3>
-                            <p>Días de Racha</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Misión Destacada del Día -->
-            <section class="featured-mission-section">
-                <div class="section-header">
-                    <h2 class="section-title neon-text">
-                        <i class="fas fa-crown"></i>
-                        MISIÓN DESTACADA DEL DÍA
-                    </h2>
-                    <div class="time-remaining">
-                        <i class="fas fa-clock"></i>
-                        <span id="missionTimer">23:45:12</span>
-                    </div>
-                </div>
-                
-                <div class="featured-mission-card glow-effect">
-                    <div class="featured-badge">
-                        <i class="fas fa-bolt"></i>
-                        TRIPLE XP
-                    </div>
-                    
-                    <div class="mission-category work">
-                        <i class="fas fa-briefcase"></i>
-                        TRABAJO
-                    </div>
-                    
-                    <h3 class="mission-title">OPERACIÓN: ENFOQUE TOTAL</h3>
-                    
-                    <p class="mission-description">
-                        Completa 4 sesiones de trabajo profundo de 25 minutos (Pomodoro) 
-                        sin distracciones. Cada sesión debe ser en una tarea diferente 
-                        y prioritaria.
-                    </p>
-                    
-                    <div class="mission-details">
-                        <div class="detail-item">
-                            <div class="detail-icon">
-                                <i class="fas fa-medal"></i>
+                    <div class="mission-type-missions">
+                        <div class="mission-card">
+                            <div class="mission-header">
+                                <h3 class="mission-title">Informe Mensual</h3>
+                                <span class="mission-category">Trabajo</span>
                             </div>
-                            <div class="detail-info">
-                                <div class="detail-value neon-text">450 XP</div>
-                                <div class="detail-label">Recompensa</div>
+                            <div class="mission-progress">
+                                <div class="progress-info">
+                                    <span>Progreso</span>
+                                    <span>40%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-width="40"></div>
+                                </div>
+                            </div>
+                            <div class="mission-footer">
+                                <div class="mission-xp">
+                                    <i class="fas fa-bolt"></i> 450 XP
+                                </div>
+                                <button class="btn-complete">Activar</button>
                             </div>
                         </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-icon">
-                                <i class="fas fa-clock"></i>
+
+                        <div class="mission-card">
+                            <div class="mission-header">
+                                <h3 class="mission-title">Reunión de Equipo</h3>
+                                <span class="mission-category">Trabajo</span>
                             </div>
-                            <div class="detail-info">
-                                <div class="detail-value">100 min</div>
-                                <div class="detail-label">Duración</div>
+                            <div class="mission-progress">
+                                <div class="progress-info">
+                                    <span>Progreso</span>
+                                    <span>100%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-width="100"></div>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-icon">
-                                <i class="fas fa-skull"></i>
-                            </div>
-                            <div class="detail-info">
-                                <div class="detail-value" style="color: #F44336;">ALTA</div>
-                                <div class="detail-label">Dificultad</div>
+                            <div class="mission-footer">
+                                <div class="mission-xp">
+                                    <i class="fas fa-bolt"></i> 200 XP
+                                </div>
+                                <button class="btn-complete">Reclamar</button>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="mission-progress">
-                        <div class="progress-header">
-                            <span>Progreso Actual</span>
-                            <span>1/4 sesiones</span>
+                </div>
+
+                <!-- MISIÓN TIPO: SALUD -->
+                <div class="mission-type-section">
+                    <div class="mission-type-title">
+                        <div class="mission-type-icon">
+                            <i class="fas fa-heartbeat"></i>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 25%"></div>
+                        <h2>Misiones de Salud</h2>
+                    </div>
+                    <div class="mission-type-missions">
+                        <div class="mission-card">
+                            <div class="mission-header">
+                                <h3 class="mission-title">30 Min de Ejercicio</h3>
+                                <span class="mission-category">Salud</span>
+                            </div>
+                            <div class="mission-progress">
+                                <div class="progress-info">
+                                    <span>Progreso</span>
+                                    <span>70%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-width="70"></div>
+                                </div>
+                            </div>
+                            <div class="mission-footer">
+                                <div class="mission-xp">
+                                    <i class="fas fa-bolt"></i> 300 XP
+                                </div>
+                                <button class="btn-complete">Continuar</button>
+                            </div>
+                        </div>
+
+                        <div class="mission-card">
+                            <div class="mission-header">
+                                <h3 class="mission-title">Meditación Matutina</h3>
+                                <span class="mission-category">Salud</span>
+                            </div>
+                            <div class="mission-progress">
+                                <div class="progress-info">
+                                    <span>Progreso</span>
+                                    <span>20%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-width="20"></div>
+                                </div>
+                            </div>
+                            <div class="mission-footer">
+                                <div class="mission-xp">
+                                    <i class="fas fa-bolt"></i> 250 XP
+                                </div>
+                                <button class="btn-complete">Activar</button>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="mission-actions">
-                        <button class="btn btn-primary btn-lg" id="startFeaturedMission">
-                            <i class="fas fa-play-circle"></i>
-                            INICIAR MISIÓN
-                        </button>
-                        <button class="btn btn-secondary" id="viewDetailsBtn">
-                            <i class="fas fa-info-circle"></i>
-                            Ver Detalles
-                        </button>
-                    </div>
                 </div>
-            </section>
-            
-            <!-- Todas las Misiones -->
-            <section class="all-missions-section">
-                <div class="section-header">
-                    <h2 class="section-title neon-text">
-                        <i class="fas fa-list-ol"></i>
-                        TODAS LAS MISIONES
-                    </h2>
-                    
-                    <div class="sort-controls">
-                        <select class="sort-select" id="sortSelect">
-                            <option value="xp">Mayor XP</option>
-                            <option value="time">Menor Tiempo</option>
-                            <option value="difficulty">Dificultad</option>
-                            <option value="newest">Más Recientes</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <!-- Grid de misiones (se llena con JavaScript) -->
-                <div class="missions-grid" id="missionsGrid">
-                    <!-- Las misiones se cargan aquí dinámicamente -->
-                </div>
-                
-                <!-- Paginación -->
-                <div class="pagination">
-                    <button class="pagination-btn disabled">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button class="pagination-btn active">1</button>
-                    <button class="pagination-btn">2</button>
-                    <button class="pagination-btn">3</button>
-                    <button class="pagination-btn">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-            </section>
-            
-            <!-- Misiones Completadas -->
-            <section class="completed-section">
-                <h2 class="section-title neon-text">
-                    <i class="fas fa-check-circle"></i>
-                    MISIONES COMPLETADAS RECIENTEMENTE
-                </h2>
-                
-                <div class="completed-list" id="completedList">
-                    <!-- Completadas se cargan aquí -->
-                </div>
-            </section>
-        </main>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>CALL OF PRODUCTIVITY © 2026 | Sistema de productividad táctico | Todos los derechos reservados</p>
+        </footer>
     </div>
 
-    <!-- Modal para detalles de misión -->
-    <div class="modal-overlay" id="missionModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title neon-text" id="modalMissionTitle">Título de la Misión</h3>
-                <button class="modal-close" id="closeModal">&times;</button>
-            </div>
-            
-            <div class="modal-body" id="modalMissionContent">
-                <!-- Contenido dinámico -->
-            </div>
-            
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="cancelMissionBtn">
-                    Cancelar
-                </button>
-                <button class="btn btn-primary" id="confirmMissionBtn">
-                    <i class="fas fa-play"></i>
-                    Iniciar Misión
-                </button>
-            </div>
-        </div>
-    </div>
-
-<!-- Todas las Misiones - CON CARDS -->
-<section class="all-missions-section">
-    <div class="section-header">
-        <h2 class="section-title neon-text">
-            <i class="fas fa-layer-group"></i>
-            GESTIÓN DE MISIONES
-        </h2>
-        
-        <div class="section-controls">
-            <div class="view-toggle">
-                <button class="view-btn active" data-view="grid">
-                    <i class="fas fa-th-large"></i>
-                </button>
-                <button class="view-btn" data-view="list">
-                    <i class="fas fa-list"></i>
-                </button>
-            </div>
-            
-            <div class="sort-controls">
-                <select class="sort-select" id="sortSelect">
-                    <option value="xp">Mayor XP</option>
-                    <option value="time">Menor Tiempo</option>
-                    <option value="difficulty">Dificultad</option>
-                    <option value="priority">Prioridad</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    
-    <!-- CONTENEDOR DE CARDS -->
-    <div class="missions-cards-container" id="missionsContainer">
-        <!-- MODOS: grid o list -->
-        <div class="cards-grid active" id="cardsGrid">
-            <!-- Cards se cargan aquí dinámicamente -->
-        </div>
-        
-        <div class="cards-list" id="cardsList">
-            <!-- Lista se carga aquí dinámicamente -->
-        </div>
-    </div>
-    
-    <!-- Contador y paginación -->
-    <div class="missions-footer">
-        <div class="missions-count">
-            Mostrando <span class="neon-text" id="showingCount">8</span> de 
-            <span id="totalCount">12</span> misiones
-        </div>
-        
-        <div class="pagination">
-            <button class="pagination-btn disabled">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="pagination-btn active">1</button>
-            <button class="pagination-btn">2</button>
-            <button class="pagination-btn">3</button>
-            <button class="pagination-btn">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-    </div>
-</section>
-
-
-    <!-- JavaScript -->
+    <!-- SCRIPTS -->
     <script src="js/missions.js"></script>
+   <script src="js/theme-system.js"></script>
+    
+    <script>
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animar barras de progreso
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                setTimeout(() => {
+                    bar.style.width = width + '%';
+                }, 300);
+            });
+
+            // Botones de misiones
+            const missionButtons = document.querySelectorAll('.btn-complete');
+            missionButtons.forEach((button, index) => {
+                button.addEventListener('click', function() {
+                    const missionCard = this.closest('.mission-card');
+                    const missionTitle = missionCard.querySelector('.mission-title').textContent;
+                    const missionXP = missionCard.querySelector('.mission-xp').textContent;
+                    
+                    // Animación de clic
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+
+                    // Determinar acción según el texto del botón
+                    if (this.textContent === 'Activar') {
+                        this.textContent = 'ACTIVADA';
+                        this.style.backgroundColor = '#3498db';
+                        this.style.borderColor = '#3498db';
+                        alert(`¡MISIÓN ACTIVADA!\n\n${missionTitle}\nAhora puedes comenzar esta misión.`);
+                    } else if (this.textContent === 'Continuar') {
+                        // Simular progreso
+                        const progressInfo = missionCard.querySelector('.progress-info span:last-child');
+                        let currentProgress = parseInt(progressInfo.textContent.replace('%', ''));
+                        let newProgress = Math.min(currentProgress + 25, 100);
+                        progressInfo.textContent = newProgress + '%';
+                        
+                        const progressFill = missionCard.querySelector('.progress-fill');
+                        progressFill.style.width = newProgress + '%';
+                        
+                        if (newProgress === 100) {
+                            this.textContent = 'RECLAMAR';
+                            alert(`¡Progreso actualizado!\n${missionTitle}: ${newProgress}% completado.`);
+                        } else {
+                            alert(`¡Progreso actualizado!\n${missionTitle}: ${newProgress}% completado.`);
+                        }
+                    } else if (this.textContent === 'Reclamar') {
+                        this.textContent = 'RECLAMADA';
+                        this.style.backgroundColor = '#2ecc71';
+                        this.style.borderColor = '#2ecc71';
+                        this.disabled = true;
+                        alert(`¡RECOMPENSA RECLAMADA!\n\n${missionTitle}\n${missionXP} obtenidos.`);
+                    }
+                });
+            });
+
+            // Verificar si la imagen de fondo existe
+            const backgroundOverlay = document.getElementById('backgroundOverlay');
+            const img = new Image();
+            img.onload = function() {
+                console.log('Imagen de misiones cargada correctamente');
+            };
+            img.onerror = function() {
+                backgroundOverlay.classList.add('fallback');
+                console.log('Usando fondo alternativo para misiones');
+            };
+            img.src = 'assets/images/missions.png';
+        });
+    </script>
+    <!-- Script de inicialización rápida -->
+<script>
+// Prevenir FOUC (Flash of Unstyled Content)
+document.documentElement.style.visibility = 'hidden';
+document.documentElement.style.opacity = '0';
+
+window.addEventListener('DOMContentLoaded', () => {
+    // Aplicar tema guardado inmediatamente
+    const savedTheme = localStorage.getItem('cop_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    // Mostrar contenido
+    setTimeout(() => {
+        document.documentElement.style.visibility = '';
+        document.documentElement.style.opacity = '1';
+    }, 10);
+    
+    // Cargar el sistema de temas
+    if (typeof initThemeSystem === 'function') {
+        initThemeSystem();
+    }
+});
+
+// Fallback si hay error
+setTimeout(() => {
+    if (document.documentElement.style.visibility === 'hidden') {
+        document.documentElement.style.visibility = '';
+        document.documentElement.style.opacity = '1';
+    }
+}, 1000);
+</script>
 </body>
 </html>

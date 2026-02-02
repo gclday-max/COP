@@ -1,254 +1,148 @@
+// ============================================
+// FUNCIONES JAVASCRIPT PARA DASHBOARD
+// ============================================
 
-
-// Sistema de rangos
-function getRank(xp) {
-    if (xp >= 3500) return "Capitán";
-    if (xp >= 2000) return "Sargento";
-    if (xp >= 1000) return "Soldado";
-    return "Recluta";
-}
-
-// Sistema de niveles (cada nivel necesita 1000 XP)
-function getLevel(xp) {
-    return Math.floor(xp / 1000) + 1;
-}
-
-// XP requerido para el siguiente nivel
-function getXPForNextLevel(currentXP) {
-    const currentLevel = getLevel(currentXP);
-    return currentLevel * 1000;
-}
-
-// XP para el nivel actual
-function getXPForCurrentLevel(currentXP) {
-    const currentLevel = getLevel(currentXP);
-    return (currentLevel - 1) * 1000;
-}
-
-// Estado del operador
-const operatorState = {
-    xp: 650,
-    streak: 18,
-    missionsCompleted: 47,
-    combatTime: 127,
-    rank: "Recluta",
-    level: 1
-};
-
-// Actualizar estado del operador
-function updateOperatorState() {
-    // Actualizar rank basado en XP
-    operatorState.rank = getRank(operatorState.xp);
-    operatorState.level = getLevel(operatorState.xp);
+// Función para inicializar el dashboard
+function initDashboard() {
+    console.log('Dashboard inicializado');
     
-    // Actualizar UI
-    updateUI();
-}
-
-// Actualizar interfaz de usuario
-function updateUI() {
-    // XP Display
-    const xpForNextLevel = getXPForNextLevel(operatorState.xp);
-    const xpForCurrentLevel = getXPForCurrentLevel(operatorState.xp);
-    const currentLevelXP = operatorState.xp - xpForCurrentLevel;
-    
-    document.getElementById('xpDisplay').textContent = 
-        `${operatorState.xp} / ${xpForNextLevel}`;
-    
-    // Barra de progreso
-    const progressPercentage = (currentLevelXP / 1000) * 100;
-    document.getElementById('progressFill').style.width = `${progressPercentage}%`;
-    
-    // Niveles
-    document.getElementById('currentLevel').textContent = 
-        `Nivel ${operatorState.level} - ${operatorState.rank}`;
-    
-    // Determinar siguiente rango
-    let nextRank = "";
-    let nextRankXP = 0;
-    
-    if (operatorState.xp < 1000) {
-        nextRank = "Soldado";
-        nextRankXP = 1000;
-    } else if (operatorState.xp < 2000) {
-        nextRank = "Sargento";
-        nextRankXP = 2000;
-    } else if (operatorState.xp < 3500) {
-        nextRank = "Capitán";
-        nextRankXP = 3500;
-    } else {
-        nextRank = "Máximo";
-        nextRankXP = operatorState.xp;
+    // Configurar evento para botón "Iniciar Misión"
+    const startMissionBtn = document.getElementById('startMissionBtn');
+    if (startMissionBtn) {
+        startMissionBtn.addEventListener('click', function() {
+            handleStartMission(this);
+        });
     }
     
-    document.getElementById('nextRank').textContent = 
-        nextRank === "Máximo" ? "¡Rango Máximo Alcanzado!" : 
-        `Próximo: ${nextRank} (${nextRankXP} XP)`;
+    // Configurar eventos para botones "Completar"
+    setupCompleteButtons();
     
-    document.getElementById('nextLevel').textContent = 
-        `Nivel ${operatorState.level + 1}`;
-    
-    // Badge de rango
-    const rankBadge = document.getElementById('rankBadge');
-    const rankText = document.getElementById('rankText');
-    
-    // Remover todas las clases de rango
-    rankBadge.className = "rank-badge";
-    
-    // Añadir clase correspondiente al rango actual
-    switch(operatorState.rank) {
-        case "Recluta":
-            rankBadge.classList.add("rank-recluta");
-            break;
-        case "Soldado":
-            rankBadge.classList.add("rank-soldado");
-            break;
-        case "Sargento":
-            rankBadge.classList.add("rank-sargento");
-            break;
-        case "Capitán":
-            rankBadge.classList.add("rank-capitan");
-            break;
-    }
-    
-    // Añadir efecto glow si es un rango nuevo
-    if (operatorState.xp >= 1000) {
-        rankBadge.classList.add("rank-glow");
-    }
-    
-    rankText.textContent = `Rango: ${operatorState.rank}`;
-    
-    // Estadísticas
-    document.getElementById('currentStreak').textContent = operatorState.streak;
-    document.getElementById('missionsCompleted').textContent = operatorState.missionsCompleted;
-    document.getElementById('combatTime').textContent = `${operatorState.combatTime}h`;
+    // Animar barras de progreso
+    animateProgressBars();
 }
 
-// Mostrar notificación de subida de nivel
-function showLevelUpNotification(oldRank, newRank) {
-    document.getElementById('newRankDisplay').textContent = newRank;
-    document.getElementById('notificationOverlay').classList.add('show');
-    document.getElementById('levelUpNotification').classList.add('show');
+// Función para manejar el inicio de misión
+function handleStartMission(button) {
+    // Efecto visual
+    button.classList.add('btn-clicked');
     
-    // Cambiar color según el nuevo rango
-    const newRankDisplay = document.getElementById('newRankDisplay');
-    switch(newRank) {
-        case "Soldado":
-            newRankDisplay.style.color = "#4CAF50";
-            break;
-        case "Sargento":
-            newRankDisplay.style.color = "#2196F3";
-            break;
-        case "Capitán":
-            newRankDisplay.style.color = "#FF9800";
-            break;
-    }
-}
-
-// Completar misión
-function completeMission() {
-    const oldRank = operatorState.rank;
+    // Guardar texto original
+    const originalText = button.innerHTML;
     
-    // Aumentar XP
-    operatorState.xp += 150;
-    operatorState.streak += 1;
-    operatorState.missionsCompleted += 1;
+    // Cambiar texto temporalmente
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESANDO...';
+    button.disabled = true;
     
-    // Verificar si cambió el rango
-    const newRank = getRank(operatorState.xp);
-    
-    // Actualizar estado
-    updateOperatorState();
-    
-    // Mostrar efectos visuales
-    const missionCard = document.getElementById('completeMission').closest('.mission-card');
-    missionCard.style.boxShadow = '0 0 30px rgba(255, 42, 42, 0.7)';
-    
-    // Deshabilitar botón
-    const completeBtn = document.getElementById('completeMission');
-    completeBtn.innerHTML = '<i class="fas fa-check"></i> Misión Completada';
-    completeBtn.classList.remove('btn-primary');
-    completeBtn.classList.add('btn-secondary');
-    completeBtn.disabled = true;
-    
-    // Mostrar notificación si cambió el rango
-    if (oldRank !== newRank) {
-        setTimeout(() => {
-            showLevelUpNotification(oldRank, newRank);
-        }, 500);
-    }
-    
-    // Restaurar sombra después de 1 segundo
+    // Simular proceso (tu compañero conectará con Supabase aquí)
     setTimeout(() => {
-        missionCard.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
-    }, 1000);
+        // Restaurar botón
+        button.innerHTML = originalText;
+        button.disabled = false;
+        button.classList.remove('btn-clicked');
+        
+        // Mostrar notificación
+        mostrarNotificacion('¡Nueva misión creada!', 'success');
+        
+        // Aquí tu compañero llamará a Supabase:
+        // createNewMissionInSupabase().then(...)
+        console.log('Nueva misión - Listo para conectar con Supabase');
+    }, 1500);
 }
 
-// Iniciar misión semanal
-function startWeeklyMission() {
-    alert('Misión semanal iniciada. ¡Completa 150 minutos de ejercicio esta semana!');
-    const startBtn = document.getElementById('startWeeklyMission');
-    startBtn.innerHTML = '<i class="fas fa-running"></i> En Progreso';
-    startBtn.disabled = true;
-}
-
-// Función para sincronizar datos
-function syncData() {
-    const syncBtn = document.getElementById('syncButton');
-    syncBtn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Sincronizando...';
+// Función para configurar botones de completar
+function setupCompleteButtons() {
+    const completeButtons = document.querySelectorAll('.btn-complete');
     
-    // Simular petición al servidor
-    setTimeout(() => {
-        syncBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Sincronizado';
-        alert('Datos sincronizados correctamente.');
-    }, 1000);
-}
-
-// Función para crear nueva misión
-function createNewMission() {
-    alert('Función de nueva misión estará disponible en la próxima actualización.');
-}
-
-// Cerrar notificación
-function closeNotification() {
-    document.getElementById('notificationOverlay').classList.remove('show');
-    document.getElementById('levelUpNotification').classList.remove('show');
-}
-
-// Navegación del sidebar
-function setupNavigation() {
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            if(this.getAttribute('href') === '#') {
-                e.preventDefault();
-                alert('Esta sección estará disponible pronto.');
-            }
+    completeButtons.forEach((button, index) => {
+        button.addEventListener('click', function() {
+            handleCompleteMission(this, index);
         });
     });
 }
 
-// Inicializar dashboard
-function initDashboard() {
-    // Inicializar estado
-    updateOperatorState();
+// Función para manejar completar misión
+function handleCompleteMission(button, missionIndex) {
+    const missionCard = button.closest('.mission-card');
+    const missionTitle = missionCard.querySelector('.mission-title').textContent;
+    const missionXP = missionCard.querySelector('.mission-xp').textContent;
     
-    // Event Listeners
-    document.getElementById('completeMission').addEventListener('click', completeMission);
-    document.getElementById('startWeeklyMission').addEventListener('click', startWeeklyMission);
-    document.getElementById('closeNotification').addEventListener('click', closeNotification);
-    document.getElementById('syncButton').addEventListener('click', syncData);
-    document.getElementById('newMissionButton').addEventListener('click', createNewMission);
+    // Efecto visual
+    button.classList.add('completing');
     
-    // Configurar navegación
-    setupNavigation();
+    // Mostrar confirmación
+    if (confirm(`¿Confirmas que has completado la misión: ${missionTitle}?\n\nRecompensa: ${missionXP}`)) {
+        // Cambiar estado del botón
+        button.textContent = 'COMPLETADA';
+        button.style.backgroundColor = '#2ecc71';
+        button.style.borderColor = '#2ecc71';
+        button.disabled = true;
+        
+        // Actualizar barra de progreso
+        const progressFill = missionCard.querySelector('.progress-fill');
+        progressFill.style.width = '100%';
+        
+        // Mostrar notificación
+        mostrarNotificacion(`¡Misión completada! ${missionXP} obtenidos`, 'success');
+        
+        // Aquí tu compañero conectará con Supabase:
+        // completeMissionInSupabase(missionIndex).then(...)
+        console.log(`Misión ${missionIndex} completada - Listo para conectar con Supabase`);
+    }
     
-    // Simular animación de carga inicial
+    // Remover clase de animación
     setTimeout(() => {
-        const progressPercentage = (operatorState.xp % 1000) / 10;
-        document.getElementById('progressFill').style.width = `${progressPercentage}%`;
-    }, 300);
+        button.classList.remove('completing');
+    }, 500);
+}
+
+// Función para animar barras de progreso
+function animateProgressBars() {
+    const progressBars = document.querySelectorAll('.progress-fill');
+    
+    progressBars.forEach(bar => {
+        const width = bar.getAttribute('data-width') || '0';
+        
+        // Animar después de un pequeño delay
+        setTimeout(() => {
+            bar.style.width = `${width}%`;
+        }, 300);
+    });
+}
+
+// Función para mostrar notificación
+function mostrarNotificacion(mensaje, tipo = 'info') {
+    // Crear elemento de notificación
+    const notificacion = document.createElement('div');
+    notificacion.className = `notificacion notificacion-${tipo}`;
+    
+    // Icono según tipo
+    let icon = 'info-circle';
+    if (tipo === 'success') icon = 'check-circle';
+    if (tipo === 'error') icon = 'exclamation-circle';
+    
+    notificacion.innerHTML = `
+        <i class="fas fa-${icon}"></i>
+        <span>${mensaje}</span>
+    `;
+    
+    // Agregar al DOM
+    document.body.appendChild(notificacion);
+    
+    // Mostrar con animación
+    setTimeout(() => {
+        notificacion.classList.add('show');
+    }, 10);
+    
+    // Ocultar después de 3 segundos
+    setTimeout(() => {
+        notificacion.classList.remove('show');
+        setTimeout(() => {
+            notificacion.remove();
+        }, 300);
+    }, 3000);
 }
 
 // Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', initDashboard);
+if (document.getElementById('dashboard-page')) {
+    document.addEventListener('DOMContentLoaded', initDashboard);
+}
