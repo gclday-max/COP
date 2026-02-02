@@ -1,5 +1,7 @@
 
         // Crear partículas para el fondo
+
+
         const particlesContainer = document.getElementById('particles');
         const particleCount = 25;
         

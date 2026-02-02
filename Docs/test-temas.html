@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Temas</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <style>
+        body { padding: 2rem; }
+        .test-box {
+            padding: 2rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            background: var(--color-secondary);
+            border: 1px solid var(--border-color);
+        }
+        .test-controls {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Test del Sistema de Temas</h1>
+    
+    <div class="test-box">
+        <h2>Caja de prueba</h2>
+        <p>Este texto debería cambiar con cada tema.</p>
+        <button class="btn-primary">Botón primario</button>
+        <button class="btn-secondary">Botón secundario</button>
+    </div>
+    
+    <div class="test-controls">
+        <button onclick="ThemeSystem.setTheme('dark')">🌙 Oscuro</button>
+        <button onclick="ThemeSystem.setTheme('light')">☀️ Claro</button>
+        <button onclick="ThemeSystem.setTheme('military-blue')">🎖️ Militar</button>
+        <button onclick="ThemeSystem.setTheme('tactical-green')">🎯 Táctico</button>
+        <button onclick="ThemeSystem.setTheme('terminal')">💻 Terminal</button>
+        <button onclick="ThemeSystem.nextTheme()">🔄 Siguiente</button>
+    </div>
+    
+    <div id="theme-info">
+        <p>Tema actual: <span id="current-theme">dark</span></p>
+    </div>
+    
+    <script src="js/theme-system.js"></script>
+    <script>
+        document.addEventListener('themechange', function(e) {
+            document.getElementById('current-theme').textContent = e.detail.theme;
+            console.log('Evento recibido:', e.detail);
+        });
+        
+        // Mostrar info del tema actual
+        setTimeout(() => {
+            document.getElementById('current-theme').textContent = ThemeSystem.getCurrentTheme();
+        }, 100);
+    </script>
+</body>
+</html>

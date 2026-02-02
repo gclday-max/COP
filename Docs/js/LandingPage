@@ -1,0 +1,24 @@
+
+    // Verificar autenticación antes de cargar el dashboard
+    document.addEventListener('DOMContentLoaded', function() {
+        // Verificar si hay sesión
+        const savedToken = localStorage.getItem('cop_token');
+        const savedUser = localStorage.getItem('cop_user');
+        
+        if (!savedToken || !savedUser) {
+            // Redirigir a landing si no está autenticado
+            window.location.href = 'index.html';
+            return;
+        }
+        
+        // Cargar datos del usuario autenticado
+        try {
+            const user = JSON.parse(savedUser);
+            document.querySelector('.profile-card h2').textContent = `Operador: ${user.operatorName || 'ALPHA-07'}`;
+            console.log('Dashboard cargado para:', user.operatorName);
+        } catch (error) {
+            console.error('Error al cargar usuario:', error);
+        }
+        
+        // Continuar con la inicialización normal del dashboard...
+    });
