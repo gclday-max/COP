@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Call of Productivity | Acceso</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
     <style>
+        /* TODOS LOS ESTILOS ANTERIORES SE MANTIENEN IGUAL */
         :root {
             /* PALETA MILITAR FUTURISTA */
             --color-primary: #0A0A0A;           /* Negro profundo */
@@ -18,6 +22,7 @@
             --color-border: #333333;            /* Bordes */
             --color-success: #2ecc71;           /* Verde éxito */
             --color-warning: #f39c12;           /* Naranja advertencia */
+            --color-error: #e74c3c;             /* Rojo error */
             --color-progress: linear-gradient(90deg, #00FF88 0%, #00CC6D 100%);
             --color-card-bg: rgba(28, 28, 28, 0.95);
             
@@ -307,6 +312,35 @@
             flex: 1;
         }
         
+        /* Recordar y olvidar */
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .remember input {
+            accent-color: var(--color-accent);
+        }
+        
+        .forgot {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+        
+        .forgot:hover {
+            text-decoration: underline;
+        }
+        
         /* Checkbox de términos */
         .terms {
             display: flex;
@@ -368,6 +402,12 @@
         .auth-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(1, 226, 121, 0.3);
+        }
+        
+        .auth-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
         }
         
         /* Botón secundario (para cambiar entre tabs) */
@@ -461,10 +501,36 @@
         
         .steam { background: linear-gradient(45deg, rgba(27, 40, 56, 0.9), rgba(42, 71, 94, 0.9)); }
         .google { background: linear-gradient(45deg, rgba(66, 133, 244, 0.9), rgba(52, 168, 83, 0.9)); }
-        .facebook { background: linear-gradient(45deg, rgba(24, 119, 242, 0.9), rgba(59, 89, 152, 0.9)); }
         
         .social-btn i {
             font-size: 1.3rem;
+        }
+        
+        /* ========== MENSAJES ========== */
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            text-align: center;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .success-message {
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid var(--color-success);
+            color: var(--color-accent);
+        }
+        
+        .error-message {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid var(--color-error);
+            color: #ff6b6b;
         }
         
         /* ========== ENLACES ADICIONALES ========== */
@@ -530,6 +596,12 @@
                 gap: 20px;
             }
             
+            .remember-forgot {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
             .status-indicator {
                 top: 15px;
                 right: 15px;
@@ -560,7 +632,7 @@
             <!-- Indicador de estado -->
             <div class="status-indicator">
                 <div class="status-dot"></div>
-                <span>SISTEMA ACTIVO</span>
+                <span id="status-text">SISTEMA ACTIVO</span>
             </div>
             
             <!-- Header -->
@@ -582,17 +654,20 @@
                 </button>
             </div>
             
+            <!-- Mensajes -->
+            <div id="message-container"></div>
+            
             <!-- ========== TAB DE LOGIN ========== -->
             <div class="tab-content active" id="login-content">
                 <form class="auth-form" id="loginForm">
                     <div class="input-group">
-                        <i class="fas fa-user"></i>
-                        <input type="text" placeholder="USUARIO O EMAIL" required id="login-username">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="EMAIL" required id="login-email" autocomplete="email">
                     </div>
                     
                     <div class="input-group">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="CONTRASEÑA" required id="login-password">
+                        <input type="password" placeholder="CONTRASEÑA" required id="login-password" autocomplete="current-password">
                     </div>
                     
                     <div class="remember-forgot">
@@ -602,8 +677,8 @@
                         <a href="#" class="forgot" id="forgot-password">¿OLVIDASTE LA CONTRASEÑA?</a>
                     </div>
                     
-                    <button type="submit" class="auth-btn">
-                        <i class="fas fa-sign-in-alt"></i> ACCEDER AL SISTEMA
+                    <button type="submit" class="auth-btn" id="login-btn">
+                        <i class="fas fa-sign-in-alt"></i> <span id="login-btn-text">ACCEDER AL SISTEMA</span>
                     </button>
                 </form>
                 
@@ -612,15 +687,15 @@
                 </div>
                 
                 <div class="social-auth">
-                    <a href="dashboard.html" class="social-btn steam">
+                    <button class="social-btn steam" id="steam-login">
                         <i class="fab fa-steam"></i>
                         <span>CONTINUAR CON STEAM</span>
-                    </a>
+                    </button>
                     
-                    <a href="dashboard.html" class="social-btn google">
+                    <button class="social-btn google" id="google-login">
                         <i class="fab fa-google"></i>
                         <span>CONTINUAR CON GOOGLE</span>
-                    </a>
+                    </button>
                 </div>
                 
                 <div class="auth-links">
@@ -634,41 +709,34 @@
                     <div class="form-row">
                         <div class="input-group">
                             <i class="fas fa-id-card"></i>
-                            <input type="text" placeholder="NOMBRE" required id="register-name">
+                            <input type="text" placeholder="NOMBRE" id="register-name">
                         </div>
                         
                         <div class="input-group">
                             <i class="fas fa-user-tag"></i>
-                            <input type="text" placeholder="APELLIDO" required id="register-lastname">
+                            <input type="text" placeholder="APELLIDO" id="register-lastname">
                         </div>
                     </div>
                     
                     <div class="input-group">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" placeholder="EMAIL" required id="register-email">
+                        <input type="email" placeholder="EMAIL" required id="register-email" autocomplete="email">
                     </div>
                     
-                    <div class="form-row">
-                        <div class="input-group">
-                            <i class="fas fa-user"></i>
-                            <input type="text" placeholder="NOMBRE DE USUARIO" required id="register-username">
-                        </div>
-                        
-                        <div class="input-group">
-                            <i class="fas fa-hashtag"></i>
-                            <input type="text" placeholder="CÓDIGO DE OPERADOR" id="register-code">
-                        </div>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="NOMBRE DE USUARIO (Opcional)" id="register-username">
                     </div>
                     
                     <div class="form-row">
                         <div class="input-group">
                             <i class="fas fa-lock"></i>
-                            <input type="password" placeholder="CONTRASEÑA" required id="register-password">
+                            <input type="password" placeholder="CONTRASEÑA" required id="register-password" autocomplete="new-password">
                         </div>
                         
                         <div class="input-group">
                             <i class="fas fa-lock"></i>
-                            <input type="password" placeholder="CONFIRMAR CONTRASEÑA" required id="register-confirm">
+                            <input type="password" placeholder="CONFIRMAR CONTRASEÑA" required id="register-confirm" autocomplete="new-password">
                         </div>
                     </div>
                     
@@ -687,8 +755,8 @@
                         </label>
                     </div>
                     
-                    <button type="submit" class="auth-btn">
-                        <i class="fas fa-user-plus"></i> CREAR CUENTA
+                    <button type="submit" class="auth-btn" id="register-btn">
+                        <i class="fas fa-user-plus"></i> <span id="register-btn-text">CREAR CUENTA</span>
                     </button>
                 </form>
                 
@@ -697,15 +765,15 @@
                 </div>
                 
                 <div class="social-auth">
-                    <a href="dashboard.html" class="social-btn steam">
+                    <button class="social-btn steam" id="steam-register">
                         <i class="fab fa-steam"></i>
                         <span>REGISTRAR CON STEAM</span>
-                    </a>
+                    </button>
                     
-                    <a href="dashboard.html" class="social-btn google">
+                    <button class="social-btn google" id="google-register">
                         <i class="fab fa-google"></i>
                         <span>REGISTRAR CON GOOGLE</span>
-                    </a>
+                    </button>
                 </div>
                 
                 <div class="auth-links">
@@ -714,13 +782,255 @@
             </div>
             
             <!-- Versión -->
-            <span class="version">v2.0.1 | Sistema Táctico</span>
+            <span class="version">v2.1.0 | Sistema Táctico con Firebase</span>
         </div>
     </div>
 
     <script>
         // ============================================
-        // SISTEMA DE TABS Y FORMULARIOS
+        // CONFIGURACIÓN DE FIREBASE
+        // ============================================
+        
+        // CONFIGURACIÓN DE TU PROYECTO
+        const firebaseConfig = {
+            apiKey: "AIzaSyA84yn9sEpKXC9CkLSpXSFWChphQivyjQA",
+            authDomain: "call-of-duty-ba8c6.firebaseapp.com",
+            projectId: "call-of-duty-ba8c6",
+            storageBucket: "call-of-duty-ba8c6.firebasestorage.app",
+            messagingSenderId: "332396788517",
+            appId: "1:332396788517:web:9b16dba369dda189dd78cc",
+            measurementId: "G-X7SKWF7J9X"
+        };
+        
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        
+        // ============================================
+        // VARIABLES GLOBALES
+        // ============================================
+        let isProcessing = false;
+        
+        // ============================================
+        // FUNCIONES UTILITARIAS
+        // ============================================
+        
+        function showMessage(message, type = 'error') {
+            const container = document.getElementById('message-container');
+            container.innerHTML = '';
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}-message`;
+            messageDiv.textContent = message;
+            
+            container.appendChild(messageDiv);
+            
+            // Auto-eliminar mensaje después de 5 segundos
+            if (type !== 'success') {
+                setTimeout(() => {
+                    messageDiv.style.opacity = '0';
+                    setTimeout(() => {
+                        if (container.contains(messageDiv)) {
+                            container.removeChild(messageDiv);
+                        }
+                    }, 300);
+                }, 5000);
+            }
+        }
+        
+        function showLoading(buttonId, text = 'PROCESANDO...') {
+            const button = document.getElementById(buttonId);
+            const textSpan = button.querySelector('span');
+            
+            if (textSpan) {
+                button.dataset.originalText = textSpan.textContent;
+                textSpan.textContent = text;
+            }
+            
+            button.disabled = true;
+            button.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>${text}</span>`;
+            isProcessing = true;
+        }
+        
+        function hideLoading(buttonId) {
+            const button = document.getElementById(buttonId);
+            const originalText = button.dataset.originalText || 'ACCEDER AL SISTEMA';
+            
+            button.disabled = false;
+            button.innerHTML = `<i class="fas fa-sign-in-alt"></i> <span>${originalText}</span>`;
+            isProcessing = false;
+        }
+        
+        function redirectToDashboard() {
+            showMessage('✅ Acceso concedido. Redirigiendo al sistema...', 'success');
+            
+            // Guardar datos del usuario en localStorage
+            const user = auth.currentUser;
+            if (user) {
+                localStorage.setItem('user', JSON.stringify({
+                    email: user.email,
+                    uid: user.uid,
+                    displayName: user.displayName,
+                    photoURL: user.photoURL,
+                    emailVerified: user.emailVerified
+                }));
+            }
+            
+            // Redirigir después de 1.5 segundos
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        }
+        
+        function showPasswordReset() {
+            const email = document.getElementById('login-email').value;
+            
+            if (!email) {
+                const emailInput = prompt('📧 Ingresa tu email para recuperar la contraseña:');
+                if (!emailInput) return;
+                
+                sendPasswordResetEmail(emailInput);
+            } else {
+                sendPasswordResetEmail(email);
+            }
+        }
+        
+        function sendPasswordResetEmail(email) {
+            showLoading('login-btn', 'ENVIANDO...');
+            
+            auth.sendPasswordResetEmail(email)
+                .then(() => {
+                    showMessage(`✅ Instrucciones enviadas a: ${email}\nRevisa tu bandeja de entrada.`, 'success');
+                    hideLoading('login-btn');
+                })
+                .catch(error => {
+                    hideLoading('login-btn');
+                    showMessage(`❌ Error: ${getErrorMessage(error)}`);
+                });
+        }
+        
+        function getErrorMessage(error) {
+            switch(error.code) {
+                case 'auth/email-already-in-use':
+                    return 'Este email ya está registrado';
+                case 'auth/invalid-email':
+                    return 'Email inválido';
+                case 'auth/weak-password':
+                    return 'La contraseña es muy débil (mínimo 6 caracteres)';
+                case 'auth/user-not-found':
+                    return 'Usuario no encontrado';
+                case 'auth/wrong-password':
+                    return 'Contraseña incorrecta';
+                case 'auth/too-many-requests':
+                    return 'Demasiados intentos. Intenta más tarde';
+                case 'auth/network-request-failed':
+                    return 'Error de conexión. Verifica tu internet';
+                case 'auth/popup-closed-by-user':
+                    return 'El popup fue cerrado por el usuario';
+                case 'auth/requires-recent-login':
+                    return 'Necesitas iniciar sesión nuevamente';
+                default:
+                    return error.message || 'Error desconocido';
+            }
+        }
+        
+        // ============================================
+        // FUNCIONES DE AUTENTICACIÓN
+        // ============================================
+        
+        // Login con Email/Password
+        function loginWithEmail(email, password) {
+            showLoading('login-btn', 'VERIFICANDO...');
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log('✅ Usuario autenticado:', user.email);
+                    
+                    // Verificar si el email está verificado
+                    if (!user.emailVerified) {
+                        showMessage('⚠️ Por favor verifica tu email antes de continuar', 'error');
+                        hideLoading('login-btn');
+                        return;
+                    }
+                    
+                    redirectToDashboard();
+                })
+                .catch(error => {
+                    hideLoading('login-btn');
+                    showMessage(`❌ Error: ${getErrorMessage(error)}`);
+                });
+        }
+        
+        // Registro con Email/Password
+        function registerWithEmail(email, password, displayName = '') {
+            showLoading('register-btn', 'CREANDO CUENTA...');
+            
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    
+                    // Actualizar nombre de usuario si se proporcionó
+                    if (displayName) {
+                        return user.updateProfile({
+                            displayName: displayName
+                        }).then(() => user);
+                    }
+                    return user;
+                })
+                .then((user) => {
+                    // Enviar email de verificación
+                    return user.sendEmailVerification();
+                })
+                .then(() => {
+                    showMessage(
+                        '✅ Cuenta creada exitosamente. ' +
+                        'Por favor verifica tu email antes de iniciar sesión.',
+                        'success'
+                    );
+                    
+                    // Limpiar formulario
+                    document.getElementById('registerForm').reset();
+                    
+                    // Cambiar al tab de login después de 3 segundos
+                    setTimeout(() => {
+                        document.querySelector('[data-tab="login"]').click();
+                        document.getElementById('login-email').value = email;
+                    }, 3000);
+                    
+                    hideLoading('register-btn');
+                })
+                .catch(error => {
+                    hideLoading('register-btn');
+                    showMessage(`❌ Error: ${getErrorMessage(error)}`);
+                });
+        }
+        
+        // Login con Google
+        function loginWithGoogle() {
+            if (isProcessing) return;
+            
+            showLoading('google-login', 'CONECTANDO...');
+            const provider = new firebase.auth.GoogleAuthProvider();
+            
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    console.log('✅ Google login exitoso:', result.user.email);
+                    redirectToDashboard();
+                })
+                .catch(error => {
+                    showMessage(`❌ Error: ${getErrorMessage(error)}`);
+                    hideLoading('google-login');
+                });
+        }
+        
+        // Login con Steam (placeholder - necesitas configuración adicional)
+        function loginWithSteam() {
+            showMessage('⚠️ Autenticación con Steam en desarrollo. Usa Google o Email por ahora.', 'error');
+        }
+        
+        // ============================================
+        // EVENT LISTENERS
         // ============================================
         
         document.addEventListener('DOMContentLoaded', function() {
@@ -732,13 +1042,14 @@
                 btn.addEventListener('click', () => {
                     const tabId = btn.getAttribute('data-tab');
                     
-                    // Remover activo de todos
                     tabBtns.forEach(b => b.classList.remove('active'));
                     tabContents.forEach(c => c.classList.remove('active'));
                     
-                    // Activar tab actual
                     btn.classList.add('active');
                     document.getElementById(`${tabId}-content`).classList.add('active');
+                    
+                    // Limpiar mensajes al cambiar de tab
+                    document.getElementById('message-container').innerHTML = '';
                 });
             });
             
@@ -757,106 +1068,102 @@
                 });
             });
             
-            // 3. Validación del formulario de registro
-            const registerForm = document.getElementById('registerForm');
-            if (registerForm) {
-                registerForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const password = document.getElementById('register-password').value;
-                    const confirm = document.getElementById('register-confirm').value;
-                    const terms = document.getElementById('accept-terms').checked;
-                    
-                    // Validar contraseñas
-                    if (password !== confirm) {
-                        alert('⚠️ Las contraseñas no coinciden');
-                        return;
-                    }
-                    
-                    // Validar términos
-                    if (!terms) {
-                        alert('⚠️ Debes aceptar los términos y condiciones');
-                        return;
-                    }
-                    
-                    // Validar fortaleza de contraseña
-                    if (password.length < 8) {
-                        alert('⚠️ La contraseña debe tener al menos 8 caracteres');
-                        return;
-                    }
-                    
-                    // Simular envío exitoso
-                    alert('✅ Cuenta creada exitosamente\nRedirigiendo al sistema...');
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1500);
-                });
-            }
-            
-            // 4. Formulario de login
+            // 3. Formulario de Login
             const loginForm = document.getElementById('loginForm');
             if (loginForm) {
                 loginForm.addEventListener('submit', function(e) {
                     e.preventDefault();
+                    if (isProcessing) return;
                     
-                    const username = document.getElementById('login-username').value;
+                    const email = document.getElementById('login-email').value.trim();
                     const password = document.getElementById('login-password').value;
                     
-                    if (!username || !password) {
-                        alert('⚠️ Completa todos los campos');
+                    if (!email || !password) {
+                        showMessage('⚠️ Completa todos los campos');
                         return;
                     }
                     
-                    // Simular login exitoso
-                    alert('✅ Acceso concedido\nIniciando sesión...');
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1000);
+                    loginWithEmail(email, password);
                 });
             }
             
-            // 5. Olvidé contraseña
-            const forgotLink = document.getElementById('forgot-password');
-            if (forgotLink) {
-                forgotLink.addEventListener('click', function(e) {
+            // 4. Formulario de Registro
+            const registerForm = document.getElementById('registerForm');
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    const email = prompt('📧 Ingresa tu email para recuperar la contraseña:');
-                    if (email) {
-                        alert(`✅ Instrucciones enviadas a: ${email}\nRevisa tu bandeja de entrada.`);
+                    if (isProcessing) return;
+                    
+                    const email = document.getElementById('register-email').value.trim();
+                    const password = document.getElementById('register-password').value;
+                    const confirmPassword = document.getElementById('register-confirm').value;
+                    const name = document.getElementById('register-name').value.trim();
+                    const lastName = document.getElementById('register-lastname').value.trim();
+                    const username = document.getElementById('register-username').value.trim();
+                    const terms = document.getElementById('accept-terms').checked;
+                    
+                    // Validaciones
+                    if (!email || !password) {
+                        showMessage('⚠️ Email y contraseña son requeridos');
+                        return;
                     }
+                    
+                    if (password !== confirmPassword) {
+                        showMessage('⚠️ Las contraseñas no coinciden');
+                        return;
+                    }
+                    
+                    if (password.length < 6) {
+                        showMessage('⚠️ La contraseña debe tener al menos 6 caracteres');
+                        return;
+                    }
+                    
+                    if (!terms) {
+                        showMessage('⚠️ Debes aceptar los términos y condiciones');
+                        return;
+                    }
+                    
+                    // Crear nombre de usuario completo
+                    const displayName = username || `${name} ${lastName}`.trim() || email.split('@')[0];
+                    
+                    registerWithEmail(email, password, displayName);
                 });
             }
             
-            // 6. Generar partículas animadas
-            function createParticles() {
-                const container = document.getElementById('particles');
-                if (!container) return;
+            // 5. Botones de login social
+            document.getElementById('google-login')?.addEventListener('click', loginWithGoogle);
+            document.getElementById('google-register')?.addEventListener('click', loginWithGoogle);
+            document.getElementById('steam-login')?.addEventListener('click', loginWithSteam);
+            document.getElementById('steam-register')?.addEventListener('click', loginWithSteam);
+            
+            // 6. Olvidé contraseña
+            document.getElementById('forgot-password')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                showPasswordReset();
+            });
+            
+            // 7. Verificar estado de autenticación
+            auth.onAuthStateChanged((user) => {
+                const statusText = document.getElementById('status-text');
                 
-                // Limpiar partículas existentes
-                container.innerHTML = '';
-                
-                // Crear nuevas partículas
-                for (let i = 0; i < 20; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'particle';
+                if (user) {
+                    statusText.textContent = `SESIÓN ACTIVA: ${user.email}`;
+                    statusText.style.color = '#01e279';
                     
-                    // Tamaño y posición aleatoria
-                    const size = Math.random() * 100 + 50;
-                    particle.style.width = `${size}px`;
-                    particle.style.height = `${size}px`;
-                    particle.style.left = `${Math.random() * 100}%`;
-                    particle.style.top = `${Math.random() * 100}%`;
-                    
-                    // Retraso aleatorio en animación
-                    particle.style.animationDelay = `${Math.random() * 5}s`;
-                    
-                    container.appendChild(particle);
+                    // Si ya está logueado y está en login/register, redirigir
+                    if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
+                        showMessage('✅ Ya tienes sesión activa. Redirigiendo...', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 2000);
+                    }
+                } else {
+                    statusText.textContent = 'SISTEMA ACTIVO';
+                    statusText.style.color = '';
                 }
-            }
+            });
             
-            createParticles();
-            
-            // 7. Efecto de tecleo en inputs
+            // 8. Efecto de tecleo en inputs
             const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]');
             inputs.forEach(input => {
                 input.addEventListener('focus', function() {
@@ -868,8 +1175,48 @@
                 });
             });
             
-            console.log('✅ Sistema de autenticación cargado');
+            // 9. Generar partículas animadas
+            function createParticles() {
+                const container = document.getElementById('particles');
+                if (!container) return;
+                
+                container.innerHTML = '';
+                
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    const size = Math.random() * 100 + 50;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    container.appendChild(particle);
+                }
+            }
+            
+            createParticles();
+            
+            console.log('✅ Sistema de autenticación con Firebase cargado');
         });
+        
+        // ============================================
+        // FUNCIONES GLOBALES PARA OTROS ARCHIVOS
+        // ============================================
+        window.firebaseAuth = {
+            auth: auth,
+            loginWithEmail: loginWithEmail,
+            loginWithGoogle: loginWithGoogle,
+            registerWithEmail: registerWithEmail,
+            logout: function() {
+                return auth.signOut();
+            },
+            getCurrentUser: function() {
+                return auth.currentUser;
+            }
+        };
     </script>
 </body>
 </html>
