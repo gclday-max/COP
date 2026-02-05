@@ -1,0 +1,421 @@
+/* ============================================
+   theme.css - VERSIÓN OPTIMIZADA (SIN PARPADEO)
+   ============================================ */
+
+/* 1. DEFINIR TODAS LAS VARIABLES EN :root (sin transiciones aquí) */
+:root {
+    /* Variables base (sin transiciones) */
+    --color-accent-rgb: 230, 36, 41;
+    --border-radius: 4px;
+    --transition-speed: 0.3s;
+    
+    /* Variables para TEMA OSCURO (por defecto) */
+    --color-primary: #0c0c0c;
+    --color-secondary: #1a1a1a;
+    --color-accent: #e62429;
+    --color-accent-light: #ff3a3f;
+    --color-text: #f0f0f0;
+    --color-text-muted: #aaaaaa;
+    --color-success: #2ecc71;
+    --color-warning: #f39c12;
+    --color-danger: #e74c3c;
+    --color-info: #3498db;
+    --color-overlay: rgba(0, 0, 0, 0.6);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --border-accent: rgba(230, 36, 41, 0.3);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* 2. SOBREESCRIBIR VARIABLES PARA OTROS TEMAS (sin transición aquí) */
+[data-theme="light"] {
+    --color-primary: #f8f9fa;
+    --color-secondary: #ffffff;
+    --color-text: #1a1a1a;
+    --color-text-muted: #666666;
+    --color-success: #27ae60;
+    --color-warning: #d35400;
+    --color-danger: #c0392b;
+    --color-info: #2980b9;
+    --color-overlay: rgba(255, 255, 255, 0.8);
+    --border-color: rgba(0, 0, 0, 0.1);
+    --border-accent: rgba(230, 36, 41, 0.5);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="military-blue"] {
+    --color-primary: #0a1929;
+    --color-secondary: #1a2b3c;
+    --color-accent: #4dabf7;
+    --color-accent-light: #74c0fc;
+    --color-text: #e6f7ff;
+    --color-text-muted: #8da1b2;
+    --color-overlay: rgba(10, 25, 41, 0.7);
+    --border-color: rgba(77, 171, 247, 0.2);
+    --border-accent: rgba(77, 171, 247, 0.4);
+}
+
+[data-theme="tactical-green"] {
+    --color-primary: #0d1f0d;
+    --color-secondary: #1a2e1a;
+    --color-accent: #40c057;
+    --color-accent-light: #69db7c;
+    --color-text: #ebfbee;
+    --color-text-muted: #94d3a2;
+    --color-overlay: rgba(13, 31, 13, 0.7);
+    --border-color: rgba(64, 192, 87, 0.2);
+    --border-accent: rgba(64, 192, 87, 0.4);
+}
+
+/* TEMA TERMINAL - VERSIÓN MEJORADA */
+[data-theme="terminal"] {
+    --color-primary: #050505;        /* Más oscuro para mejor contraste */
+    --color-secondary: #0a0a0a;      /* Más oscuro que antes */
+    --color-accent: #00ff00;
+    --color-accent-light: #33ff33;
+    --color-text: #00ff88;           /* Verde más claro/cian (más visible) */
+    --color-text-muted: #66ffaa;     /* Más claro para mejor contraste */
+    --color-overlay: rgba(0, 0, 0, 0.9);
+    --border-color: rgba(0, 255, 0, 0.3);  /* Más visible */
+    --border-accent: rgba(0, 255, 0, 0.6);
+    
+    /* Variables extras para mejor control */
+    --terminal-glow: 0 0 10px rgba(0, 255, 0, 0.5);
+    --terminal-text-glow: 0 0 5px #00ff00, 0 0 10px #00ff00;
+}
+
+
+/* 3. APLICAR TRANSICIONES SOLO A ELEMENTOS ESPECÍFICOS (NO a todo el body) */
+body {
+    background-color: var(--color-primary);
+    color: var(--color-text);
+    /* NO poner transition aquí - causa parpadeo */
+}
+
+/* Elementos que SÍ pueden tener transición suave */
+.theme-transition {
+    transition: background-color 0.3s ease, 
+                color 0.3s ease,
+                border-color 0.3s ease;
+}
+
+/* 4. APLICAR A ELEMENTOS QUE QUIERES QUE CAMBIEN SUAVEMENTE */
+.btn-primary,
+.btn-secondary,
+.stat-card,
+.mission-card,
+.feature-card,
+.achievement-card,
+.profile-card,
+.modal-content,
+.theme-option {
+    transition: background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+/* 5. BOTÓN DE TEMA - ESTILOS MEJORADOS */
+.btn-theme-toggle {
+    background: var(--color-secondary);
+    border: 2px solid var(--border-color);
+    color: var(--color-text);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-theme-toggle:hover {
+    background: var(--color-accent);
+    color: white;
+    transform: rotate(15deg) scale(1.1);
+    box-shadow: 0 0 20px rgba(var(--color-accent-rgb), 0.5);
+}
+
+.btn-theme-toggle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.btn-theme-toggle:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
+    }
+}
+
+/* 6. SELECTOR DE TEMAS - SIN PARPADEO */
+.theme-selector {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: var(--color-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 150px;
+    backdrop-filter: blur(10px);
+}
+
+.theme-selector.show {
+    display: flex;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.theme-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    background: transparent;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.theme-option:hover {
+    transform: scale(1.1);
+    border-color: var(--color-accent);
+}
+
+.theme-option.active {
+    border-color: var(--color-accent);
+    background: rgba(var(--color-accent-rgb), 0.2);
+    box-shadow: 0 0 15px rgba(var(--color-accent-rgb), 0.3);
+    transform: scale(1.05);
+}
+
+/* ============================================
+   CORRECCIONES ESPECÍFICAS PARA PROBLEMAS COMUNES
+   ============================================ */
+
+/* 1. BOTÓN "INICIAR MISIÓN" EN TODOS LOS TEMAS */
+[data-theme] .btn-primary,
+[data-theme] .btn-complete,
+[data-theme] .btn-iniciar-mision {
+    background-color: var(--color-accent) !important;
+    color: white !important;
+    border: none !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Efecto especial para tema terminal en botones */
+[data-theme="terminal"] .btn-primary,
+[data-theme="terminal"] .btn-complete {
+    color: #0a0a0a !important;
+    font-weight: 700 !important;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5) !important;
+}
+
+/* 2. TEXTO EN HEADER Y NAV (CRÍTICO) */
+[data-theme] .header-content {
+    background-color: var(--color-secondary) !important;
+    border-bottom: 2px solid var(--border-color) !important;
+}
+
+[data-theme] .nav-link {
+    color: var(--color-text) !important;
+    font-weight: 500 !important;
+    padding: 10px 20px !important;
+    border-radius: 4px !important;
+    transition: all 0.2s ease !important;
+}
+
+[data-theme="terminal"] .nav-link {
+    /* Forzar contraste en navegación */
+    color: var(--color-text) !important; /* Usa el nuevo verde claro */
+    font-weight: 600;  /* Más grueso */
+    text-shadow: var(--terminal-text-glow);
+    position: relative;
+}
+
+/* Corrección de contraste automática */
+[data-theme="light"] .nav-link:not(.active):not(:hover) {
+    color: #333333 !important;
+}
+
+[data-theme="terminal"] .nav-link:not(.active):not(:hover) {
+    color: #00ff00 !important;
+    text-shadow: 0 0 3px currentColor !important;
+}
+
+[data-theme="terminal"] .nav-link:hover {
+    color: #00ffcc !important; /* Cian brillante en hover */
+    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ff00;
+    background: rgba(0, 255, 0, 0.1);
+}
+
+/* Enlace activo - alto contraste */
+[data-theme="terminal"] .nav-link.active {
+    color: #000000 !important; /* Negro sobre verde */
+    background: var(--color-accent) !important;
+    text-shadow: none !important;
+    font-weight: 700;
+}
+
+/* 3. LOGO Y TÍTULOS */
+[data-theme] .logo {
+    color: var(--color-accent) !important;
+    font-weight: 900 !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme] .logo-text {
+    color: var(--color-text) !important;
+    font-weight: 600 !important;
+}
+
+/* Mejorar logo también */
+[data-theme="terminal"] .logo-text {
+    color: var(--color-text) !important;
+    text-shadow: var(--terminal-text-glow);
+    font-weight: 600;
+}
+
+/* Corrección específica para tema claro */
+[data-theme="light"] .logo-text {
+    color: #222222 !important;
+}
+
+/* 4. TARJETAS Y CONTENEDORES (para texto dentro) */
+[data-theme] .mission-card,
+[data-theme] .achievement-card,
+[data-theme] .profile-card,
+[data-theme] .stat-card {
+    background: var(--color-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--color-text) !important;
+}
+
+[data-theme] .mission-card h3,
+[data-theme] .achievement-card h3,
+[data-theme] .profile-card h2 {
+    color: var(--color-text) !important;
+    border-bottom: 2px solid var(--color-accent) !important;
+    padding-bottom: 8px !important;
+}
+
+/* 5. TEXTO PEQUEÑO Y DETALLES */
+[data-theme] .stat-details,
+[data-theme] .mission-category,
+[data-theme] .hero-subtitle {
+    color: var(--color-text-muted) !important;
+}
+
+/* Asegurar que el texto muted sea visible */
+[data-theme="terminal"] .stat-details,
+[data-theme="terminal"] .mission-category {
+    color: #66ff66 !important;
+    text-shadow: 0 0 3px rgba(0, 255, 0, 0.3) !important;
+}
+
+/* 6. CORRECCIÓN ESPECIAL PARA "INICIAR MISIÓN" */
+[data-theme] .iniciar-mision-btn {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light)) !important;
+    color: white !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    padding: 15px 30px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(var(--color-accent-rgb), 0.4) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Efecto hover mejorado */
+[data-theme] .iniciar-mision-btn:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 25px rgba(var(--color-accent-rgb), 0.6) !important;
+}
+
+/* Tema terminal - botón especial */
+[data-theme="terminal"] .iniciar-mision-btn {
+    color: #0a0a0a !important;
+    background: linear-gradient(135deg, #00ff00, #33ff33) !important;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.7) !important;
+    text-shadow: none !important;
+}
+
+/* 7. SI EL PROBLEMA PERSISTE - FORZAR COLORES */
+.fix-contrast {
+    /* Clase de emergencia */
+    color: white !important;
+    background-color: var(--color-accent) !important;
+}
+
+/* Detección automática de bajo contraste */
+@media (prefers-contrast: high) {
+    [data-theme] {
+        --color-text: #ffffff;
+        --color-text-muted: #cccccc;
+    }
+    
+    [data-theme="light"] {
+        --color-text: #000000;
+        --color-text-muted: #444444;
+    }
+}
+
+/* 7. ANIMACIÓN DE CAMBIO DE TEMA (OPTIMIZADA) */
+@keyframes smoothThemeChange {
+    0% { opacity: 1; }
+    50% { opacity: 0.95; }
+    100% { opacity: 1; }
+}
+
+.theme-change-active {
+    animation: smoothThemeChange 0.4s ease;
+}

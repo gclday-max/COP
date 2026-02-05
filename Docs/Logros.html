@@ -3,327 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logros | Call of Productivity</title>
-    
-    <!-- Fuentes -->
+    <title>Call of Productivity - Logros</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Iconos -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Estilos -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/logros.css">
-    
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+    <!-- FONDO DINÁMICO -->
+    <div class="background-overlay achievements-bg" id="backgroundOverlay"></div>
+
+    <!-- CONTENEDOR PRINCIPAL -->
     <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">
-                <h1>COP</h1>
-                <span>Call of Productivity</span>
+        <!-- HEADER -->
+        <header>
+            <div class="header-content">
+                <div class="logo-container" id="logoHome">
+                    <a href="dashboard.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 15px;">
+                        <div class="logo">COP</div>
+                        <div class="logo-text">CALL OF PRODUCTIVITY</div>
+                    </a>
+                </div>
+                <nav class="nav-menu">
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="missions.html" class="nav-link">Misiones</a>
+                    <a href="profile.html" class="nav-link">Perfil</a>
+                    <a href="Logros.html" class="nav-link active">Logros</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- PÁGINA: LOGROS -->
+        <section class="page active" id="achievements-page">
+            <h1>LOGROS Y RECOMPENSAS</h1>
+            <p class="hero-subtitle">Desbloquea logros especiales completando misiones y manteniendo tu racha de productividad.</p>
+
+            <div class="achievements-container">
+                <!-- LOGRO 1 -->
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>INICIO DE OPERACIONES</h3>
+                    <p>Completa tu primera misión</p>
+                    <div class="mission-xp" style="margin-top: 10px;">
+                        <i class="fas fa-bolt"></i> 100 XP
+                    </div>
+                    <div class="mission-category" style="margin-top: 10px;">
+                        <i class="fas fa-check-circle"></i> DESBLOQUEADO
+                    </div>
+                </div>
+
+                <!-- LOGRO 2 -->
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>RACHA DE FUEGO</h3>
+                    <p>7 días consecutivos activo</p>
+                    <div class="mission-xp" style="margin-top: 10px;">
+                        <i class="fas fa-bolt"></i> 500 XP
+                    </div>
+                    <div class="mission-category" style="margin-top: 10px;">
+                        <i class="fas fa-check-circle"></i> DESBLOQUEADO
+                    </div>
+                </div>
+
+                <!-- LOGRO 3 -->
+                <div class="achievement-card locked">
+                    <div class="achievement-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>LEYENDA DE PRODUCTIVIDAD</h3>
+                    <p>30 días consecutivos activo</p>
+                    <div class="mission-xp" style="margin-top: 10px;">
+                        <i class="fas fa-bolt"></i> 2500 XP
+                    </div>
+                    <div class="mission-category" style="margin-top: 10px; background-color: rgba(128, 128, 128, 0.2);">
+                        <i class="fas fa-lock"></i> BLOQUEADO
+                    </div>
+                </div>
+
+                <!-- LOGRO 4 -->
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3>MAESTRO DE MISIONES</h3>
+                    <p>Completa 25 misiones</p>
+                    <div class="mission-xp" style="margin-top: 10px;">
+                        <i class="fas fa-bolt"></i> 750 XP
+                    </div>
+                    <div class="mission-category" style="margin-top: 10px;">
+                        <i class="fas fa-check-circle"></i> DESBLOQUEADO
+                    </div>
+                </div>
+
+                <!-- LOGRO 5 -->
+                <div class="achievement-card locked">
+                    <div class="achievement-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>VELOCIDAD RELÁMPAGO</h3>
+                    <p>Completa 5 misiones en un día</p>
+                    <div class="mission-xp" style="margin-top: 10px;">
+                        <i class="fas fa-bolt"></i> 1000 XP
+                    </div>
+                    <div class="mission-category" style="margin-top: 10px; background-color: rgba(128, 128, 128, 0.2);">
+                        <i class="fas fa-lock"></i> BLOQUEADO
+                    </div>
+                </div>
+
+                <!-- LOGRO 6 -->
+                <div class="achievement-card locked">
+                    <div class="achievement-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>ELITE OPERATOR</h3>
+                    <p>Alcanza nivel 50</p>
+                    <div class="mission-xp" style="margin-top: 10px;">
+                        <i class="fas fa-bolt"></i> 5000 XP
+                    </div>
+                    <div class="mission-category" style="margin-top: 10px; background-color: rgba(128, 128, 128, 0.2);">
+                        <i class="fas fa-lock"></i> BLOQUEADO
+                    </div>
+                </div>
+
+                <!-- LOGRO 7 -->
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>ESTRATEGA</h3>
+                    <p>Planifica 50 misiones</p>
+                    <div class="mission-xp" style="margin-top: 10px;">
+                        <i class="fas fa-bolt"></i> 800 XP
+                    </div>
+                    <div class="mission-category" style="margin-top: 10px;">
+                        <i class="fas fa-check-circle"></i> DESBLOQUEADO
+                    </div>
+                </div>
+
+                <!-- LOGRO 8 -->
+                <div class="achievement-card locked">
+                    <div class="achievement-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h3>PRODUCTIVIDAD INFINITA</h3>
+                    <p>100 misiones completadas</p>
+                    <div class="mission-xp" style="margin-top: 10px;">
+                        <i class="fas fa-bolt"></i> 5000 XP
+                    </div>
+                    <div class="mission-category" style="margin-top: 10px; background-color: rgba(128, 128, 128, 0.2);">
+                        <i class="fas fa-lock"></i> BLOQUEADO
+                    </div>
+                </div>
             </div>
             
-            <nav class="nav-menu">
-                <a href="dashboard.html" class="nav-item">
-                    <i class="fas fa-radar"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="missions.html" class="nav-item">
-                    <i class="fas fa-crosshairs"></i>
-                    <span>Misiones</span>
-                </a>
-                <a href="profile.html" class="nav-item">
-                    <i class="fas fa-user-secret"></i>
-                    <span>Perfil</span>
-                </a>
-                <a href="Logros.html" class="nav-item active">
-                    <i class="fas fa-trophy"></i>
-                    <span>Logros</span>
-                </a>
-                <a href="settings.html" class="nav-item">
-                    <i class="fas fa-cog"></i>
-                    <span>Configuración</span>
-                </a>
-                <button id="logout-btn" class="nav-item logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Cerrar Sesión</span>
-                </button>
-            </nav>
-        </aside>
-
-        <!-- Contenido Principal -->
-        <main class="main-content">
-            <!-- Header -->
-            <header class="achievements-header">
-                <div class="header-left">
-                    <h1><i class="fas fa-trophy"></i> Sala de Trofeos</h1>
-                    <p class="header-subtitle">Demuestra tu disciplina y alcanza la grandeza operativa</p>
-                </div>
-                <div class="header-right">
-                    <div class="achievements-stats">
-                        <div class="stat-badge">
-                            <span class="stat-value" id="totalAchievements">0</span>
-                            <span class="stat-label">Logros</span>
-                        </div>
-                        <div class="stat-badge">
-                            <span class="stat-value" id="completedAchievements">0</span>
-                            <span class="stat-label">Completados</span>
-                        </div>
-                        <div class="stat-badge">
-                            <span class="stat-value" id="achievementRate">0%</span>
-                            <span class="stat-label">Progreso</span>
-                        </div>
+            <!-- ESTADÍSTICAS DE LOGROS -->
+            <div class="achievements-stats">
+                <div class="stat-card">
+                    <div class="stat-title">Logros Totales</div>
+                    <div class="stat-value">12/25</div>
+                    <div class="stat-details">48% completado</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="48"></div>
                     </div>
                 </div>
-            </header>
-
-            <!-- Filtros -->
-            <div class="achievements-filters">
-                <div class="filter-group">
-                    <button class="filter-btn active" data-filter="all">
-                        <i class="fas fa-layer-group"></i>
-                        Todos
-                    </button>
-                    <button class="filter-btn" data-filter="completed">
-                        <i class="fas fa-check-circle"></i>
-                        Completados
-                    </button>
-                    <button class="filter-btn" data-filter="in-progress">
-                        <i class="fas fa-spinner"></i>
-                        En Progreso
-                    </button>
-                    <button class="filter-btn" data-filter="locked">
-                        <i class="fas fa-lock"></i>
-                        Bloqueados
-                    </button>
+                <div class="stat-card">
+                    <div class="stat-title">XP por Logros</div>
+                    <div class="stat-value">3,650</div>
+                    <div class="stat-details">Total ganado</div>
                 </div>
+                <div class="stat-card">
+                    <div class="stat-title">Próximo Logro</div>
+                    <div class="stat-value">VELOCIDAD RELÁMPAGO</div>
+                    <div class="stat-details">5 misiones en un día</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>CALL OF PRODUCTIVITY © 2026 | Sistema de productividad táctico | Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/logros.js"></script>
+<script src="js/theme-system.js"></script>
+    
+    <script>
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animar barras de progreso
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                setTimeout(() => {
+                    bar.style.width = width + '%';
+                }, 300);
+            });
+
+            // Efecto hover en tarjetas de logros
+            const achievementCards = document.querySelectorAll('.achievement-card');
+            achievementCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)';
+                });
                 
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="achievementSearch" placeholder="Buscar logros...">
-                </div>
-            </div>
+                card.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = 'none';
+                });
+                
+                // Click en logros bloqueados muestra información
+                if (card.classList.contains('locked')) {
+                    card.addEventListener('click', function() {
+                        const titulo = this.querySelector('h3').textContent;
+                        const descripcion = this.querySelector('p').textContent;
+                        const xp = this.querySelector('.mission-xp').textContent;
+                        
+                        alert(`LOGRO BLOQUEADO\n\n${titulo}\n${descripcion}\n\nRecompensa: ${xp}\n\nCompleta los requisitos para desbloquear este logro.`);
+                    });
+                } else {
+                    card.addEventListener('click', function() {
+                        const titulo = this.querySelector('h3').textContent;
+                        const descripcion = this.querySelector('p').textContent;
+                        const xp = this.querySelector('.mission-xp').textContent;
+                        
+                        alert(`LOGRO DESBLOQUEADO\n\n${titulo}\n${descripcion}\n\nRecompensa obtenida: ${xp}\n\n¡Felicidades por este logro!`);
+                    });
+                }
+            });
+        });
+    </script>
+    <!-- Script de inicialización rápida -->
+<script>
+// Prevenir FOUC (Flash of Unstyled Content)
+document.documentElement.style.visibility = 'hidden';
+document.documentElement.style.opacity = '0';
 
-            <!-- Grid de Logros -->
-            <div class="achievements-grid">
-                <!-- Sección: Logros de Productividad -->
-                <section class="achievements-category">
-                    <div class="category-header">
-                        <h2><i class="fas fa-bolt"></i> Productividad</h2>
-                        <span class="category-progress" id="productivityProgress">0/8</span>
-                    </div>
-                    <div class="achievements-list" id="productivityAchievements">
-                        <!-- Logros se cargarán dinámicamente -->
-                    </div>
-                </section>
+window.addEventListener('DOMContentLoaded', () => {
+    // Aplicar tema guardado inmediatamente
+    const savedTheme = localStorage.getItem('cop_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    // Mostrar contenido
+    setTimeout(() => {
+        document.documentElement.style.visibility = '';
+        document.documentElement.style.opacity = '1';
+    }, 10);
+    
+    // Cargar el sistema de temas
+    if (typeof initThemeSystem === 'function') {
+        initThemeSystem();
+    }
+});
 
-                <!-- Sección: Logros de Misiones -->
-                <section class="achievements-category">
-                    <div class="category-header">
-                        <h2><i class="fas fa-crosshairs"></i> Misiones</h2>
-                        <span class="category-progress" id="missionsProgress">0/6</span>
-                    </div>
-                    <div class="achievements-list" id="missionsAchievements">
-                        <!-- Logros se cargarán dinámicamente -->
-                    </div>
-                </section>
-
-                <!-- Sección: Logros de Racha -->
-                <section class="achievements-category">
-                    <div class="category-header">
-                        <h2><i class="fas fa-fire"></i> Consistencia</h2>
-                        <span class="category-progress" id="streakProgress">0/5</span>
-                    </div>
-                    <div class="achievements-list" id="streakAchievements">
-                        <!-- Logros se cargarán dinámicamente -->
-                    </div>
-                </section>
-
-                <!-- Sección: Logros Especiales -->
-                <section class="achievements-category">
-                    <div class="category-header">
-                        <h2><i class="fas fa-star"></i> Operaciones Especiales</h2>
-                        <span class="category-progress" id="specialProgress">0/4</span>
-                    </div>
-                    <div class="achievements-list" id="specialAchievements">
-                        <!-- Logros se cargarán dinámicamente -->
-                    </div>
-                </section>
-
-                <!-- Sección: Logros de Maestría -->
-                <section class="achievements-category">
-                    <div class="category-header">
-                        <h2><i class="fas fa-crown"></i> Maestría</h2>
-                        <span class="category-progress" id="masteryProgress">0/3</span>
-                    </div>
-                    <div class="achievements-list" id="masteryAchievements">
-                        <!-- Logros se cargarán dinámicamente -->
-                    </div>
-                </section>
-
-                <!-- Sección: Logros Secretos -->
-                <section class="achievements-category">
-                    <div class="category-header">
-                        <h2><i class="fas fa-user-secret"></i> Operaciones Secretas</h2>
-                        <span class="category-progress" id="secretProgress">0/4</span>
-                    </div>
-                    <div class="achievements-list" id="secretAchievements">
-                        <!-- Logros se cargarán dinámicamente -->
-                    </div>
-                </section>
-            </div>
-
-            <!-- Estadísticas Avanzadas -->
-            <div class="achievements-stats-grid">
-                <div class="stats-card">
-                    <h3><i class="fas fa-chart-line"></i> Progreso General</h3>
-                    <div class="progress-ring">
-                        <svg width="120" height="120" viewBox="0 0 120 120">
-                            <circle class="progress-bg" cx="60" cy="60" r="54"></circle>
-                            <circle class="progress-bar" cx="60" cy="60" r="54"></circle>
-                        </svg>
-                        <div class="progress-text">
-                            <span id="overallProgress">0%</span>
-                            <small>Completado</small>
-                        </div>
-                    </div>
-                    <div class="progress-details">
-                        <div class="detail-item">
-                            <span class="detail-label">Logros Totales</span>
-                            <span class="detail-value" id="totalAchievementsCount">0</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Completados</span>
-                            <span class="detail-value" id="completedCount">0</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">XP Total</span>
-                            <span class="detail-value" id="totalXpReward">0</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="stats-card">
-                    <h3><i class="fas fa-award"></i> Logros Recientes</h3>
-                    <div class="recent-achievements" id="recentAchievements">
-                        <div class="recent-item">
-                            <div class="recent-icon">
-                                <i class="fas fa-medal"></i>
-                            </div>
-                            <div class="recent-info">
-                                <h4>Primera Misión</h4>
-                                <p>Completa tu primera misión</p>
-                                <small>Hace 2 días • +100 XP</small>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn btn-secondary" id="viewAllRecentBtn">
-                        <i class="fas fa-history"></i>
-                        Ver Historial Completo
-                    </button>
-                </div>
-
-                <div class="stats-card">
-                    <h3><i class="fas fa-calendar-alt"></i> Actividad de Logros</h3>
-                    <div class="activity-chart">
-                        <canvas id="achievementActivityChart"></canvas>
-                    </div>
-                    <div class="activity-stats">
-                        <div class="activity-item">
-                            <span class="activity-label">Hoy</span>
-                            <span class="activity-value" id="todayAchievements">0</span>
-                        </div>
-                        <div class="activity-item">
-                            <span class="activity-label">Esta Semana</span>
-                            <span class="activity-value" id="weekAchievements">0</span>
-                        </div>
-                        <div class="activity-item">
-                            <span class="activity-label">Este Mes</span>
-                            <span class="activity-value" id="monthAchievements">0</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer class="achievements-footer">
-                <div class="footer-left">
-                    <span>Sala de Trofeos • Última actualización: <span id="lastUpdateTime">Hace unos momentos</span></span>
-                </div>
-                <div class="footer-right">
-                    <button class="btn btn-secondary" id="shareAchievementsBtn">
-                        <i class="fas fa-share-alt"></i>
-                        Compartir Progreso
-                    </button>
-                    <button class="btn btn-primary" id="claimRewardsBtn">
-                        <i class="fas fa-gift"></i>
-                        Reclamar Recompensas
-                    </button>
-                </div>
-            </footer>
-        </main>
-    </div>
-
-    <!-- Modal de Detalles de Logro -->
-    <div id="achievementModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-medal"></i> <span id="modalAchievementName">Nombre del Logro</span></h3>
-                <button class="modal-close" id="modalCloseBtn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="achievement-modal-content">
-                    <div class="achievement-modal-icon">
-                        <i class="fas fa-trophy" id="modalAchievementIcon"></i>
-                    </div>
-                    <div class="achievement-modal-info">
-                        <p id="modalAchievementDescription">Descripción del logro</p>
-                        <div class="achievement-modal-details">
-                            <div class="detail">
-                                <span class="detail-label"><i class="fas fa-bolt"></i> Recompensa:</span>
-                                <span class="detail-value" id="modalAchievementReward">+100 XP</span>
-                            </div>
-                            <div class="detail">
-                                <span class="detail-label"><i class="fas fa-calendar"></i> Desbloqueado:</span>
-                                <span class="detail-value" id="modalAchievementDate">No desbloqueado</span>
-                            </div>
-                            <div class="detail">
-                                <span class="detail-label"><i class="fas fa-users"></i> Rarosidad:</span>
-                                <span class="detail-value" id="modalAchievementRarity">Común</span>
-                            </div>
-                        </div>
-                        <div class="progress-container">
-                            <div class="progress-label">
-                                <span id="modalProgressText">Progreso: 0/10</span>
-                                <span id="modalProgressPercent">0%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="modalProgressFill"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-primary" id="modalActionBtn">
-                    <i class="fas fa-rocket"></i>
-                    Comenzar Desafío
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/supabaseClient.js"></script>
-    <script src="js/achievements.js"></script>
+// Fallback si hay error
+setTimeout(() => {
+    if (document.documentElement.style.visibility === 'hidden') {
+        document.documentElement.style.visibility = '';
+        document.documentElement.style.opacity = '1';
+    }
+}, 1000);
+</script>
 </body>
 </html>

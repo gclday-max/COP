@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Sistema Táctico</title>
+    <title>Call of Productivity | Acceso</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -12,9 +12,12 @@
             --color-secondary: #1C1C1C;         /* Gris arma */
             --color-accent: #01e279;            /* Verde neón */
             --color-accent-hover: #00CC6D;      /* Hover más oscuro */
+            --color-accent-light: #33ff99;      /* Verde claro */
             --color-text: #e2e0e0;              /* Blanco humo */
-            --color-text-secondary: #555555;    /* Gris metálico */
+            --color-text-secondary: #888888;    /* Gris metálico */
             --color-border: #333333;            /* Bordes */
+            --color-success: #2ecc71;           /* Verde éxito */
+            --color-warning: #f39c12;           /* Naranja advertencia */
             --color-progress: linear-gradient(90deg, #00FF88 0%, #00CC6D 100%);
             --color-card-bg: rgba(28, 28, 28, 0.95);
             
@@ -31,19 +34,28 @@
             font-family: 'Segoe UI', system-ui, sans-serif;
         }
         
+        /* ========== BODY CON SCROLL ========== */
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             background: var(--color-primary);
-            overflow: hidden;
+            overflow-y: auto;
             background-image: 
                 radial-gradient(circle at 20% 80%, rgba(1, 226, 121, 0.05) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(1, 226, 121, 0.03) 0%, transparent 50%),
                 linear-gradient(45deg, #0A0A0A 0%, #111111 100%);
+            padding: 20px;
         }
         
+        /* Contenedor para centrar */
+        .auth-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        /* Animaciones de fondo */
         .bg-animation {
             position: fixed;
             top: 0;
@@ -66,14 +78,14 @@
         }
         
         .scan-line {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
             animation: scan 3s infinite linear;
-            z-index: 1;
+            z-index: 0;
             opacity: 0.7;
         }
         
@@ -82,13 +94,13 @@
             100% { top: 100%; }
         }
         
-        .login-container {
+        /* ========== CONTENEDOR PRINCIPAL ========== */
+        .auth-container {
             background: var(--color-card-bg);
             backdrop-filter: blur(10px);
             border-radius: 12px;
-            padding: 40px;
             width: 100%;
-            max-width: 450px;
+            max-width: 500px;
             box-shadow: 
                 0 10px 30px rgba(0, 0, 0, 0.8),
                 0 0 0 1px rgba(1, 226, 121, 0.1),
@@ -96,9 +108,10 @@
             border: 1px solid var(--color-border);
             position: relative;
             overflow: hidden;
+            margin: auto;
         }
         
-        .login-container::before {
+        .auth-container::before {
             content: '';
             position: absolute;
             top: 0;
@@ -115,9 +128,54 @@
             100% { width: 0%; left: 100%; }
         }
         
-        .login-header {
+        /* Grid militar */
+        .military-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(1, 226, 121, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(1, 226, 121, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+        
+        /* Indicador de estado */
+        .status-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-accent);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--color-accent);
+            box-shadow: 0 0 10px var(--color-accent);
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        /* ========== HEADER ========== */
+        .auth-header {
             text-align: center;
-            margin-bottom: 40px;
+            padding: 40px 40px 20px;
             position: relative;
         }
         
@@ -128,7 +186,7 @@
             text-shadow: 0 0 10px rgba(1, 226, 121, 0.5);
         }
         
-        .login-header h1 {
+        .auth-header h1 {
             color: var(--color-text);
             font-weight: 600;
             font-size: 1.8rem;
@@ -138,16 +196,74 @@
             font-family: 'Orbitron', 'Segoe UI', sans-serif;
         }
         
-        .login-header p {
+        .auth-header p {
             color: var(--color-text-secondary);
             font-size: 0.9rem;
             letter-spacing: 1px;
         }
         
-        .login-form {
+        /* ========== TABS DE LOGIN/REGISTRO ========== */
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--color-border);
+            margin: 0 40px;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--color-text-secondary);
+            padding: 15px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            font-family: 'Orbitron', 'Segoe UI', sans-serif;
+        }
+        
+        .tab-btn:hover {
+            color: var(--color-accent);
+        }
+        
+        .tab-btn.active {
+            color: var(--color-accent);
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--color-progress);
+        }
+        
+        /* ========== CONTENIDO DE LOS TABS ========== */
+        .tab-content {
+            display: none;
+            padding: 30px 40px 40px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* ========== FORMULARIOS ========== */
+        .auth-form {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 20px;
         }
         
         .input-group {
@@ -181,37 +297,42 @@
             font-size: 1.2rem;
         }
         
-        .remember-forgot {
+        /* Grupo de dos campos en fila (para registro) */
+        .form-row {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            gap: 15px;
+        }
+        
+        .form-row .input-group {
+            flex: 1;
+        }
+        
+        /* Checkbox de términos */
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 10px 0;
+            color: var(--color-text-secondary);
             font-size: 0.9rem;
         }
         
-        .remember {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--color-text-secondary);
-        }
-        
-        .remember input {
+        .terms input {
+            margin-top: 4px;
             accent-color: var(--color-accent);
         }
         
-        .forgot {
+        .terms a {
             color: var(--color-accent);
             text-decoration: none;
-            transition: all 0.3s;
-            font-size: 0.85rem;
         }
         
-        .forgot:hover {
-            color: var(--color-accent-hover);
+        .terms a:hover {
             text-decoration: underline;
         }
         
-        .login-btn {
+        /* ========== BOTONES ========== */
+        .auth-btn {
             background: var(--color-progress);
             color: var(--color-primary);
             border: none;
@@ -229,7 +350,7 @@
             overflow: hidden;
         }
         
-        .login-btn::before {
+        .auth-btn::before {
             content: '';
             position: absolute;
             top: 0;
@@ -240,15 +361,36 @@
             transition: left 0.7s;
         }
         
-        .login-btn:hover::before {
+        .auth-btn:hover::before {
             left: 100%;
         }
         
-        .login-btn:hover {
+        .auth-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(1, 226, 121, 0.3);
         }
         
+        /* Botón secundario (para cambiar entre tabs) */
+        .secondary-btn {
+            background: transparent;
+            color: var(--color-accent);
+            border: 1px solid var(--color-accent);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin-top: 20px;
+        }
+        
+        .secondary-btn:hover {
+            background: rgba(1, 226, 121, 0.1);
+        }
+        
+        /* ========== DIVISOR ========== */
         .divider {
             display: flex;
             align-items: center;
@@ -270,7 +412,8 @@
             text-transform: uppercase;
         }
         
-        .social-login {
+        /* ========== LOGIN SOCIAL ========== */
+        .social-auth {
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -316,198 +459,417 @@
             box-shadow: 0 5px 15px rgba(1, 226, 121, 0.2);
         }
         
-        .steam {
-            background: linear-gradient(45deg, rgba(27, 40, 56, 0.9), rgba(42, 71, 94, 0.9));
-        }
-        
-        .google {
-            background: linear-gradient(45deg, rgba(66, 133, 244, 0.9), rgba(52, 168, 83, 0.9));
-        }
-        
-        .facebook {
-            background: linear-gradient(45deg, rgba(24, 119, 242, 0.9), rgba(59, 89, 152, 0.9));
-        }
+        .steam { background: linear-gradient(45deg, rgba(27, 40, 56, 0.9), rgba(42, 71, 94, 0.9)); }
+        .google { background: linear-gradient(45deg, rgba(66, 133, 244, 0.9), rgba(52, 168, 83, 0.9)); }
+        .facebook { background: linear-gradient(45deg, rgba(24, 119, 242, 0.9), rgba(59, 89, 152, 0.9)); }
         
         .social-btn i {
             font-size: 1.3rem;
         }
         
-        .signup-link {
+        /* ========== ENLACES ADICIONALES ========== */
+        .auth-links {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 25px;
             color: var(--color-text-secondary);
             font-size: 0.9rem;
         }
         
-        .signup-link a {
+        .auth-links a {
             color: var(--color-accent);
             text-decoration: none;
             font-weight: 600;
         }
         
-        .signup-link a:hover {
+        .auth-links a:hover {
             color: var(--color-accent-hover);
             text-decoration: underline;
         }
         
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(1, 226, 121, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(1, 226, 121, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(1, 226, 121, 0); }
-        }
-        
-        .military-grid {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(1, 226, 121, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(1, 226, 121, 0.05) 1px, transparent 1px);
-            background-size: 20px 20px;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.5;
-        }
-        
-        .status-indicator {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--color-accent);
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-        }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--color-accent);
-            box-shadow: 0 0 10px var(--color-accent);
-            animation: blink 2s infinite;
-        }
-        
+        /* ========== VERSIÓN ========== */
         .version {
-                position: fixed;
-                bottom: 10px;
-                right: 15px;
-                font-size: 10px;
-                opacity: 0.5;
-                letter-spacing: 1px;
-}
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 10px;
+            opacity: 0.5;
+            letter-spacing: 1px;
+            color: var(--color-text-secondary);
         }
         
-        @media (max-width: 500px) {
-            .login-container {
-                margin: 20px;
-                padding: 30px 25px;
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 550px) {
+            body {
+                padding: 10px;
             }
             
-            .logo {
-                font-size: 2rem;
+            .auth-wrapper {
+                padding: 20px 10px;
             }
             
-            .login-header h1 {
-                font-size: 1.5rem;
+            .auth-container {
+                max-width: 100%;
+            }
+            
+            .auth-header,
+            .tab-content {
+                padding: 30px 20px;
+            }
+            
+            .auth-tabs {
+                margin: 0 20px;
+            }
+            
+            .tab-btn {
+                padding: 12px 10px;
+                font-size: 0.9rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 20px;
             }
             
             .status-indicator {
                 top: 15px;
                 right: 15px;
+                font-size: 0.7rem;
+            }
+        }
+        
+        @media (max-height: 700px) {
+            .auth-wrapper {
+                align-items: flex-start;
+                padding-top: 40px;
             }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Fondo con partículas animadas -->
+    <!-- Fondo animado -->
     <div class="bg-animation" id="particles"></div>
-    
-    <!-- Línea de escaneo -->
     <div class="scan-line"></div>
     
-    <!-- Contenedor principal del login -->
-    <div class="login-container">
-        <!-- Grid militar de fondo -->
-        <div class="military-grid"></div>
-        
-        <!-- Indicador de estado -->
-        <div class="status-indicator">
-            <div class="status-dot"></div>
-            <span>SISTEMA ACTIVO</span>
-        </div>
-        
-        <div class="login-header">
-            <div class="logo">
-                <i class="fas fa-crosshairs"></i>
-            </div>
-            <h1>ACCESO TÁCTICO</h1>
-            <p>Autenticación requerida para acceso al sistema</p>
-        </div>
-        
-        <form class="login-form" id="loginForm">
-            <div class="input-group">
-                <i class="fas fa-id-card"></i>
-                <input type="text" placeholder="IDENTIFICACIÓN" required>
+    <!-- Contenedor principal -->
+    <div class="auth-wrapper">
+        <div class="auth-container">
+            <!-- Grid militar -->
+            <div class="military-grid"></div>
+            
+            <!-- Indicador de estado -->
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>SISTEMA ACTIVO</span>
             </div>
             
-            <div class="input-group">
-                <i class="fas fa-key"></i>
-                <input type="password" placeholder="CÓDIGO DE ACCESO" required>
+            <!-- Header -->
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fas fa-crosshairs"></i>
+                </div>
+                <h1>CALL OF PRODUCTIVITY</h1>
+                <p>Sistema táctico de gestión y productividad</p>
             </div>
             
-            <div class="remember-forgot">
-                <label class="remember">
-                    <input type="checkbox"> MANTENER SESIÓN
-                </label>
-                <a href="#" class="forgot">CÓDIGO PERDIDO</a>
+            <!-- Tabs de navegación -->
+            <div class="auth-tabs">
+                <button class="tab-btn active" data-tab="login">
+                    <i class="fas fa-sign-in-alt"></i> INICIAR SESIÓN
+                </button>
+                <button class="tab-btn" data-tab="register">
+                    <i class="fas fa-user-plus"></i> REGISTRARSE
+                </button>
             </div>
             
-            <button type="submit" class="login-btn pulse">ACCEDER AL SISTEMA</button>
-        </form>
-        
-        <div class="divider">
-            <span>Autenticación externa</span>
-        </div>
-        
-        <div class="social-login">
-            <a href="dashboard.html" class="social-btn steam">
-                <i class="fab fa-steam"></i>
-                <span>ACCESO STEAM</span>
-            </a>
+            <!-- ========== TAB DE LOGIN ========== -->
+            <div class="tab-content active" id="login-content">
+                <form class="auth-form" id="loginForm">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="USUARIO O EMAIL" required id="login-username">
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="CONTRASEÑA" required id="login-password">
+                    </div>
+                    
+                    <div class="remember-forgot">
+                        <label class="remember">
+                            <input type="checkbox" id="remember-me"> RECORDARME
+                        </label>
+                        <a href="#" class="forgot" id="forgot-password">¿OLVIDASTE LA CONTRASEÑA?</a>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn">
+                        <i class="fas fa-sign-in-alt"></i> ACCEDER AL SISTEMA
+                    </button>
+                </form>
+                
+                <div class="divider">
+                    <span>Acceso rápido</span>
+                </div>
+                
+                <div class="social-auth">
+                    <a href="dashboard.html" class="social-btn steam">
+                        <i class="fab fa-steam"></i>
+                        <span>CONTINUAR CON STEAM</span>
+                    </a>
+                    
+                    <a href="dashboard.html" class="social-btn google">
+                        <i class="fab fa-google"></i>
+                        <span>CONTINUAR CON GOOGLE</span>
+                    </a>
+                </div>
+                
+                <div class="auth-links">
+                    <p>¿NUEVO OPERADOR? <a href="#" class="switch-to-register">CREAR UNA CUENTA</a></p>
+                </div>
+            </div>
             
-            <a href="dashboard.html" class="social-btn google">
-                <i class="fab fa-google"></i>
-                <span>ACCESO GOOGLE</span>
-            </a>
+            <!-- ========== TAB DE REGISTRO ========== -->
+            <div class="tab-content" id="register-content">
+                <form class="auth-form" id="registerForm">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <i class="fas fa-id-card"></i>
+                            <input type="text" placeholder="NOMBRE" required id="register-name">
+                        </div>
+                        
+                        <div class="input-group">
+                            <i class="fas fa-user-tag"></i>
+                            <input type="text" placeholder="APELLIDO" required id="register-lastname">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="EMAIL" required id="register-email">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" placeholder="NOMBRE DE USUARIO" required id="register-username">
+                        </div>
+                        
+                        <div class="input-group">
+                            <i class="fas fa-hashtag"></i>
+                            <input type="text" placeholder="CÓDIGO DE OPERADOR" id="register-code">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="CONTRASEÑA" required id="register-password">
+                        </div>
+                        
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="CONFIRMAR CONTRASEÑA" required id="register-confirm">
+                        </div>
+                    </div>
+                    
+                    <div class="terms">
+                        <input type="checkbox" id="accept-terms" required>
+                        <label for="accept-terms">
+                            Acepto los <a href="#">Términos de Servicio</a> y la 
+                            <a href="#">Política de Privacidad</a> del sistema táctico
+                        </label>
+                    </div>
+                    
+                    <div class="terms">
+                        <input type="checkbox" id="newsletter">
+                        <label for="newsletter">
+                            Deseo recibir notificaciones de misiones y actualizaciones del sistema
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn">
+                        <i class="fas fa-user-plus"></i> CREAR CUENTA
+                    </button>
+                </form>
+                
+                <div class="divider">
+                    <span>o registrar con</span>
+                </div>
+                
+                <div class="social-auth">
+                    <a href="dashboard.html" class="social-btn steam">
+                        <i class="fab fa-steam"></i>
+                        <span>REGISTRAR CON STEAM</span>
+                    </a>
+                    
+                    <a href="dashboard.html" class="social-btn google">
+                        <i class="fab fa-google"></i>
+                        <span>REGISTRAR CON GOOGLE</span>
+                    </a>
+                </div>
+                
+                <div class="auth-links">
+                    <p>¿YA TIENES CUENTA? <a href="#" class="switch-to-login">INICIAR SESIÓN</a></p>
+                </div>
+            </div>
             
-            <a href="dashboard.html" class="social-btn facebook">
-                <i class="fab fa-facebook-f"></i>
-                <span>ACCESO FACEBOOK</span>
-            </a>
-        </div>
-        
-            <span class="version">v2.0.0</span>
-
-        <div class="signup-link">
-            <p>¿SIN CREDENCIALES? <a href="#">SOLICITAR ACCESO</a></p>
+            <!-- Versión -->
+            <span class="version">v2.0.1 | Sistema Táctico</span>
         </div>
     </div>
 
-    <script type="module" src="js/login.js"></script>
-
+    <script>
+        // ============================================
+        // SISTEMA DE TABS Y FORMULARIOS
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Sistema de tabs
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    
+                    // Remover activo de todos
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Activar tab actual
+                    btn.classList.add('active');
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                });
+            });
+            
+            // 2. Enlaces para cambiar entre tabs
+            document.querySelectorAll('.switch-to-register').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.querySelector('[data-tab="register"]').click();
+                });
+            });
+            
+            document.querySelectorAll('.switch-to-login').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.querySelector('[data-tab="login"]').click();
+                });
+            });
+            
+            // 3. Validación del formulario de registro
+            const registerForm = document.getElementById('registerForm');
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const password = document.getElementById('register-password').value;
+                    const confirm = document.getElementById('register-confirm').value;
+                    const terms = document.getElementById('accept-terms').checked;
+                    
+                    // Validar contraseñas
+                    if (password !== confirm) {
+                        alert('⚠️ Las contraseñas no coinciden');
+                        return;
+                    }
+                    
+                    // Validar términos
+                    if (!terms) {
+                        alert('⚠️ Debes aceptar los términos y condiciones');
+                        return;
+                    }
+                    
+                    // Validar fortaleza de contraseña
+                    if (password.length < 8) {
+                        alert('⚠️ La contraseña debe tener al menos 8 caracteres');
+                        return;
+                    }
+                    
+                    // Simular envío exitoso
+                    alert('✅ Cuenta creada exitosamente\nRedirigiendo al sistema...');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                });
+            }
+            
+            // 4. Formulario de login
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const username = document.getElementById('login-username').value;
+                    const password = document.getElementById('login-password').value;
+                    
+                    if (!username || !password) {
+                        alert('⚠️ Completa todos los campos');
+                        return;
+                    }
+                    
+                    // Simular login exitoso
+                    alert('✅ Acceso concedido\nIniciando sesión...');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                });
+            }
+            
+            // 5. Olvidé contraseña
+            const forgotLink = document.getElementById('forgot-password');
+            if (forgotLink) {
+                forgotLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const email = prompt('📧 Ingresa tu email para recuperar la contraseña:');
+                    if (email) {
+                        alert(`✅ Instrucciones enviadas a: ${email}\nRevisa tu bandeja de entrada.`);
+                    }
+                });
+            }
+            
+            // 6. Generar partículas animadas
+            function createParticles() {
+                const container = document.getElementById('particles');
+                if (!container) return;
+                
+                // Limpiar partículas existentes
+                container.innerHTML = '';
+                
+                // Crear nuevas partículas
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    // Tamaño y posición aleatoria
+                    const size = Math.random() * 100 + 50;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    
+                    // Retraso aleatorio en animación
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    container.appendChild(particle);
+                }
+            }
+            
+            createParticles();
+            
+            // 7. Efecto de tecleo en inputs
+            const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
+            
+            console.log('✅ Sistema de autenticación cargado');
+        });
+    </script>
 </body>
 </html>
