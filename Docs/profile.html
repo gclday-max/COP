@@ -4,134 +4,475 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Call of Productivity - Perfil</title>
+    
+    <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    
+    <!-- ESTILOS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/profile.css">
 </head>
 <body>
-    <!-- FONDO DINÁMICO -->
-    <div class="background-overlay profile-bg" id="backgroundOverlay"></div>
+    <!-- FONDOS ANIMADOS -->
+    <div class="background-overlay"></div>
+    <div class="grid-overlay"></div>
+    <div class="scan-line"></div>
+    
+    <!-- PARTICULAS -->
+    <div id="particles"></div>
 
     <!-- CONTENEDOR PRINCIPAL -->
     <div class="dashboard-container">
-        <!-- HEADER -->
+        <!-- HEADER MEJORADO -->
         <header>
-</div>
             <div class="header-content">
                 <div class="logo-container" id="logoHome">
-                    <a href="dashboard.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 15px;">
-                        <div class="logo">COP</div>
-                        <div class="logo-text">CALL OF PRODUCTIVITY</div>
+                    <a href="dashboard.html" class="logo-link">
+                        <div class="logo-icon">
+                            <i class="fas fa-crosshairs"></i>
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-cop">C.O.P</span>
+                            <span class="logo-sub">CALL OF PRODUCTIVITY</span>
+                        </div>
                     </a>
                 </div>
+                
                 <nav class="nav-menu">
-                    <a href="dashboard.html" class="nav-link">Dashboard</a>
-                    <a href="missions.html" class="nav-link">Misiones</a>
-                    <a href="profile.html" class="nav-link active">Perfil</a>
-                    <a href="Logros.html" class="nav-link">Logros</a>
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="missions.html" class="nav-link">
+                        <i class="fas fa-scroll"></i>
+                        <span>Misiones</span>
+                    </a>
+                    <a href="profile.html" class="nav-link active">
+                        <i class="fas fa-user"></i>
+                        <span>Perfil</span>
+                    </a>
+                    <a href="logros.html" class="nav-link">
+                        <i class="fas fa-trophy"></i>
+                        <span>Logros</span>
+                    </a>
                 </nav>
+                
+                <!-- SELECTOR DE TEMA MEJORADO -->
+                <div class="theme-quick-toggle">
+                    <button class="btn-theme-toggle" id="themeToggleBtn" onclick="cambiarTema()">
+                        <i class="fas fa-palette"></i>
+                    </button>
+                    
+                    <div class="theme-selector-dropdown" id="themeSelector">
+                        <div class="theme-selector-header">
+                            <i class="fas fa-palette"></i>
+                            <span>SELECCIONAR TEMA</span>
+                        </div>
+                        <button class="theme-option" data-theme="dark" onclick="cambiarATema('dark')">
+                            <span class="theme-preview dark-preview"></span>
+                            <span class="theme-label">🌙 Oscuro</span>
+                            <span class="theme-check"><i class="fas fa-check"></i></span>
+                        </button>
+                        <button class="theme-option" data-theme="light" onclick="cambiarATema('light')">
+                            <span class="theme-preview light-preview"></span>
+                            <span class="theme-label">☀️ Claro</span>
+                            <span class="theme-check"><i class="fas fa-check"></i></span>
+                        </button>
+                        <button class="theme-option" data-theme="military-blue" onclick="cambiarATema('military-blue')">
+                            <span class="theme-preview blue-preview"></span>
+                            <span class="theme-label">🎖️ Azul Militar</span>
+                            <span class="theme-check"><i class="fas fa-check"></i></span>
+                        </button>
+                        <button class="theme-option" data-theme="tactical-green" onclick="cambiarATema('tactical-green')">
+                            <span class="theme-preview green-preview"></span>
+                            <span class="theme-label">🎯 Verde Táctico</span>
+                            <span class="theme-check"><i class="fas fa-check"></i></span>
+                        </button>
+                        <button class="theme-option" data-theme="terminal" onclick="cambiarATema('terminal')">
+                            <span class="theme-preview terminal-preview"></span>
+                            <span class="theme-label">💻 Terminal</span>
+                            <span class="theme-check"><i class="fas fa-check"></i></span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- PERFIL RÁPIDO -->
+                <div class="user-profile" id="userProfile">
+                    <div class="user-info">
+                        <div class="user-avatar" id="userAvatar">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="user-details">
+                            <span class="user-greeting">OPERADOR</span>
+                            <span class="user-name" id="userEmail">Cargando...</span>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
             </div>
-        <!-- Selector de temas (ejemplo en header) -->
-<div class="theme-selector-container">
-    <!-- Botón de toggle rápido -->
-    <button class="btn-theme-toggle" onclick="cambiarTema()" title="Cambio rápido de tema">
-        🎨
-    </button>
-    
-    <!-- Selector completo (con clases correctas) -->
-    <div class="theme-selector">
-        <button class="theme-option" data-theme="dark" title="Tema Oscuro">
-            <span class="theme-icon">🌙</span>
-            <span class="theme-label">Oscuro</span>
-        </button>
-        
-        <button class="theme-option" data-theme="light" title="Tema Claro">
-            <span class="theme-icon">☀️</span>
-            <span class="theme-label">Claro</span>
-        </button>
-        
-        <button class="theme-option" data-theme="military-blue" title="Azul Militar">
-            <span class="theme-icon">🎖️</span>
-            <span class="theme-label">Militar</span>
-        </button>
-        
-        <button class="theme-option" data-theme="tactical-green" title="Verde Táctico">
-            <span class="theme-icon">🎯</span>
-            <span class="theme-label">Táctico</span>
-        </button>
-        
-        <button class="theme-option" data-theme="terminal" title="Terminal">
-            <span class="theme-icon">💻</span>
-            <span class="theme-label">Terminal</span>
-        </button>
-    </div>
-</div>
         </header>
 
         <!-- PÁGINA: PERFIL -->
         <section class="page active" id="profile-page">
-            <h1>PERFIL DEL OPERADOR</h1>
-            <p class="hero-subtitle">Tu estadísticas, progreso y configuración personal.</p>
+            <!-- HEADER DE PERFIL -->
+            <div class="profile-header">
+                <h1>PERFIL DEL OPERADOR</h1>
+                <p class="profile-subtitle">Gestiona tu información, estadísticas y configuración personal</p>
+            </div>
 
-            <div class="profile-container">
-                <div class="profile-card">
-                    <div class="profile-avatar">
-                        <i class="fas fa-user-secret"></i>
-                    </div>
-                    <h2>Operador: ALPHA-07</h2>
-                    <p class="stat-details">Unido: 15/03/2023</p>
-                    
-                    <div class="profile-stats">
-                        <div class="stat-card">
-                            <div class="stat-title">Horas Totales</div>
-                            <div class="stat-value">247h</div>
+            <!-- CONTENEDOR PRINCIPAL DE PERFIL -->
+            <div class="profile-main-container">
+                <!-- COLUMNA IZQUIERDA - TARJETA DE PERFIL -->
+                <div class="profile-left">
+                    <div class="profile-card">
+                        <div class="profile-avatar-container">
+                            <div class="profile-avatar">
+                                <i class="fas fa-user-secret"></i>
+                            </div>
+                            <div class="profile-rank-badge" id="rankBadge">
+                                <i class="fas fa-chevron-up"></i>
+                                <span>RANGO 24</span>
+                            </div>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-title">Misiones Complet.</div>
-                            <div class="stat-value">42</div>
+                        
+                        <h2 class="profile-name" id="profileName">OPERADOR ALPHA-07</h2>
+                        <p class="profile-title" id="profileTitle">COMANDANTE DE ÉLITE</p>
+                        
+                        <div class="profile-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span id="memberSinceDate">Unido: 15/03/2023</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Zona: LATAM</span>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-badges">
+                            <div class="badge" title="Veterano">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="badge" title="Élite">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <div class="badge" title="Pro">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div class="badge" title="Maestro">
+                                <i class="fas fa-hat-wizard"></i>
+                            </div>
+                            <div class="badge locked" title="Legendario (Bloqueado)">
+                                <i class="fas fa-dragon"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-stats-compact">
+                            <div class="compact-stat">
+                                <span class="stat-value" id="missionsCompleted">42</span>
+                                <span class="stat-label">Misiones</span>
+                            </div>
+                            <div class="compact-stat">
+                                <span class="stat-value" id="totalHours">247</span>
+                                <span class="stat-label">Horas</span>
+                            </div>
+                            <div class="compact-stat">
+                                <span class="stat-value" id="achievementsCount">12</span>
+                                <span class="stat-label">Logros</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-edit-profile" onclick="abrirEditarPerfil()">
+                            <i class="fas fa-edit"></i> EDITAR PERFIL
+                        </button>
+                    </div>
+                    
+                    <!-- PROGRESO DE RANGOS -->
+                    <div class="rank-progress-card">
+                        <h3><i class="fas fa-chart-line"></i> PROGRESO DE RANGO</h3>
+                        
+                        <div class="current-rank-info">
+                            <div class="rank-icon-large">
+                                <i class="fas fa-chevron-up"></i>
+                            </div>
+                            <div class="rank-details">
+                                <span class="rank-label">RANGO ACTUAL</span>
+                                <span class="rank-name" id="currentRank">COMANDANTE</span>
+                                <span class="rank-level">Nivel 24</span>
+                            </div>
+                        </div>
+                        
+                        <div class="rank-progress-bar">
+                            <div class="progress-info">
+                                <span>Progreso al siguiente rango</span>
+                                <span class="progress-percentage">68%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: 68%;"></div>
+                            </div>
+                            <div class="progress-next">
+                                <span>Actual: Comandante</span>
+                                <i class="fas fa-arrow-right"></i>
+                                <span>Próximo: General</span>
+                            </div>
+                        </div>
+                        
+                        <!-- RANGOS COMPLETOS -->
+                        <div class="rank-timeline">
+                            <div class="rank-node completed">
+                                <i class="fas fa-check"></i>
+                                <span>NOVATO</span>
+                            </div>
+                            <div class="rank-node completed">
+                                <i class="fas fa-check"></i>
+                                <span>VETERANO</span>
+                            </div>
+                            <div class="rank-node completed">
+                                <i class="fas fa-check"></i>
+                                <span>ÉLITE</span>
+                            </div>
+                            <div class="rank-node completed">
+                                <i class="fas fa-check"></i>
+                                <span>PRO</span>
+                            </div>
+                            <div class="rank-node completed">
+                                <i class="fas fa-check"></i>
+                                <span>MAESTRO</span>
+                            </div>
+                            <div class="rank-node current">
+                                <i class="fas fa-chevron-up"></i>
+                                <span>COMANDANTE</span>
+                            </div>
+                            <div class="rank-node locked">
+                                <i class="fas fa-lock"></i>
+                                <span>GRAN MAESTRO</span>
+                            </div>
+                            <div class="rank-node locked">
+                                <i class="fas fa-lock"></i>
+                                <span>LEGENDARIO</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div>
-                    <h2>PROGRESO GENERAL</h2>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-title">Eficiencia</div>
-                            <div class="stat-value">87%</div>
-                            <div class="stat-details">+5% este mes</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-title">Tareas Pendientes</div>
-                            <div class="stat-value">8</div>
-                            <div class="stat-details">3 urgentes</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-title">Tiempo Promedio</div>
-                            <div class="stat-value">2.4h</div>
-                            <div class="stat-details">Por tarea</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-title">Logros</div>
-                            <div class="stat-value">12/25</div>
-                            <div class="stat-details">48% completado</div>
+                <!-- COLUMNA DERECHA - ESTADÍSTICAS Y CONFIGURACIÓN -->
+                <div class="profile-right">
+                    <!-- TARJETA DE ESTADÍSTICAS GENERALES -->
+                    <div class="stats-card">
+                        <h3><i class="fas fa-chart-pie"></i> ESTADÍSTICAS GENERALES</h3>
+                        
+                        <div class="stats-grid-detailed">
+                            <div class="stat-detailed">
+                                <div class="stat-icon">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <span class="stat-title">XP TOTAL</span>
+                                    <span class="stat-number" id="totalXP">24,850</span>
+                                    <span class="stat-trend positive">+1,200 esta semana</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-detailed">
+                                <div class="stat-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <span class="stat-title">MISIONES COMPLETADAS</span>
+                                    <span class="stat-number" id="totalMissionsComplete">156</span>
+                                    <span class="stat-trend">42 este mes</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-detailed">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <span class="stat-title">TIEMPO TOTAL</span>
+                                    <span class="stat-number" id="totalTime">247h 32m</span>
+                                    <span class="stat-trend">Promedio: 2.4h/día</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-detailed">
+                                <div class="stat-icon">
+                                    <i class="fas fa-fire"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <span class="stat-title">RACHA ACTUAL</span>
+                                    <span class="stat-number" id="currentStreak">7 días</span>
+                                    <span class="stat-trend positive">Máxima: 15 días</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <h2 style="margin-top: 3rem;">CONFIGURACIÓN</h2>
-                    <div class="mission-type-section">
-                        <h3>Preferencias</h3>
-                        <div style="margin-top: 1rem;">
-                            <button class="btn-complete" style="margin-right: 10px;" onclick="toggleNotificaciones()">
-                                <i class="fas fa-bell"></i> Notificaciones
-                            </button>
-                            <button class="btn-complete" onclick="abrirAjustes()">
-                                <i class="fas fa-cog"></i> Ajustes
-                            </button>
+                    <!-- DIVISIONES COMPETITIVAS -->
+                    <div class="competitive-divisions-card">
+                        <h3><i class="fas fa-trophy"></i> DIVISIONES COMPETITIVAS</h3>
+                        
+                        <div class="divisions-grid">
+                            <div class="division-item bronze">
+                                <div class="division-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <span class="division-name">BRONCE</span>
+                                <span class="division-status">Completado</span>
+                            </div>
+                            <div class="division-item silver">
+                                <div class="division-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <span class="division-name">PLATA</span>
+                                <span class="division-status">Completado</span>
+                            </div>
+                            <div class="division-item gold">
+                                <div class="division-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <span class="division-name">ORO</span>
+                                <span class="division-status">Completado</span>
+                            </div>
+                            <div class="division-item platinum">
+                                <div class="division-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <span class="division-name">PLATINO</span>
+                                <span class="division-status">Completado</span>
+                            </div>
+                            <div class="division-item diamond">
+                                <div class="division-icon">
+                                    <i class="fas fa-gem"></i>
+                                </div>
+                                <span class="division-name">DIAMANTE</span>
+                                <span class="division-status">Activo</span>
+                            </div>
+                            <div class="division-item crimson">
+                                <div class="division-icon">
+                                    <i class="fas fa-fire"></i>
+                                </div>
+                                <span class="division-name">CARMESÍ</span>
+                                <span class="division-status">Bloqueado</span>
+                            </div>
+                            <div class="division-item iridescent">
+                                <div class="division-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="division-name">IRIDISCENTE</span>
+                                <span class="division-status">Bloqueado</span>
+                            </div>
+                            <div class="division-item top250">
+                                <div class="division-icon">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                                <span class="division-name">TOP 250</span>
+                                <span class="division-status">Élite</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CONFIGURACIÓN -->
+                    <div class="config-card">
+                        <h3><i class="fas fa-cog"></i> CONFIGURACIÓN</h3>
+                        
+                        <div class="config-sections">
+                            <div class="config-section">
+                                <h4>PREFERENCIAS GENERALES</h4>
+                                
+                                <div class="config-item">
+                                    <div class="config-info">
+                                        <i class="fas fa-bell"></i>
+                                        <span>Notificaciones</span>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="notificationsToggle" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                
+                                <div class="config-item">
+                                    <div class="config-info">
+                                        <i class="fas fa-globe"></i>
+                                        <span>Idioma</span>
+                                    </div>
+                                    <select id="languageSelect" class="config-select">
+                                        <option value="es">Español</option>
+                                        <option value="en">English</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="config-item">
+                                    <div class="config-info">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Formato de hora</span>
+                                    </div>
+                                    <select id="timeFormatSelect" class="config-select">
+                                        <option value="24h">24 horas</option>
+                                        <option value="12h">12 horas</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="config-section">
+                                <h4>PRIVACIDAD</h4>
+                                
+                                <div class="config-item">
+                                    <div class="config-info">
+                                        <i class="fas fa-user-secret"></i>
+                                        <span>Perfil público</span>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="publicProfileToggle">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                
+                                <div class="config-item">
+                                    <div class="config-info">
+                                        <i class="fas fa-chart-line"></i>
+                                        <span>Mostrar estadísticas</span>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="showStatsToggle" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="config-section">
+                                <h4>CUENTA</h4>
+                                
+                                <button class="config-action-btn" onclick="cambiarContrasena()">
+                                    <i class="fas fa-key"></i>
+                                    Cambiar contraseña
+                                </button>
+                                
+                                <button class="config-action-btn" onclick="exportarDatos()">
+                                    <i class="fas fa-download"></i>
+                                    Exportar datos
+                                </button>
+                                
+                                <button class="config-action-btn danger" onclick="cerrarSesion()">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Cerrar sesión
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="config-actions">
+                            <button class="btn-secondary" onclick="cancelarCambios()">CANCELAR</button>
+                            <button class="btn-primary" onclick="guardarConfiguracion()">GUARDAR CAMBIOS</button>
                         </div>
                     </div>
                 </div>
@@ -140,557 +481,170 @@
 
         <!-- FOOTER -->
         <footer>
-            <p>CALL OF PRODUCTIVITY © 2026 | Sistema de productividad táctico | Todos los derechos reservados</p>
+            <div class="footer-content">
+                <div class="footer-left">
+                    <span class="footer-copyright">© 2026 CALL OF PRODUCTIVITY</span>
+                    <span class="footer-version">v2.0.0</span>
+                </div>
+                <div class="footer-center">
+                    <span class="footer-status">
+                        <i class="fas fa-circle"></i>
+                        SISTEMA OPERATIVO
+                    </span>
+                </div>
+                <div class="footer-right">
+                    <a href="termino&condiciones.html" class="footer-link">Términos</a>
+                    <a href="privacidad.html" class="footer-link">Privacidad</a>
+                    <a href="soporte.html" class="footer-link">Soporte</a>
+                </div>
+            </div>
         </footer>
     </div>
 
-    <!-- MODAL DE AJUSTES -->
-    <div id="ajustesModal" class="modal-overlay" style="display: none;">
-        <div class="militar-modal">
+    <!-- MODAL DE EDICIÓN DE PERFIL -->
+    <div id="editarPerfilModal" class="modal" style="display: none;">
+        <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-cog"></i> AJUSTES DEL SISTEMA</h3>
-                <button class="modal-close" onclick="cerrarAjustes()">&times;</button>
+                <h2><i class="fas fa-user-edit"></i> EDITAR PERFIL</h2>
+                <button class="modal-close" onclick="cerrarEditarPerfil()">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Nombre del Operador:</label>
-                    <input type="text" id="nombreOperador" class="militar-input" value="ALPHA-07">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Email de Notificación:</label>
-                    <input type="email" id="emailNotificacion" class="militar-input" value="operador@callofproductivity.com">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Recordatorios Diarios:</label>
-                    <select id="recordatorios" class="militar-select">
-                        <option value="si">Sí, habilitar</option>
-                        <option value="no">No, deshabilitar</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Idioma del Sistema:</label>
-                    <select id="idioma" class="militar-select">
-                        <option value="es">Español</option>
-                        <option value="en">English</option>
-                    </select>
-                </div>
-                <div class="modal-actions">
-                    <button class="btn-secondary" onclick="cerrarAjustes()">CANCELAR</button>
-                    <button class="btn-primary" onclick="guardarAjustes()">GUARDAR CAMBIOS</button>
-                </div>
+                <form id="editProfileForm">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Nombre de operador</label>
+                        <input type="text" id="editNombre" value="ALPHA-07">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="editEmail" value="operador@callofproductivity.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-map-marker-alt"></i> Zona/Región</label>
+                        <select id="editZona">
+                            <option value="LATAM">Latinoamérica</option>
+                            <option value="NA">Norteamérica</option>
+                            <option value="EU">Europa</option>
+                            <option value="ASIA">Asia</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-birthday-cake"></i> Fecha de nacimiento</label>
+                        <input type="date" id="editFecha" value="1990-01-01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-info-circle"></i> Biografía</label>
+                        <textarea id="editBio" rows="3">Operador de élite especializado en productividad táctica.</textarea>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary" onclick="cerrarEditarPerfil()">CANCELAR</button>
+                        <button type="submit" class="btn-primary">GUARDAR CAMBIOS</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
-    <!-- Al final del body, antes de los scripts -->
-<div class="theme-float-btn" id="themeFloatBtn">
-    <i class="fas fa-palette"></i>
-</div>
-
-<div class="theme-float-selector" id="themeFloatSelector">
-    <div class="float-header">
-        <h4><i class="fas fa-palette"></i> Temas</h4>
-        <button class="float-close">&times;</button>
-    </div>
-    <div class="float-options">
-        <button data-theme="dark" class="theme-option">
-            <span class="theme-preview dark-preview"></span>
-            <span>Tema Oscuro</span>
-        </button>
-        <button data-theme="light" class="theme-option">
-            <span class="theme-preview light-preview"></span>
-            <span>Tema Claro</span>
-        </button>
-        <button data-theme="military-blue" class="theme-option">
-            <span class="theme-preview blue-preview"></span>
-            <span>Azul Militar</span>
-        </button>
-        <button data-theme="tactical-green" class="theme-option">
-            <span class="theme-preview green-preview"></span>
-            <span>Verde Táctico</span>
-        </button>
-        <button data-theme="terminal" class="theme-option">
-            <span class="theme-preview terminal-preview"></span>
-            <span>Terminal</span>
-        </button>
-    </div>
-</div>
 
     <!-- SCRIPTS -->
     <script src="js/profile.js"></script>
-    <!-- Después de los otros scripts -->
-<script src="js/theme-system.js"></script>
-
+    <script src="js/theme-system.js"></script>
     <script>
-const temas = ['dark', 'light', 'military-blue', 'tactical-green', 'terminal'];
-
-// Íconos para cada tema
-const iconosTema = {
-    'dark': 'fas fa-moon',
-    'light': 'fas fa-sun',
-    'military-blue': 'fas fa-star',
-    'tactical-green': 'fas fa-crosshairs',
-    'terminal': 'fas fa-terminal'
-};
-
-// Nombres amigables para cada tema
-const nombresTema = {
-    'dark': 'Oscuro',
-    'light': 'Claro',
-    'military-blue': 'Azul Militar',
-    'tactical-green': 'Verde Táctico',
-    'terminal': 'Terminal'
-};
-
-// Función principal para cambiar tema
-function cambiarTema() {
-    const html = document.documentElement;
-    const temaActual = html.getAttribute('data-theme') || 'dark';
-    
-    // Encontrar el índice del tema actual
-    const indiceActual = temas.indexOf(temaActual);
-    
-    // Calcular siguiente tema (ciclado)
-    const siguienteIndice = (indiceActual + 1) % temas.length;
-    const siguienteTema = temas[siguienteIndice];
-    
-    // Aplicar nuevo tema
-    html.setAttribute('data-theme', siguienteTema);
-    
-    // Guardar preferencia en localStorage
-    localStorage.setItem('cop_theme', siguienteTema);
-    
-    // Actualizar TODOS los botones de tema en la página
-    actualizarBotonesTema(siguienteTema);
-    
-    // Mostrar notificación elegante (opcional)
-    mostrarNotificacionTema(siguienteTema);
-    
-    // Log para depuración
-    console.log(`🎨 Tema cambiado: ${temaActual} → ${siguienteTema}`);
-}
-
-// Función para cambiar a un tema específico
-function cambiarATheme(temaEspecifico) {
-    if (!temas.includes(temaEspecifico)) {
-        console.error(`Tema "${temaEspecifico}" no válido. Temas disponibles:`, temas);
-        return;
-    }
-    
-    const html = document.documentElement;
-    html.setAttribute('data-theme', temaEspecifico);
-    localStorage.setItem('cop_theme', temaEspecifico);
-    actualizarBotonesTema(temaEspecifico);
-    console.log(`🎨 Tema cambiado a: ${temaEspecifico}`);
-}
-
-// Función para actualizar todos los botones de tema
-function actualizarBotonesTema(tema) {
-    // Actualizar botón principal (si existe)
-    const botonPrincipal = document.querySelector('button[onclick="cambiarTema()"]');
-    if (botonPrincipal) {
-        botonPrincipal.innerHTML = `<i class="${iconosTema[tema] || 'fas fa-palette'}"></i> ${nombresTema[tema] || 'Tema'}`;
-        botonPrincipal.title = `Tema actual: ${nombresTema[tema]}. Click para cambiar`;
-    }
-    
-    // Actualizar botón del header (si existe)
-    const botonHeader = document.querySelector('.theme-quick-toggle button');
-    if (botonHeader) {
-        const icono = botonHeader.querySelector('i');
-        if (icono) {
-            // Rotar entre íconos según el tema
-            const iconos = ['fa-palette', 'fa-moon', 'fa-sun', 'fa-star', 'fa-crosshairs'];
-            const iconoIndex = temas.indexOf(tema) % iconos.length;
-            icono.className = `fas ${iconos[iconoIndex]}`;
+        // ============================================
+        // FUNCIONES GLOBALES DE PERFIL
+        // ============================================
+        
+        function abrirEditarPerfil() {
+            document.getElementById('editarPerfilModal').style.display = 'flex';
         }
-    }
-    
-    // Actualizar botón específico con id "themeToggleBtn"
-    const botonToggle = document.getElementById('themeToggleBtn');
-    if (botonToggle) {
-        botonToggle.innerHTML = `<i class="${iconosTema[tema] || 'fas fa-palette'}"></i> ${nombresTema[tema] || 'Cambiar Tema'}`;
-    }
-}
-
-// Función para mostrar notificación elegante
-function mostrarNotificacionTema(tema) {
-    // Crear notificación
-    const notificacion = document.createElement('div');
-    notificacion.className = 'theme-notification';
-    notificacion.innerHTML = `
-        <div class="notification-icon">
-            <i class="${iconosTema[tema] || 'fas fa-palette'}"></i>
-        </div>
-        <div class="notification-content">
-            <strong>Tema cambiado</strong>
-            <p>${nombresTema[tema]} activado</p>
-        </div>
-    `;
-    
-    // Estilos para la notificación
-    notificacion.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--color-secondary);
-        color: var(--color-text);
-        padding: 15px;
-        border-radius: 8px;
-        border-left: 4px solid var(--color-accent);
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        box-shadow: var(--shadow-lg);
-        z-index: 10000;
-        animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
-        animation-fill-mode: forwards;
-    `;
-    
-    // Añadir al documento
-    document.body.appendChild(notificacion);
-    
-    // Remover después de 3 segundos
-    setTimeout(() => {
-        if (notificacion.parentNode) {
-            notificacion.parentNode.removeChild(notificacion);
+        
+        function cerrarEditarPerfil() {
+            document.getElementById('editarPerfilModal').style.display = 'none';
         }
-    }, 3000);
-}
-
-// Añadir estilos de animación para la notificación
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    
-    @keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
-
-// Cargar tema guardado al iniciar
-document.addEventListener('DOMContentLoaded', function() {
-    const temaGuardado = localStorage.getItem('cop_theme') || 'dark';
-    
-    // Aplicar tema guardado
-    document.documentElement.setAttribute('data-theme', temaGuardado);
-    
-    // Actualizar botones
-    actualizarBotonesTema(temaGuardado);
-    
-    console.log(`🎨 Tema cargado: ${temaGuardado}`);
-});
-
-// Función para el botón específico en perfil.html
-function cycleTheme() {
-    cambiarTema();
-}
-    </script>
-    
-    <script>
-        // Inicializar cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', function() {
-            // Verificar imagen de fondo
-            checkBackgroundImage();
-        });
-
-        // Función para verificar imagen de fondo
-        function checkBackgroundImage() {
-            const backgroundOverlay = document.getElementById('backgroundOverlay');
-            const img = new Image();
-            img.onload = function() {
-                console.log('Imagen de perfil cargada correctamente');
-            };
-            img.onerror = function() {
-                backgroundOverlay.classList.add('fallback');
-                console.log('Usando fondo alternativo para perfil');
-            };
-            img.src = 'assets/images/dashboard.jpg';
+        
+        function cambiarContrasena() {
+            alert('Funcionalidad: Cambiar contraseña');
         }
-
-        // Función para alternar notificaciones
-        function toggleNotificaciones() {
-            const boton = document.querySelector('button[onclick="toggleNotificaciones()"]');
-            if (boton.innerHTML.includes('bell-slash')) {
-                boton.innerHTML = '<i class="fas fa-bell"></i> Notificaciones';
-                alert('Notificaciones habilitadas');
-            } else {
-                boton.innerHTML = '<i class="fas fa-bell-slash"></i> Notificaciones';
-                alert('Notificaciones deshabilitadas');
+        
+        function exportarDatos() {
+            alert('Exportando datos del operador...');
+        }
+        
+        function cerrarSesion() {
+            if (confirm('¿Estás seguro de cerrar sesión?')) {
+                localStorage.removeItem('user');
+                window.location.href = 'index.html';
             }
         }
-
-    
-    // Aplicar tema guardado al cargar
-    document.addEventListener('DOMContentLoaded', function() {
-        const savedTheme = localStorage.getItem('cop_theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', savedTheme);
         
-        // Actualizar botón si existe
-        const button = document.querySelector('button[onclick="cambiarTema()"]');
-        if (button) {
-            const icon = button.querySelector('i');
-            if (icon) {
-                icon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
-            }
+        function cancelarCambios() {
+            // Resetear cambios
+            location.reload();
         }
-    });
-
-        // Función para abrir ajustes
-        function abrirAjustes() {
-            document.getElementById('ajustesModal').style.display = 'flex';
-        }
-
-        // Función para cerrar ajustes
-        function cerrarAjustes() {
-            document.getElementById('ajustesModal').style.display = 'none';
-        }
-
-        // Función para guardar ajustes
-        function guardarAjustes() {
-            const nombre = document.getElementById('nombreOperador').value;
-            const email = document.getElementById('emailNotificacion').value;
-            const recordatorios = document.getElementById('recordatorios').value;
-            const idioma = document.getElementById('idioma').value;
-            
-            // Aquí tu compañero conectará con Supabase para guardar los ajustes
-            console.log('Ajustes guardados:', { nombre, email, recordatorios, idioma });
-            
-            alert('¡Ajustes guardados correctamente!');
-            cerrarAjustes();
-        }
-    </script>
-    <script>
-// ============================================
-// SISTEMA DE SELECTOR DE TEMAS
-// ============================================
-
-// Lista de temas disponibles
-const temasDisponibles = ['dark', 'light', 'military-blue', 'tactical-green', 'terminal'];
-
-// Función para cambiar a un tema específico
-function cambiarATema(tema) {
-    if (!temasDisponibles.includes(tema)) {
-        console.error(`Tema "${tema}" no disponible`);
-        return;
-    }
-    
-    // Aplicar tema al documento
-    document.documentElement.setAttribute('data-theme', tema);
-    
-    // Guardar en localStorage
-    localStorage.setItem('cop_theme', tema);
-    
-    // Actualizar indicador visual en botones
-    actualizarTemaActivo(tema);
-    
-    // Mostrar notificación (opcional)
-    mostrarFeedbackTema(tema);
-    
-    console.log(`🎨 Tema cambiado a: ${tema}`);
-}
-
-// Función para actualizar el tema activo en los botones
-function actualizarTemaActivo(temaActivo) {
-    // Remover clase 'active' de todos los botones
-    document.querySelectorAll('.theme-option').forEach(boton => {
-        boton.classList.remove('active');
-        boton.removeAttribute('data-active');
         
-        // Verificar si este botón corresponde al tema activo
-        if (boton.getAttribute('data-theme') === temaActivo) {
-            boton.classList.add('active');
-            boton.setAttribute('data-active', 'true');
+        function guardarConfiguracion() {
+            const config = {
+                notificaciones: document.getElementById('notificationsToggle')?.checked,
+                idioma: document.getElementById('languageSelect')?.value,
+                formatoHora: document.getElementById('timeFormatSelect')?.value,
+                perfilPublico: document.getElementById('publicProfileToggle')?.checked,
+                mostrarEstadisticas: document.getElementById('showStatsToggle')?.checked
+            };
+            
+            localStorage.setItem('user_config', JSON.stringify(config));
+            alert('✅ Configuración guardada correctamente');
         }
-    });
-    
-    // Actualizar también el botón de toggle rápido
-    const botonToggle = document.querySelector('.btn-theme-toggle, [onclick="cambiarTema()"], [onclick="cycleTheme()"]');
-    if (botonToggle) {
-        const iconos = {
-            'dark': '🌙', 'light': '☀️', 'military-blue': '🎖️',
-            'tactical-green': '🎯', 'terminal': '💻'
-        };
-        if (botonToggle.querySelector('i')) {
-            botonToggle.innerHTML = `<i class="fas fa-palette"></i>`;
-        } else {
-            botonToggle.innerHTML = iconos[temaActivo] || '🎨';
-        }
-    }
-}
-
-// Función para mostrar feedback visual
-function mostrarFeedbackTema(tema) {
-    // Crear efecto de transición
-    document.documentElement.classList.add('theme-transition');
-    setTimeout(() => {
-        document.documentElement.classList.remove('theme-transition');
-    }, 300);
-    
-    // Notificación toast (opcional)
-    const toast = document.createElement('div');
-    toast.className = 'theme-toast';
-    toast.textContent = `Tema: ${obtenerNombreTema(tema)}`;
-    toast.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--color-accent);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        z-index: 10000;
-        animation: slideIn 0.3s ease, fadeOut 0.3s ease 2s;
-        animation-fill-mode: forwards;
-    `;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 2300);
-}
-
-// Función para obtener nombre legible del tema
-function obtenerNombreTema(tema) {
-    const nombres = {
-        'dark': 'Oscuro',
-        'light': 'Claro', 
-        'military-blue': 'Azul Militar',
-        'tactical-green': 'Verde Táctico',
-        'terminal': 'Terminal'
-    };
-    return nombres[tema] || tema;
-}
-
-// Función de ciclo (para el botón de cambio rápido)
-function cambiarTema() {
-    const temaActual = document.documentElement.getAttribute('data-theme') || 'dark';
-    const indiceActual = temasDisponibles.indexOf(temaActual);
-    const siguienteIndice = (indiceActual + 1) % temasDisponibles.length;
-    const siguienteTema = temasDisponibles[siguienteIndice];
-    
-    cambiarATema(siguienteTema);
-}
-
-// Función de ciclo alternativa
-function cycleTheme() {
-    cambiarTema();
-}
-
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', function() {
-    // Cargar tema guardado
-    const temaGuardado = localStorage.getItem('cop_theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', temaGuardado);
-    
-    // Configurar eventos para todos los selectores de tema
-    configurarSelectoresTema();
-    
-    // Actualizar indicadores visuales
-    setTimeout(() => actualizarTemaActivo(temaGuardado), 100);
-    
-    console.log('✅ Sistema de temas inicializado');
-});
-
-// Función para configurar todos los selectores de tema
-function configurarSelectoresTema() {
-    // Para botones individuales con data-theme
-    document.querySelectorAll('.theme-option[data-theme]').forEach(boton => {
-        boton.addEventListener('click', function(e) {
+        
+        // Inicializar formulario de edición
+        document.getElementById('editProfileForm')?.addEventListener('submit', function(e) {
             e.preventDefault();
-            e.stopPropagation();
             
-            const tema = this.getAttribute('data-theme');
-            cambiarATema(tema);
+            const nuevosDatos = {
+                nombre: document.getElementById('editNombre').value,
+                email: document.getElementById('editEmail').value,
+                zona: document.getElementById('editZona').value,
+                fecha: document.getElementById('editFecha').value,
+                bio: document.getElementById('editBio').value
+            };
+            
+            localStorage.setItem('user_profile', JSON.stringify(nuevosDatos));
+            
+            // Actualizar UI
+            document.getElementById('profileName').textContent = `OPERADOR ${nuevosDatos.nombre}`;
+            
+            alert('✅ Perfil actualizado correctamente');
+            cerrarEditarPerfil();
         });
         
-        // Añadir efecto hover
-        boton.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.1)';
-        });
-        
-        boton.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-        });
-    });
-    
-    // Para cualquier botón con clase theme-selector
-    document.querySelectorAll('.theme-selector button').forEach(boton => {
-        if (!boton.hasAttribute('data-theme')) {
-            const tema = boton.textContent.trim().toLowerCase();
-            if (temasDisponibles.includes(tema)) {
-                boton.setAttribute('data-theme', tema);
-                boton.addEventListener('click', () => cambiarATema(tema));
+        // Cargar configuración guardada
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedConfig = localStorage.getItem('user_config');
+            if (savedConfig) {
+                const config = JSON.parse(savedConfig);
+                
+                if (document.getElementById('notificationsToggle')) 
+                    document.getElementById('notificationsToggle').checked = config.notificaciones;
+                if (document.getElementById('languageSelect')) 
+                    document.getElementById('languageSelect').value = config.idioma || 'es';
+                if (document.getElementById('timeFormatSelect')) 
+                    document.getElementById('timeFormatSelect').value = config.formatoHora || '24h';
+                if (document.getElementById('publicProfileToggle')) 
+                    document.getElementById('publicProfileToggle').checked = config.perfilPublico || false;
+                if (document.getElementById('showStatsToggle')) 
+                    document.getElementById('showStatsToggle').checked = config.mostrarEstadisticas || true;
             }
-        }
-    });
-}
-
-// Añadir estilos CSS dinámicamente
-const style = document.createElement('style');
-style.textContent = `
-    .theme-option {
-        transition: all 0.3s ease !important;
-        cursor: pointer !important;
-    }
-    
-    .theme-option.active {
-        border-color: var(--color-accent) !important;
-        background: rgba(var(--color-accent-rgb, 230, 36, 41), 0.1) !important;
-        transform: scale(1.05) !important;
-    }
-    
-    .theme-option:hover:not(.active) {
-        border-color: var(--color-text-muted) !important;
-    }
-    
-    .theme-transition * {
-        transition: background-color 0.3s ease, color 0.3s ease !important;
-    }
-    
-    @keyframes slideIn {
-        from { transform: translateX(100px); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    
-    @keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
-</script>
-<!-- Script de inicialización rápida -->
-<script>
-// Prevenir FOUC (Flash of Unstyled Content)
-document.documentElement.style.visibility = 'hidden';
-document.documentElement.style.opacity = '0';
-
-window.addEventListener('DOMContentLoaded', () => {
-    // Aplicar tema guardado inmediatamente
-    const savedTheme = localStorage.getItem('cop_theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    
-    // Mostrar contenido
-    setTimeout(() => {
-        document.documentElement.style.visibility = '';
-        document.documentElement.style.opacity = '1';
-    }, 10);
-    
-    // Cargar el sistema de temas
-    if (typeof initThemeSystem === 'function') {
-        initThemeSystem();
-    }
-});
-
-// Fallback si hay error
-setTimeout(() => {
-    if (document.documentElement.style.visibility === 'hidden') {
-        document.documentElement.style.visibility = '';
-        document.documentElement.style.opacity = '1';
-    }
-}, 1000);
-</script>
+            
+            const savedProfile = localStorage.getItem('user_profile');
+            if (savedProfile) {
+                const profile = JSON.parse(savedProfile);
+                document.getElementById('profileName').textContent = `OPERADOR ${profile.nombre}`;
+            }
+        });
+    </script>
 </body>
 </html>

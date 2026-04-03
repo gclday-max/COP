@@ -1,42 +1,1109 @@
 /* ============================================
-   ESTILOS ESPECÍFICOS MISIONES
+   MISIONES CSS - CALL OF PRODUCTIVITY
+   VERSIÓN MEJORADA
    ============================================ */
 
-.missions-page .missions-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
+   .dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
 }
 
+   /* HEADER MEJORADO */
+header {
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 100px;
+    padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+}
+
+.logo-icon {
+    width: 45px;
+    height: 45px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    box-shadow: 0 0 20px var(--shadow-color);
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-cop {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--color-text);
+    line-height: 1.2;
+}
+
+.logo-sub {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    letter-spacing: 2px;
+}
+
+
+/* NAVEGACIÓN */
+.nav-menu {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.8rem 1.2rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.nav-link i {
+    font-size: 1rem;
+}
+
+.nav-link:hover {
+    background: rgba(var(--color-accent-rgb), 0.1);
+    color: var(--color-accent);
+}
+
+.nav-link.active {
+    background: var(--gradient-primary);
+    color: var(--color-primary);
+    font-weight: 600;
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+/* PERFIL DE USUARIO */
+.user-profile {
+    position: relative;
+    cursor: pointer;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.3rem 0.3rem 0.3rem 1rem;
+    background: rgba(var(--color-accent-rgb), 0.1);
+    border: 1px solid rgba(var(--color-accent-rgb), 0.2);
+    border-radius: 50px;
+    transition: all 0.3s;
+}
+
+.user-info:hover {
+    background: rgba(var(--color-accent-rgb), 0.15);
+    border-color: var(--color-accent);
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    font-size: 1.2rem;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-greeting {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    letter-spacing: 1px;
+}
+
+.user-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* DROPDOWN */
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 250px;
+    background: var(--card-bg-hover);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.dropdown-header {
+    padding: 15px 20px;
+    background: rgba(var(--color-accent-rgb), 0.1);
+    color: var(--color-accent);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background: rgba(var(--color-accent-rgb), 0.1);
+}
+
+.dropdown-item i {
+    width: 20px;
+    color: var(--color-accent);
+}
+
+.item-label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+}
+
+.item-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* Filtros */
+.missions-filters {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.filter-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--color-text-muted);
+    padding: 0.6rem 1.5rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.filter-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.filter-btn.active {
+    background: var(--color-accent);
+    color: var(--color-primary);
+    border-color: var(--color-accent);
+}
+
+/* Contenedor principal */
+.missions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+/* Sección por tipo */
 .mission-type-section {
-    background-color: rgba(26, 26, 26, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--border-radius);
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
     padding: 2rem;
+    transition: all 0.3s;
+}
+
+.mission-type-section:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
+}
+
+.mission-type-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 2rem;
 }
 
 .mission-type-title {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 1.5rem;
+    gap: 1rem;
 }
 
 .mission-type-icon {
     width: 50px;
     height: 50px;
-    background-color: rgba(230, 36, 41, 0.2);
+    background: rgba(var(--color-accent-rgb), 0.1);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
     color: var(--color-accent);
+    border: 1px solid rgba(var(--color-accent-rgb), 0.2);
 }
 
+.mission-type-title h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.mission-type-title h2::after {
+    display: none;
+}
+
+.mission-type-count {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.3rem 1rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    border: 1px solid var(--border-color);
+}
+
+/* Grid de misiones */
 .mission-type-missions {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 1.5rem;
+}
+
+/* Tarjeta de misión */
+.mission-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.mission-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-accent);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.mission-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 0;
+    background: var(--color-accent);
+    transition: height 0.3s;
+}
+
+.mission-card:hover::before {
+    height: 100%;
+}
+
+/* Header de tarjeta */
+.mission-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.mission-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.mission-category {
+    background: rgba(var(--color-accent-rgb), 0.1);
+    color: var(--color-accent);
+    padding: 0.3rem 0.8rem;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.mission-priority {
+    padding: 0.3rem 0.8rem;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.priority-high {
+    background: rgba(255, 71, 87, 0.1);
+    color: #ff4757;
+}
+
+.priority-medium {
+    background: rgba(255, 165, 2, 0.1);
+    color: #ffa502;
+}
+
+.priority-low {
+    background: rgba(46, 213, 115, 0.1);
+    color: #2ed573;
+}
+
+.mission-favorite {
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.mission-favorite:hover {
+    color: #ffd700;
+    transform: scale(1.1);
+}
+
+.mission-favorite .fas.fa-star {
+    color: #ffd700;
+}
+
+/* Título */
+.mission-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    color: var(--color-text);
+}
+
+/* Descripción */
+.mission-description {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+/* Detalles */
+.mission-details {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+.detail-item i {
+    color: var(--color-accent);
+    font-size: 0.8rem;
+}
+
+/* Progreso */
+.mission-progress {
+    margin-bottom: 1rem;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+    color: var(--color-text-muted);
+}
+
+.progress-percentage {
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
+.progress-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+/* Footer de tarjeta */
+.mission-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.mission-xp {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--color-accent);
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.mission-xp i {
+    font-size: 1rem;
+}
+
+.mission-action {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--color-text);
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.mission-action:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-primary);
+}
+
+.mission-action i {
+    font-size: 0.8rem;
+}
+
+/* Estados de misión */
+.mission-card.completed {
+    opacity: 0.8;
+}
+
+.mission-card.completed .mission-action {
+    background: #2ed573;
+    border-color: #2ed573;
+    color: var(--color-primary);
+}
+
+.mission-card.activated {
+    border-left: 4px solid var(--color-accent);
+}
+
+/* FOOTER */
+footer {
+    margin-top: 4rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+}
+
+.footer-left, .footer-right {
+    display: flex;
+    gap: 2rem;
+}
+
+.footer-center {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-status i {
+    color: var(--color-accent);
+    font-size: 0.5rem;
+    animation: pulse 2s infinite;
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .missions-title-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .mission-type-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .mission-type-missions {
+        grid-template-columns: 1fr;
+    }
+    
+    .mission-card-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .mission-badges {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .missions-filters {
+        justify-content: center;
+    }
+    
+    .filter-btn {
+        flex: 1;
+        text-align: center;
+    }
+    
+    .mission-footer {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .mission-action {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ============================================
+   MISIONES CSS - SECCIONES ADICIONALES
+   ============================================ */
+
+/* Estadísticas mejoradas */
+.missions-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.stat-card-mini {
+    background: rgba(var(--color-accent-rgb), 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s;
+}
+
+.stat-card-mini:hover {
+    background: rgba(var(--color-accent-rgb), 0.1);
+    border-color: var(--color-accent);
+    transform: translateY(-3px);
+}
+
+.stat-card-mini i {
+    font-size: 2rem;
+    color: var(--color-accent);
+}
+
+.stat-card-mini .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.2;
+}
+
+.stat-card-mini .stat-label {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Barra de búsqueda */
+.missions-search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0 1.5rem;
+}
+
+.search-box {
+    flex: 1;
+    position: relative;
+}
+
+.search-box i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+}
+
+.search-box input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    color: var(--color-text);
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 20px rgba(var(--color-accent-rgb), 0.2);
+}
+
+.view-options {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.view-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.view-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.view-btn.active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-primary);
+}
+
+/* Filtros avanzados */
+.missions-filters-advanced {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.filters-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-group label {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.filter-select {
+    padding: 0.8rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--color-text);
+    cursor: pointer;
+}
+
+.filter-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.filter-tag {
+    padding: 0.4rem 1rem;
+    background: rgba(var(--color-accent-rgb), 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s;
+}
+
+.filter-tag:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.filter-tag.active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-primary);
+}
+
+/* Misiones destacadas */
+.featured-missions {
+    margin: 3rem 0;
+}
+
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.featured-card {
+    background: linear-gradient(135deg, rgba(var(--color-accent-rgb), 0.1) 0%, transparent 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.featured-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-accent);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
+}
+
+.featured-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
+}
+
+.featured-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.3rem 0.8rem;
+    background: var(--color-accent);
+    color: var(--color-primary);
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.featured-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(var(--color-accent-rgb), 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+}
+
+.featured-reward {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+}
+
+.featured-reward i {
+    color: var(--color-accent);
+}
+
+.btn-featured {
+    width: 100%;
+    padding: 0.8rem;
+    background: transparent;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-featured:hover {
+    background: var(--color-accent);
+    color: var(--color-primary);
+}
+
+/* Categorías rápidas */
+.quick-categories {
+    margin: 3rem 0;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.category-item {
+    background: rgba(var(--color-accent-rgb), 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.category-item:hover {
+    background: rgba(var(--color-accent-rgb), 0.1);
+    border-color: var(--color-accent);
+    transform: translateY(-3px);
+}
+
+.category-item i {
+    font-size: 1.5rem;
+    color: var(--color-accent);
+    margin-bottom: 0.5rem;
+}
+
+.category-item .count {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    display: block;
+    margin-top: 0.3rem;
+}
+
+/* Controles de sección */
+.mission-type-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-collapse {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-collapse:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+/* Tags en tarjetas */
+.mission-tag {
+    padding: 0.2rem 0.6rem;
+    background: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+    border-radius: 30px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Recomendaciones */
+.recommendations-section {
+    margin: 4rem 0 2rem;
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.recommendation-card {
+    background: rgba(var(--color-accent-rgb), 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s;
+}
+
+.recommendation-card:hover {
+    border-color: var(--color-accent);
+    background: rgba(var(--color-accent-rgb), 0.05);
+}
+
+.recommendation-card i {
+    font-size: 2rem;
+    color: var(--color-accent);
+}
+
+.recommendation-card h4 {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.recommendation-card p {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+/* Vista de lista */
+#missionsContainer.list-view .mission-type-missions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#missionsContainer.list-view .mission-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+#missionsContainer.list-view .mission-card > * {
+    flex: 1;
+    min-width: 150px;
+}
+
+#missionsContainer.list-view .mission-progress {
+    max-width: 200px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .missions-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .filters-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .featured-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .category-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .recommendations-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .missions-search {
+        flex-direction: column;
+    }
+    
+    .missions-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .filters-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .featured-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    #missionsContainer.list-view .mission-card {
+        flex-direction: column;
+    }
 }

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Términos y Condiciones - Mi Proyecto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+        }
+
+        .last-updated {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 20px;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #34495e;
+            margin: 30px 0 15px 0;
+            font-size: 1.5em;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        ul {
+            margin: 15px 0 15px 30px;
+            color: #555;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            background: #f8f9fa;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #7f8c8d;
+        }
+
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .content-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Términos y Condiciones</h1>
+            <p class="last-updated">Última actualización: 17 de marzo de 2026</p>
+        </div>
+
+        <div class="content-card">
+            <h2>1. Aceptación de los Términos</h2>
+            <p>Al acceder y utilizar este proyecto, aceptas cumplir y estar sujeto a estos Términos y Condiciones. Si no estás de acuerdo con alguna parte de estos términos, no podrás acceder al servicio.</p>
+
+            <h2>2. Descripción del Servicio</h2>
+            <p>Nuestro proyecto proporciona [descripción breve de tu proyecto]. Nos reservamos el derecho de modificar, suspender o discontinuar cualquier aspecto del servicio en cualquier momento.</p>
+
+            <h2>3. Registro y Cuentas</h2>
+            <p>Para utilizar ciertas funciones, es posible que debas crear una cuenta. Eres responsable de:</p>
+            <ul>
+                <li>Mantener la confidencialidad de tu contraseña</li>
+                <li>Todas las actividades que ocurran bajo tu cuenta</li>
+                <li>Proporcionar información precisa y completa</li>
+                <li>Notificarnos inmediatamente sobre cualquier uso no autorizado</li>
+            </ul>
+
+            <div class="highlight">
+                <strong>Importante:</strong> No compartas tus credenciales de acceso con terceros. Eres el único responsable de la seguridad de tu cuenta.
+            </div>
+
+            <h2>4. Conducta del Usuario</h2>
+            <p>Como usuario, aceptas no:</p>
+            <ul>
+                <li>Violar leyes o regulaciones aplicables</li>
+                <li>Infringir derechos de propiedad intelectual</li>
+                <li>Transmitir material dañino o malicioso</li>
+                <li>Intentar acceder sin autorización a nuestros sistemas</li>
+                <li>Utilizar el servicio para fines ilegales o no autorizados</li>
+            </ul>
+
+            <h2>5. Propiedad Intelectual</h2>
+            <p>Todo el contenido incluido en este proyecto, como texto, gráficos, logotipos, imágenes, y software, es propiedad de [tu empresa/nombre] o de sus proveedores de contenido y está protegido por las leyes de propiedad intelectual.</p>
+
+            <h2>6. Limitación de Responsabilidad</h2>
+            <p>En ningún caso seremos responsables por daños indirectos, incidentales, especiales, consecuentes o punitivos que resulten de tu uso o incapacidad para usar el servicio.</p>
+
+            <h2>7. Modificaciones</h2>
+            <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Te notificaremos sobre cambios significativos a través de nuestro sitio web o por correo electrónico.</p>
+
+            <h2>8. Contacto</h2>
+            <p>Si tienes preguntas sobre estos Términos y Condiciones, contáctanos en:</p>
+            <p>Email: soporte@callofprodutivity.com<br>
+            </p>
+        </div>
+
+        <div class="footer">
+            <a href="index.html">Inicio</a> |
+            <a href="privacidad.html">Política de Privacidad</a> |
+            <a href="soporte.html">Soporte</a>
+            <p style="margin-top: 20px;">&copy; 2026 Call Of Productivity. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -3,273 +3,589 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Call of Productivity - Logros</title>
+    <title>Call of Productivity - Logros y Rangos</title>
+    
+    <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    
+    <!-- ESTILOS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/logros.css">
 </head>
 <body>
-    <!-- FONDO DINÁMICO -->
-    <div class="background-overlay achievements-bg" id="backgroundOverlay"></div>
+    <!-- FONDOS ANIMADOS -->
+    <div class="background-overlay"></div>
+    <div class="grid-overlay"></div>
+    <div class="scan-line"></div>
+    
+    <!-- PARTICULAS -->
+    <div id="particles"></div>
 
     <!-- CONTENEDOR PRINCIPAL -->
     <div class="dashboard-container">
-        <!-- HEADER -->
+        <!-- HEADER MEJORADO -->
         <header>
             <div class="header-content">
                 <div class="logo-container" id="logoHome">
-                    <a href="dashboard.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 15px;">
-                        <div class="logo">COP</div>
-                        <div class="logo-text">CALL OF PRODUCTIVITY</div>
+                    <a href="dashboard.html" class="logo-link">
+                        <div class="logo-icon">
+                            <i class="fas fa-crosshairs"></i>
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-cop">C.O.P</span>
+                            <span class="logo-sub">CALL OF PRODUCTIVITY</span>
+                        </div>
                     </a>
                 </div>
+                
                 <nav class="nav-menu">
-                    <a href="dashboard.html" class="nav-link">Dashboard</a>
-                    <a href="missions.html" class="nav-link">Misiones</a>
-                    <a href="profile.html" class="nav-link">Perfil</a>
-                    <a href="Logros.html" class="nav-link active">Logros</a>
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="missions.html" class="nav-link">
+                        <i class="fas fa-scroll"></i>
+                        <span>Misiones</span>
+                    </a>
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>Perfil</span>
+                    </a>
+                    <a href="logros.html" class="nav-link active">
+                        <i class="fas fa-trophy"></i>
+                        <span>Logros</span>
+                    </a>
                 </nav>
+                
+                <!-- SELECTOR DE TEMA -->
+                <div class="theme-quick-toggle">
+                    <button class="btn-theme-toggle" id="themeToggleBtn" onclick="cambiarTema()">
+                        <i class="fas fa-palette"></i>
+                    </button>
+                </div>
             </div>
         </header>
 
         <!-- PÁGINA: LOGROS -->
         <section class="page active" id="achievements-page">
-            <h1>LOGROS Y RECOMPENSAS</h1>
-            <p class="hero-subtitle">Desbloquea logros especiales completando misiones y manteniendo tu racha de productividad.</p>
+            <!-- HEADER DE LOGROS -->
+            <div class="achievements-header">
+                <h1>SISTEMA DE LOGROS</h1>
+                <p class="achievements-subtitle">Desbloquea logros especiales, sube de rango y conviértete en una leyenda de la productividad</p>
+            </div>
 
-            <div class="achievements-container">
-                <!-- LOGRO 1 -->
-                <div class="achievement-card">
-                    <div class="achievement-icon">
-                        <i class="fas fa-rocket"></i>
+            <!-- SISTEMA DE RANGOS COMPLETOS -->
+            <div class="rank-system-section">
+                <h2><i class="fas fa-chart-line"></i> SISTEMA DE RANGOS</h2>
+                <div class="rank-progress-container">
+                    <div class="rank-progress-info">
+                        <div class="current-rank-box">
+                            <div class="rank-icon-large">
+                                <i class="fas fa-chevron-up"></i>
+                            </div>
+                            <div class="rank-details">
+                                <span class="rank-label">RANGO ACTUAL</span>
+                                <span class="rank-name" id="currentRank">COMANDANTE</span>
+                                <span class="rank-level">Nivel 24</span>
+                            </div>
+                        </div>
+                        <div class="rank-xp-progress">
+                            <div class="progress-label">
+                                <span>XP para siguiente rango</span>
+                                <span id="xpToNext">2,150 / 5,000 XP</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: 43%;"></div>
+                            </div>
+                        </div>
                     </div>
-                    <h3>INICIO DE OPERACIONES</h3>
-                    <p>Completa tu primera misión</p>
-                    <div class="mission-xp" style="margin-top: 10px;">
-                        <i class="fas fa-bolt"></i> 100 XP
-                    </div>
-                    <div class="mission-category" style="margin-top: 10px;">
-                        <i class="fas fa-check-circle"></i> DESBLOQUEADO
-                    </div>
-                </div>
-
-                <!-- LOGRO 2 -->
-                <div class="achievement-card">
-                    <div class="achievement-icon">
-                        <i class="fas fa-fire"></i>
-                    </div>
-                    <h3>RACHA DE FUEGO</h3>
-                    <p>7 días consecutivos activo</p>
-                    <div class="mission-xp" style="margin-top: 10px;">
-                        <i class="fas fa-bolt"></i> 500 XP
-                    </div>
-                    <div class="mission-category" style="margin-top: 10px;">
-                        <i class="fas fa-check-circle"></i> DESBLOQUEADO
-                    </div>
-                </div>
-
-                <!-- LOGRO 3 -->
-                <div class="achievement-card locked">
-                    <div class="achievement-icon">
-                        <i class="fas fa-crown"></i>
-                    </div>
-                    <h3>LEYENDA DE PRODUCTIVIDAD</h3>
-                    <p>30 días consecutivos activo</p>
-                    <div class="mission-xp" style="margin-top: 10px;">
-                        <i class="fas fa-bolt"></i> 2500 XP
-                    </div>
-                    <div class="mission-category" style="margin-top: 10px; background-color: rgba(128, 128, 128, 0.2);">
-                        <i class="fas fa-lock"></i> BLOQUEADO
-                    </div>
-                </div>
-
-                <!-- LOGRO 4 -->
-                <div class="achievement-card">
-                    <div class="achievement-icon">
-                        <i class="fas fa-tasks"></i>
-                    </div>
-                    <h3>MAESTRO DE MISIONES</h3>
-                    <p>Completa 25 misiones</p>
-                    <div class="mission-xp" style="margin-top: 10px;">
-                        <i class="fas fa-bolt"></i> 750 XP
-                    </div>
-                    <div class="mission-category" style="margin-top: 10px;">
-                        <i class="fas fa-check-circle"></i> DESBLOQUEADO
-                    </div>
-                </div>
-
-                <!-- LOGRO 5 -->
-                <div class="achievement-card locked">
-                    <div class="achievement-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>VELOCIDAD RELÁMPAGO</h3>
-                    <p>Completa 5 misiones en un día</p>
-                    <div class="mission-xp" style="margin-top: 10px;">
-                        <i class="fas fa-bolt"></i> 1000 XP
-                    </div>
-                    <div class="mission-category" style="margin-top: 10px; background-color: rgba(128, 128, 128, 0.2);">
-                        <i class="fas fa-lock"></i> BLOQUEADO
-                    </div>
-                </div>
-
-                <!-- LOGRO 6 -->
-                <div class="achievement-card locked">
-                    <div class="achievement-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>ELITE OPERATOR</h3>
-                    <p>Alcanza nivel 50</p>
-                    <div class="mission-xp" style="margin-top: 10px;">
-                        <i class="fas fa-bolt"></i> 5000 XP
-                    </div>
-                    <div class="mission-category" style="margin-top: 10px; background-color: rgba(128, 128, 128, 0.2);">
-                        <i class="fas fa-lock"></i> BLOQUEADO
-                    </div>
-                </div>
-
-                <!-- LOGRO 7 -->
-                <div class="achievement-card">
-                    <div class="achievement-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3>ESTRATEGA</h3>
-                    <p>Planifica 50 misiones</p>
-                    <div class="mission-xp" style="margin-top: 10px;">
-                        <i class="fas fa-bolt"></i> 800 XP
-                    </div>
-                    <div class="mission-category" style="margin-top: 10px;">
-                        <i class="fas fa-check-circle"></i> DESBLOQUEADO
-                    </div>
-                </div>
-
-                <!-- LOGRO 8 -->
-                <div class="achievement-card locked">
-                    <div class="achievement-icon">
-                        <i class="fas fa-infinity"></i>
-                    </div>
-                    <h3>PRODUCTIVIDAD INFINITA</h3>
-                    <p>100 misiones completadas</p>
-                    <div class="mission-xp" style="margin-top: 10px;">
-                        <i class="fas fa-bolt"></i> 5000 XP
-                    </div>
-                    <div class="mission-category" style="margin-top: 10px; background-color: rgba(128, 128, 128, 0.2);">
-                        <i class="fas fa-lock"></i> BLOQUEADO
+                    
+                    <!-- Línea de tiempo de rangos -->
+                    <div class="rank-timeline">
+                        <div class="rank-node completed">
+                            <i class="fas fa-check"></i>
+                            <span>NOVATO</span>
+                        </div>
+                        <div class="rank-node completed">
+                            <i class="fas fa-check"></i>
+                            <span>VETERANO</span>
+                        </div>
+                        <div class="rank-node completed">
+                            <i class="fas fa-check"></i>
+                            <span>ÉLITE</span>
+                        </div>
+                        <div class="rank-node completed">
+                            <i class="fas fa-check"></i>
+                            <span>PRO</span>
+                        </div>
+                        <div class="rank-node completed">
+                            <i class="fas fa-check"></i>
+                            <span>MAESTRO</span>
+                        </div>
+                        <div class="rank-node current">
+                            <i class="fas fa-chevron-up"></i>
+                            <span>COMANDANTE</span>
+                        </div>
+                        <div class="rank-node locked">
+                            <i class="fas fa-lock"></i>
+                            <span>GRAN MAESTRO</span>
+                        </div>
+                        <div class="rank-node locked">
+                            <i class="fas fa-lock"></i>
+                            <span>LEGENDARIO</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- ESTADÍSTICAS DE LOGROS -->
-            <div class="achievements-stats">
-                <div class="stat-card">
-                    <div class="stat-title">Logros Totales</div>
-                    <div class="stat-value">12/25</div>
-                    <div class="stat-details">48% completado</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" data-width="48"></div>
+
+            <!-- DIVISIONES COMPETITIVAS -->
+            <div class="divisions-section">
+                <h2><i class="fas fa-trophy"></i> DIVISIONES COMPETITIVAS</h2>
+                <div class="divisions-container">
+                    <div class="division-card bronze">
+                        <div class="division-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="division-name">BRONCE</div>
+                        <div class="division-status completed">✓ Completado</div>
+                        <div class="division-xp">+500 XP</div>
+                    </div>
+                    <div class="division-card silver">
+                        <div class="division-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="division-name">PLATA</div>
+                        <div class="division-status completed">✓ Completado</div>
+                        <div class="division-xp">+750 XP</div>
+                    </div>
+                    <div class="division-card gold">
+                        <div class="division-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="division-name">ORO</div>
+                        <div class="division-status completed">✓ Completado</div>
+                        <div class="division-xp">+1,000 XP</div>
+                    </div>
+                    <div class="division-card platinum">
+                        <div class="division-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="division-name">PLATINO</div>
+                        <div class="division-status completed">✓ Completado</div>
+                        <div class="division-xp">+1,500 XP</div>
+                    </div>
+                    <div class="division-card diamond">
+                        <div class="division-icon"><i class="fas fa-gem"></i></div>
+                        <div class="division-name">DIAMANTE</div>
+                        <div class="division-status active">● Activo</div>
+                        <div class="division-xp">+2,000 XP</div>
+                    </div>
+                    <div class="division-card crimson">
+                        <div class="division-icon"><i class="fas fa-fire"></i></div>
+                        <div class="division-name">CARMESÍ</div>
+                        <div class="division-status locked">🔒 Bloqueado</div>
+                        <div class="division-xp">+3,000 XP</div>
+                    </div>
+                    <div class="division-card iridescent">
+                        <div class="division-icon"><i class="fas fa-star"></i></div>
+                        <div class="division-name">IRIDISCENTE</div>
+                        <div class="division-status locked">🔒 Bloqueado</div>
+                        <div class="division-xp">+5,000 XP</div>
+                    </div>
+                    <div class="division-card top250">
+                        <div class="division-icon"><i class="fas fa-crown"></i></div>
+                        <div class="division-name">TOP 250</div>
+                        <div class="division-status elite">👑 Élite</div>
+                        <div class="division-xp">+10,000 XP</div>
                     </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-title">XP por Logros</div>
-                    <div class="stat-value">3,650</div>
-                    <div class="stat-details">Total ganado</div>
+            </div>
+
+            <!-- ESTADÍSTICAS DE LOGROS -->
+            <div class="achievements-stats-grid">
+                <div class="stat-card-glow">
+                    <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                    <div class="stat-content">
+                        <span class="stat-label">LOGROS DESBLOQUEADOS</span>
+                        <span class="stat-value" id="unlockedCount">12</span>
+                        <span class="stat-total">/ 25</span>
+                        <div class="stat-progress">
+                            <div class="progress-bar-small">
+                                <div class="progress-fill-small" style="width: 48%;"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-title">Próximo Logro</div>
-                    <div class="stat-value">VELOCIDAD RELÁMPAGO</div>
-                    <div class="stat-details">5 misiones en un día</div>
+                
+                <div class="stat-card-glow">
+                    <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="stat-content">
+                        <span class="stat-label">XP POR LOGROS</span>
+                        <span class="stat-value" id="totalXp">3,650</span>
+                        <span class="stat-total">XP</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card-glow">
+                    <div class="stat-icon"><i class="fas fa-medal"></i></div>
+                    <div class="stat-content">
+                        <span class="stat-label">RACHA MÁXIMA</span>
+                        <span class="stat-value" id="maxStreak">15</span>
+                        <span class="stat-total">días</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card-glow">
+                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-content">
+                        <span class="stat-label">COMPLETADO</span>
+                        <span class="stat-value" id="completionRate">48</span>
+                        <span class="stat-total">%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRID DE LOGROS COMPLETOS (25 LOGROS) -->
+            <div class="achievements-container">
+                <!-- LOGRO 1 - INICIO DE OPERACIONES -->
+                <div class="achievement-card unlocked" data-id="1">
+                    <div class="achievement-icon"><i class="fas fa-rocket"></i></div>
+                    <div class="achievement-info">
+                        <h3>INICIO DE OPERACIONES</h3>
+                        <p>Completa tu primera misión</p>
+                        <div class="achievement-reward">
+                            <i class="fas fa-bolt"></i> 100 XP
+                        </div>
+                    </div>
+                    <div class="achievement-status unlocked">
+                        <i class="fas fa-check-circle"></i> DESBLOQUEADO
+                    </div>
+                </div>
+
+                <!-- LOGRO 2 - APRENDIZ RÁPIDO -->
+                <div class="achievement-card unlocked" data-id="2">
+                    <div class="achievement-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="achievement-info">
+                        <h3>APRENDIZ RÁPIDO</h3>
+                        <p>Completa 5 misiones</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 250 XP</div>
+                    </div>
+                    <div class="achievement-status unlocked"><i class="fas fa-check-circle"></i> DESBLOQUEADO</div>
+                </div>
+
+                <!-- LOGRO 3 - MAESTRO DE MISIONES -->
+                <div class="achievement-card unlocked" data-id="3">
+                    <div class="achievement-icon"><i class="fas fa-tasks"></i></div>
+                    <div class="achievement-info">
+                        <h3>MAESTRO DE MISIONES</h3>
+                        <p>Completa 25 misiones</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 750 XP</div>
+                    </div>
+                    <div class="achievement-status unlocked"><i class="fas fa-check-circle"></i> DESBLOQUEADO</div>
+                </div>
+
+                <!-- LOGRO 4 - EXPERTO EN COMBATE -->
+                <div class="achievement-card locked" data-id="4">
+                    <div class="achievement-icon"><i class="fas fa-crown"></i></div>
+                    <div class="achievement-info">
+                        <h3>EXPERTO EN COMBATE</h3>
+                        <p>Completa 50 misiones</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 1,500 XP</div>
+                    </div>
+                    <div class="achievement-status locked"><i class="fas fa-lock"></i> 27/50</div>
+                </div>
+
+                <!-- LOGRO 5 - LEYENDA -->
+                <div class="achievement-card locked" data-id="5">
+                    <div class="achievement-icon"><i class="fas fa-dragon"></i></div>
+                    <div class="achievement-info">
+                        <h3>LEYENDA</h3>
+                        <p>Completa 100 misiones</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 5,000 XP</div>
+                    </div>
+                    <div class="achievement-status locked"><i class="fas fa-lock"></i> 42/100</div>
+                </div>
+
+                <!-- LOGRO 6 - RACHA DE FUEGO -->
+                <div class="achievement-card unlocked" data-id="6">
+                    <div class="achievement-icon"><i class="fas fa-fire"></i></div>
+                    <div class="achievement-info">
+                        <h3>RACHA DE FUEGO</h3>
+                        <p>7 días consecutivos activo</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 500 XP</div>
+                    </div>
+                    <div class="achievement-status unlocked"><i class="fas fa-check-circle"></i> DESBLOQUEADO</div>
+                </div>
+
+                <!-- LOGRO 7 - VOLCÁN ACTIVO -->
+                <div class="achievement-card unlocked" data-id="7">
+                    <div class="achievement-icon"><i class="fas fa-volcano"></i></div>
+                    <div class="achievement-info">
+                        <h3>VOLCÁN ACTIVO</h3>
+                        <p>14 días consecutivos activo</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 1,000 XP</div>
+                    </div>
+                    <div class="achievement-status unlocked"><i class="fas fa-check-circle"></i> DESBLOQUEADO</div>
+                </div>
+
+                <!-- LOGRO 8 - LEYENDA DE PRODUCTIVIDAD -->
+                <div class="achievement-card locked" data-id="8">
+                    <div class="achievement-icon"><i class="fas fa-crown"></i></div>
+                    <div class="achievement-info">
+                        <h3>LEYENDA DE PRODUCTIVIDAD</h3>
+                        <p>30 días consecutivos activo</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 2,500 XP</div>
+                    </div>
+                    <div class="achievement-status locked"><i class="fas fa-lock"></i> 15/30</div>
+                </div>
+
+                <!-- LOGRO 9 - INMORTAL -->
+                <div class="achievement-card locked" data-id="9">
+                    <div class="achievement-icon"><i class="fas fa-infinity"></i></div>
+                    <div class="achievement-info">
+                        <h3>INMORTAL</h3>
+                        <p>60 días consecutivos activo</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 5,000 XP</div>
+                    </div>
+                    <div class="achievement-status locked"><i class="fas fa-lock"></i> 15/60</div>
+                </div>
+
+                <!-- LOGRO 10 - VELOCIDAD RELÁMPAGO -->
+                <div class="achievement-card locked" data-id="10">
+                    <div class="achievement-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="achievement-info">
+                        <h3>VELOCIDAD RELÁMPAGO</h3>
+                        <p>Completa 5 misiones en un día</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 1,000 XP</div>
+                    </div>
+                    <div class="achievement-status locked"><i class="fas fa-lock"></i> 3/5</div>
+                </div>
+
+                <!-- LOGRO 11 - MÁQUINA DE GUERRA -->
+                <div class="achievement-card locked" data-id="11">
+                    <div class="achievement-icon"><i class="fas fa-robot"></i></div>
+                    <div class="achievement-info">
+                        <h3>MÁQUINA DE GUERRA</h3>
+                        <p>Completa 10 misiones en un día</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 2,500 XP</div>
+                    </div>
+                    <div class="achievement-status locked"><i class="fas fa-lock"></i> 3/10</div>
+                </div>
+
+                <!-- LOGRO 12 - ESTRATEGA -->
+                <div class="achievement-card unlocked" data-id="12">
+                    <div class="achievement-icon"><i class="fas fa-brain"></i></div>
+                    <div class="achievement-info">
+                        <h3>ESTRATEGA</h3>
+                        <p>Planifica 50 misiones</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 800 XP</div>
+                    </div>
+                    <div class="achievement-status unlocked"><i class="fas fa-check-circle"></i> DESBLOQUEADO</div>
+                </div>
+
+                <!-- LOGRO 13 - GRAN ESTRATEGA -->
+                <div class="achievement-card locked" data-id="13">
+                    <div class="achievement-icon"><i class="fas fa-chess-queen"></i></div>
+                    <div class="achievement-info">
+                        <h3>GRAN ESTRATEGA</h3>
+                        <p>Planifica 100 misiones</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 2,000 XP</div>
+                    </div>
+                    <div class="achievement-status locked"><i class="fas fa-lock"></i> 52/100</div>
+                </div>
+
+                <!-- LOGRO 14 - MAESTRO DE LA GUERRA -->
+                <div class="achievement-card locked" data-id="14">
+                    <div class="achievement-icon"><i class="fas fa-chess-king"></i></div>
+                    <div class="achievement-info">
+                        <h3>MAESTRO DE LA GUERRA</h3>
+                        <p>Planifica 250 misiones</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 5,000 XP</div>
+                    </div>
+                    <div class="achievement-status locked"><i class="fas fa-lock"></i> 52/250</div>
+                </div>
+
+                <!-- LOGRO 15 - PERFECCIONISTA -->
+                <div class="achievement-card unlocked" data-id="15">
+                    <div class="achievement-icon"><i class="fas fa-check-double"></i></div>
+                    <div class="achievement-info">
+                        <h3>PERFECCIONISTA</h3>
+                        <p>Obtén 100% en una misión</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 300 XP</div>
+                    </div>
+                    <div class="achievement-status unlocked"><i class="fas fa-check-circle"></i> DESBLOQUEADO</div>
+                </div>
+
+                <!-- LOGRO 16 - CAZADOR DE LOGROS -->
+                <div class="achievement-card unlocked" data-id="16">
+                    <div class="achievement-icon"><i class="fas fa-search"></i></div>
+                    <div class="achievement-info">
+                        <h3>CAZADOR DE LOGROS</h3>
+                        <p>Desbloquea 10 logros</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 1,000 XP</div>
+                    </div>
+                    <div class="achievement-status unlocked"><i class="fas fa-check-circle"></i> DESBLOQUEADO</div>
+                </div>
+
+                <!-- LOGRO 17 - COLECCIONISTA -->
+                <div class="achievement-card locked" data-id="17">
+                    <div class="achievement-icon"><i class="fas fa-star"></i></div>
+                    <div class="achievement-info">
+                        <h3>COLECCIONISTA</h3>
+                        <p>Desbloquea 20 logros</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 2,500 XP</div>
+                    </div>
+                    <div class="achievement-status locked"><i class="fas fa-lock"></i> 12/20</div>
+                </div>
+
+                <!-- LOGRO 18 - MAESTRO DE LOGROS -->
+                <div class="achievement-card locked" data-id="18">
+                    <div class="achievement-icon"><i class="fas fa-medal"></i></div>
+                    <div class="achievement-info">
+                        <h3>MAESTRO DE LOGROS</h3>
+                        <p>Desbloquea 25 logros</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 5,000 XP</div>
+                    </div>
+                    <div class="achievement-status locked"><i class="fas fa-lock"></i> 12/25</div>
+                </div>
+
+                <!-- LOGRO 19 - DIVISION BRONCE -->
+                <div class="achievement-card unlocked" data-id="19">
+                    <div class="achievement-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="achievement-info">
+                        <h3>DIVISIÓN BRONCE</h3>
+                        <p>Alcanza la división Bronce</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 500 XP</div>
+                    </div>
+                    <div class="achievement-status unlocked"><i class="fas fa-check-circle"></i> DESBLOQUEADO</div>
+                </div>
+
+                <!-- LOGRO 20 - DIVISION PLATA -->
+                <div class="achievement-card unlocked" data-id="20">
+                    <div class="achievement-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="achievement-info">
+                        <h3>DIVISIÓN PLATA</h3>
+                        <p>Alcanza la división Plata</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 750 XP</div>
+                    </div>
+                    <div class="achievement-status unlocked"><i class="fas fa-check-circle"></i> DESBLOQUEADO</div>
+                </div>
+
+                <!-- LOGRO 21 - DIVISION ORO -->
+                <div class="achievement-card unlocked" data-id="21">
+                    <div class="achievement-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="achievement-info">
+                        <h3>DIVISIÓN ORO</h3>
+                        <p>Alcanza la división Oro</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 1,000 XP</div>
+                    </div>
+                    <div class="achievement-status unlocked"><i class="fas fa-check-circle"></i> DESBLOQUEADO</div>
+                </div>
+
+                <!-- LOGRO 22 - DIVISION PLATINO -->
+                <div class="achievement-card unlocked" data-id="22">
+                    <div class="achievement-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="achievement-info">
+                        <h3>DIVISIÓN PLATINO</h3>
+                        <p>Alcanza la división Platino</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 1,500 XP</div>
+                    </div>
+                    <div class="achievement-status unlocked"><i class="fas fa-check-circle"></i> DESBLOQUEADO</div>
+                </div>
+
+                <!-- LOGRO 23 - DIVISION DIAMANTE -->
+                <div class="achievement-card active" data-id="23">
+                    <div class="achievement-icon"><i class="fas fa-gem"></i></div>
+                    <div class="achievement-info">
+                        <h3>DIVISIÓN DIAMANTE</h3>
+                        <p>Alcanza la división Diamante</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 2,000 XP</div>
+                    </div>
+                    <div class="achievement-status active"><i class="fas fa-spinner"></i> EN PROGRESO</div>
+                </div>
+
+                <!-- LOGRO 24 - DIVISION CARMESÍ -->
+                <div class="achievement-card locked" data-id="24">
+                    <div class="achievement-icon"><i class="fas fa-fire"></i></div>
+                    <div class="achievement-info">
+                        <h3>DIVISIÓN CARMESÍ</h3>
+                        <p>Alcanza la división Carmesí</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 3,000 XP</div>
+                    </div>
+                    <div class="achievement-status locked"><i class="fas fa-lock"></i> BLOQUEADO</div>
+                </div>
+
+                <!-- LOGRO 25 - TOP 250 -->
+                <div class="achievement-card locked" data-id="25">
+                    <div class="achievement-icon"><i class="fas fa-crown"></i></div>
+                    <div class="achievement-info">
+                        <h3>TOP 250 ÉLITE</h3>
+                        <p>Alcanza el Top 250 global</p>
+                        <div class="achievement-reward"><i class="fas fa-bolt"></i> 10,000 XP</div>
+                    </div>
+                    <div class="achievement-status locked"><i class="fas fa-lock"></i> BLOQUEADO</div>
+                </div>
+            </div>
+
+            <!-- LOGRO DESTACADO DEL MES -->
+            <div class="featured-achievement">
+                <div class="featured-badge">🌟 LOGRO DEL MES</div>
+                <div class="featured-content">
+                    <div class="featured-icon"><i class="fas fa-dragon"></i></div>
+                    <div class="featured-info">
+                        <h3>LEYENDA VIVA</h3>
+                        <p>Completa 50 misiones con calificación perfecta durante el mes</p>
+                        <div class="featured-reward"><i class="fas fa-bolt"></i> 15,000 XP + Título Especial</div>
+                        <div class="featured-progress">Progreso: 12/50 misiones</div>
+                    </div>
+                    <button class="btn-featured" onclick="showAchievementDetail('LEYENDA VIVA')">
+                        <i class="fas fa-info-circle"></i> VER DETALLES
+                    </button>
                 </div>
             </div>
         </section>
 
         <!-- FOOTER -->
         <footer>
-            <p>CALL OF PRODUCTIVITY © 2026 | Sistema de productividad táctico | Todos los derechos reservados</p>
+            <div class="footer-content">
+                <div class="footer-left">
+                    <span class="footer-copyright">© 2026 CALL OF PRODUCTIVITY</span>
+                    <span class="footer-version">v2.0.0</span>
+                </div>
+                <div class="footer-center">
+                    <span class="footer-status">
+                        <i class="fas fa-circle"></i>
+                        SISTEMA OPERATIVO
+                    </span>
+                </div>
+                <div class="footer-right">
+                    <a href="#" class="footer-link">Términos</a>
+                    <a href="#" class="footer-link">Privacidad</a>
+                    <a href="#" class="footer-link">Soporte</a>
+                </div>
+            </div>
         </footer>
+    </div>
+
+    <!-- MODAL DE DETALLE DE LOGRO -->
+    <div id="achievementModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-trophy"></i> DETALLE DE LOGRO</h2>
+                <button class="modal-close" onclick="closeAchievementModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="achievementModalBody">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
     </div>
 
     <!-- SCRIPTS -->
     <script src="js/logros.js"></script>
-<script src="js/theme-system.js"></script>
-    
-    <script>
-        // Inicializar cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animar barras de progreso
-            const progressBars = document.querySelectorAll('.progress-fill');
-            progressBars.forEach(bar => {
-                const width = bar.getAttribute('data-width');
-                setTimeout(() => {
-                    bar.style.width = width + '%';
-                }, 300);
-            });
-
-            // Efecto hover en tarjetas de logros
-            const achievementCards = document.querySelectorAll('.achievement-card');
-            achievementCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.boxShadow = 'none';
-                });
-                
-                // Click en logros bloqueados muestra información
-                if (card.classList.contains('locked')) {
-                    card.addEventListener('click', function() {
-                        const titulo = this.querySelector('h3').textContent;
-                        const descripcion = this.querySelector('p').textContent;
-                        const xp = this.querySelector('.mission-xp').textContent;
-                        
-                        alert(`LOGRO BLOQUEADO\n\n${titulo}\n${descripcion}\n\nRecompensa: ${xp}\n\nCompleta los requisitos para desbloquear este logro.`);
-                    });
-                } else {
-                    card.addEventListener('click', function() {
-                        const titulo = this.querySelector('h3').textContent;
-                        const descripcion = this.querySelector('p').textContent;
-                        const xp = this.querySelector('.mission-xp').textContent;
-                        
-                        alert(`LOGRO DESBLOQUEADO\n\n${titulo}\n${descripcion}\n\nRecompensa obtenida: ${xp}\n\n¡Felicidades por este logro!`);
-                    });
-                }
-            });
-        });
-    </script>
-    <!-- Script de inicialización rápida -->
-<script>
-// Prevenir FOUC (Flash of Unstyled Content)
-document.documentElement.style.visibility = 'hidden';
-document.documentElement.style.opacity = '0';
-
-window.addEventListener('DOMContentLoaded', () => {
-    // Aplicar tema guardado inmediatamente
-    const savedTheme = localStorage.getItem('cop_theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    
-    // Mostrar contenido
-    setTimeout(() => {
-        document.documentElement.style.visibility = '';
-        document.documentElement.style.opacity = '1';
-    }, 10);
-    
-    // Cargar el sistema de temas
-    if (typeof initThemeSystem === 'function') {
-        initThemeSystem();
-    }
-});
-
-// Fallback si hay error
-setTimeout(() => {
-    if (document.documentElement.style.visibility === 'hidden') {
-        document.documentElement.style.visibility = '';
-        document.documentElement.style.opacity = '1';
-    }
-}, 1000);
-</script>
+    <script src="js/theme-system.js"></script>
 </body>
 </html>
