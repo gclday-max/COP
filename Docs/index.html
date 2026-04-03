@@ -11,19 +11,19 @@
     <style>
         /* TODOS LOS ESTILOS ANTERIORES SE MANTIENEN IGUAL */
         :root {
-            /* PALETA MILITAR FUTURISTA */
+            /* PALETA MILITAR FUTURISTA - COLOR NARANJA #D53900 */
             --color-primary: #0A0A0A;           /* Negro profundo */
             --color-secondary: #1C1C1C;         /* Gris arma */
-            --color-accent: #01e279;            /* Verde neón */
-            --color-accent-hover: #00CC6D;      /* Hover más oscuro */
-            --color-accent-light: #33ff99;      /* Verde claro */
+            --color-accent: #D53900;            /* Naranja intenso */
+            --color-accent-hover: #B53000;      /* Hover más oscuro */
+            --color-accent-light: #FF6A2E;      /* Naranja claro */
             --color-text: #e2e0e0;              /* Blanco humo */
             --color-text-secondary: #888888;    /* Gris metálico */
             --color-border: #333333;            /* Bordes */
-            --color-success: #2ecc71;           /* Verde éxito */
+            --color-success: #D53900;           /* Éxito con el nuevo color */
             --color-warning: #f39c12;           /* Naranja advertencia */
             --color-error: #e74c3c;             /* Rojo error */
-            --color-progress: linear-gradient(90deg, #00FF88 0%, #00CC6D 100%);
+            --color-progress: linear-gradient(90deg, #D53900 0%, #B53000 100%);
             --color-card-bg: rgba(28, 28, 28, 0.95);
             
             /* Colores adicionales para los botones sociales */
@@ -45,8 +45,8 @@
             background: var(--color-primary);
             overflow-y: auto;
             background-image: 
-                radial-gradient(circle at 20% 80%, rgba(1, 226, 121, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(1, 226, 121, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(213, 57, 0, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(213, 57, 0, 0.03) 0%, transparent 50%),
                 linear-gradient(45deg, #0A0A0A 0%, #111111 100%);
             padding: 20px;
         }
@@ -73,7 +73,7 @@
         .particle {
             position: absolute;
             border-radius: 50%;
-            background: rgba(1, 226, 121, 0.1);
+            background: rgba(213, 57, 0, 0.1);
             animation: float 15s infinite linear;
         }
         
@@ -108,8 +108,8 @@
             max-width: 500px;
             box-shadow: 
                 0 10px 30px rgba(0, 0, 0, 0.8),
-                0 0 0 1px rgba(1, 226, 121, 0.1),
-                0 0 20px rgba(1, 226, 121, 0.05);
+                0 0 0 1px rgba(213, 57, 0, 0.1),
+                0 0 20px rgba(213, 57, 0, 0.05);
             border: 1px solid var(--color-border);
             position: relative;
             overflow: hidden;
@@ -141,8 +141,8 @@
             width: 100%;
             height: 100%;
             background-image: 
-                linear-gradient(rgba(1, 226, 121, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(1, 226, 121, 0.05) 1px, transparent 1px);
+                linear-gradient(rgba(213, 57, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(213, 57, 0, 0.05) 1px, transparent 1px);
             background-size: 20px 20px;
             pointer-events: none;
             z-index: 0;
@@ -188,7 +188,7 @@
             font-size: 2.5rem;
             color: var(--color-accent);
             margin-bottom: 15px;
-            text-shadow: 0 0 10px rgba(1, 226, 121, 0.5);
+            text-shadow: 0 0 10px rgba(213, 57, 0, 0.5);
         }
         
         .auth-header h1 {
@@ -290,7 +290,7 @@
         .input-group input:focus {
             outline: none;
             border-color: var(--color-accent);
-            box-shadow: 0 0 15px rgba(1, 226, 121, 0.2);
+            box-shadow: 0 0 15px rgba(213, 57, 0, 0.2);
         }
         
         .input-group i {
@@ -368,7 +368,7 @@
         /* ========== BOTONES ========== */
         .auth-btn {
             background: var(--color-progress);
-            color: var(--color-primary);
+            color: #ffffff;
             border: none;
             padding: 15px;
             border-radius: 8px;
@@ -401,7 +401,7 @@
         
         .auth-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(1, 226, 121, 0.3);
+            box-shadow: 0 10px 20px rgba(213, 57, 0, 0.3);
         }
         
         .auth-btn:disabled {
@@ -427,7 +427,7 @@
         }
         
         .secondary-btn:hover {
-            background: rgba(1, 226, 121, 0.1);
+            background: rgba(213, 57, 0, 0.1);
         }
         
         /* ========== DIVISOR ========== */
@@ -485,7 +485,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(1, 226, 121, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(213, 57, 0, 0.1), transparent);
             transition: left 0.5s;
         }
         
@@ -496,7 +496,7 @@
         .social-btn:hover {
             transform: translateY(-3px);
             border-color: var(--color-accent);
-            box-shadow: 0 5px 15px rgba(1, 226, 121, 0.2);
+            box-shadow: 0 5px 15px rgba(213, 57, 0, 0.2);
         }
         
         .steam { background: linear-gradient(45deg, rgba(27, 40, 56, 0.9), rgba(42, 71, 94, 0.9)); }
@@ -522,7 +522,7 @@
         }
         
         .success-message {
-            background: rgba(46, 204, 113, 0.1);
+            background: rgba(213, 57, 0, 0.1);
             border: 1px solid var(--color-success);
             color: var(--color-accent);
         }
@@ -743,8 +743,8 @@
                     <div class="terms">
                         <input type="checkbox" id="accept-terms" required>
                         <label for="accept-terms">
-                            Acepto los <a href="#">Términos de Servicio</a> y la 
-                            <a href="#">Política de Privacidad</a> del sistema táctico
+                            Acepto los <a href="termino&condiciones.html">Términos de Servicio</a> y la 
+                            <a href="privacidad.html">Política de Privacidad</a> del sistema táctico
                         </label>
                     </div>
                     
@@ -782,7 +782,7 @@
             </div>
             
             <!-- Versión -->
-            <span class="version">v2.1.0 | Sistema Táctico con Firebase</span>
+            <span class="version">v4.0.0 | Sistema Táctico con Firebase</span>
         </div>
     </div>
 
@@ -1148,7 +1148,7 @@
                 
                 if (user) {
                     statusText.textContent = `SESIÓN ACTIVA: ${user.email}`;
-                    statusText.style.color = '#01e279';
+                    statusText.style.color = '#D53900';
                     
                     // Si ya está logueado y está en login/register, redirigir
                     if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {

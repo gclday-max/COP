@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CALL OF PRODUCTIVITY || SALA DE GUERRA</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0a0f0f;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .sala-guerra {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            grid-template-rows: 60px 1fr;
+            height: 100vh;
+        }
+        
+        /* HEADER MILITAR */
+        header {
+            grid-column: 1 / -1;
+            background: #1a2a2a;
+            border-bottom: 2px solid #4aff75;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: #4aff75;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        /* MAPA */
+        #mapa-mundi {
+            grid-column: 1;
+            height: calc(100vh - 60px);
+            background: #0f1a1a;
+            border-right: 2px solid #4aff75;
+            z-index: 1;
+        }
+        
+        /* PANEL DE CONTROL */
+        .panel-control {
+            grid-column: 2;
+            background: #0f1a1a;
+            padding: 20px;
+            overflow-y: auto;
+            color: #4aff75;
+            border-left: 2px solid #4aff75;
+        }
+        
+        .panel-control h3 {
+            border-bottom: 2px solid #4aff75;
+            padding-bottom: 5px;
+            margin: 20px 0 15px;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+        }
+        
+        .panel-control h3:first-child {
+            margin-top: 0;
+        }
+        
+        /* TARJETAS DE BASES */
+        .base-card {
+            background: #1a2a2a;
+            border: 1px solid #4aff75;
+            padding: 15px;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .base-card:hover {
+            transform: translateX(-5px);
+            box-shadow: -5px 5px 0px #4aff75;
+        }
+        
+        .base-card::before {
+            content: "►";
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            color: #4aff75;
+            font-size: 10px;
+            opacity: 0.5;
+        }
+        
+        .base-nombre {
+            color: #4aff75;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .base-hora {
+            font-size: 2em;
+            text-align: center;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 10px #4aff75;
+            letter-spacing: 3px;
+        }
+        
+        .base-estado {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #000;
+            border: 1px solid;
+            font-size: 0.75em;
+            text-transform: uppercase;
+        }
+        
+        .estado-activo { 
+            color: #4aff75; 
+            border-color: #4aff75;
+        }
+        .estado-silencio { 
+            color: #ff4a4a; 
+            border-color: #ff4a4a;
+        }
+        .estado-vigilancia { 
+            color: #ffaa00; 
+            border-color: #ffaa00;
+        }
+        
+        .zulu-time {
+            background: #000;
+            border: 2px solid #4aff75;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+        
+        button {
+            background: transparent;
+            color: #4aff75;
+            border: 2px solid #4aff75;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 100%;
+            margin: 20px 0;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background: #4aff75;
+            color: #000;
+        }
+        
+        /* LEYENDA */
+        .leyenda {
+            margin-top: 20px;
+            padding: 10px;
+            background: #000;
+            font-size: 0.85em;
+        }
+        
+        .leyenda-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        
+        .color-bola {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        /* Estilo para los popups del mapa */
+        .leaflet-popup-content {
+            background: #1a2a2a;
+            color: #4aff75;
+            font-family: 'Courier New', monospace;
+            border: 2px solid #4aff75;
+        }
+        
+        .leaflet-popup-tip {
+            background: #4aff75;
+        }
+    </style>
+</head>
+<body>
+    <div class="sala-guerra">
+        <!-- HEADER -->
+        <header>
+            <span>⚔️ CALL OF PRODUCTIVITY</span>
+            <span id="zulu-header">⏱️ ZULU: --:--:--</span>
+            <span>🐉 MODO: GUERRA [ACTIVO]</span>
+        </header>
+
+        <!-- MAPA MUNDI -->
+        <div id="mapa-mundi"></div>
+
+        <!-- PANEL DE CONTROL -->
+        <aside class="panel-control">
+            <div class="zulu-time" id="zulu-panel">
+                🕐 ZULU: --:--:--
+            </div>
+            
+            <h3>📍 BASES ACTIVAS</h3>
+            <div id="bases-container">
+                CARGANDO INTELIGENCIA...
+            </div>
+            
+            <button onclick="actualizarTodo()">
+                🔄 ACTUALIZAR INTELIGENCIA
+            </button>
+            
+            <h3>📋 LEYENDA TÁCTICA</h3>
+            <div class="leyenda">
+                <div class="leyenda-item">
+                    <div class="color-bola" style="background: #4aff75;"></div>
+                    <span>🟢 ACTIVO (06:00 - 18:00)</span>
+                </div>
+                <div class="leyenda-item">
+                    <div class="color-bola" style="background: #ffaa00;"></div>
+                    <span>🟡 VIGILANCIA (18:00 - 20:00)</span>
+                </div>
+                <div class="leyenda-item">
+                    <div class="color-bola" style="background: #ff4a4a;"></div>
+                    <span>🔴 SILENCIO (20:00 - 06:00)</span>
+                </div>
+                <div class="leyenda-item" style="margin-top: 10px;">
+                    <span>● Marcador en el mapa</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        // CONFIGURACIÓN DE BASES MILITARES CON COORDENADAS REALES
+        const BASES = [
+            { 
+                nombre: "PENTÁGONO",
+                zona: "America/New_York",
+                ciudad: "Nueva York",
+                coordenadas: [40.7128, -74.0060],
+                prioridad: "ALFA",
+                pais: "EE.UU."
+            },
+            { 
+                nombre: "CUARTEL GENERAL",
+                zona: "Europe/London",
+                ciudad: "Londres",
+                coordenadas: [51.5074, -0.1278],
+                prioridad: "ALFA",
+                pais: "Reino Unido"
+            },
+            { 
+                nombre: "BASE TOKIO",
+                zona: "Asia/Tokyo",
+                ciudad: "Tokio",
+                coordenadas: [35.6762, 139.6503],
+                prioridad: "BRAVO",
+                pais: "Japón"
+            },
+            { 
+                nombre: "COMANDO SUR",
+                zona: "Europe/Madrid",
+                ciudad: "Madrid",
+                coordenadas: [40.4168, -3.7038],
+                prioridad: "BRAVO",
+                pais: "España"
+            },
+            { 
+                nombre: "BASE AUSTRAL",
+                zona: "Australia/Sydney",
+                ciudad: "Sídney",
+                coordenadas: [-33.8688, 151.2093],
+                prioridad: "CHARLIE",
+                pais: "Australia"
+            },
+            { 
+                nombre: "SECTOR OESTE",
+                zona: "America/Los_Angeles",
+                ciudad: "Los Ángeles",
+                coordenadas: [34.0522, -118.2437],
+                prioridad: "CHARLIE",
+                pais: "EE.UU."
+            },
+            { 
+                nombre: "BASE MOSCÚ",
+                zona: "Europe/Moscow",
+                ciudad: "Moscú",
+                coordenadas: [55.7558, 37.6173],
+                prioridad: "DELTA",
+                pais: "Rusia"
+            },
+            { 
+                nombre: "SECTOR RÍO",
+                zona: "America/Sao_Paulo",
+                ciudad: "São Paulo",
+                coordenadas: [-23.5505, -46.6333],
+                prioridad: "DELTA",
+                pais: "Brasil"
+            }
+        ];
+
+        // VARIABLE GLOBAL PARA EL MAPA
+        let mapa;
+
+        // INICIALIZAR MAPA
+        function iniciarMapa() {
+            // Crear mapa con vista centrada en el mundo
+            mapa = L.map('mapa-mundi').setView([20, 0], 2);
+            
+            // Capa de mapa oscuro (CartoDB Dark Matter)
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '©OpenStreetMap, ©CartoDB',
+                subdomains: 'abcd',
+                maxZoom: 19,
+                minZoom: 2
+            }).addTo(mapa);
+            
+            // Añadir marcadores para cada base
+            BASES.forEach(base => {
+                // Crear icono personalizado con estilo militar
+                const icono = L.divIcon({
+                    className: 'marcador-militar',
+                    html: `<div style="
+                        background: #4aff75;
+                        width: 16px;
+                        height: 16px;
+                        border-radius: 50%;
+                        box-shadow: 0 0 15px #4aff75;
+                        border: 3px solid #0a0f0f;
+                        animation: pulso 2s infinite;
+                    "></div>`,
+                    iconSize: [22, 22],
+                    popupAnchor: [0, -11]
+                });
+                
+                // Añadir marcador al mapa
+                const marker = L.marker(base.coordenadas, { icon: icono }).addTo(mapa);
+                
+                // Popup con información (se actualizará después)
+                marker.bindPopup(`
+                    <div style="color: #4aff75; font-family: 'Courier New';">
+                        <b>${base.nombre}</b><br>
+                        ${base.ciudad}, ${base.pais}<br>
+                        Prioridad: ${base.prioridad}<br>
+                        <span id="popup-${base.zona.replace(/\//g, '-')}">Cargando...</span>
+                    </div>
+                `);
+            });
+            
+            // Añadir animación CSS para el pulso
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes pulso {
+                    0% { opacity: 1; transform: scale(1); }
+                    50% { opacity: 0.5; transform: scale(1.2); }
+                    100% { opacity: 1; transform: scale(1); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // OBTENER HORA DE UNA BASE
+        async function obtenerHoraBase(base) {
+            try {
+                const respuesta = await fetch(`https://timeapi.io/api/Time/current/zone?timeZone=${base.zona}`);
+                
+                if (!respuesta.ok) {
+                    throw new Error(`Error ${respuesta.status}`);
+                }
+                
+                const datos = await respuesta.json();
+                
+                // Calcular estado táctico
+                const hora = datos.hour;
+                let estado = "ACTIVO";
+                let estadoClass = "estado-activo";
+                let emoji = "🟢";
+                let color = "#4aff75";
+                
+                if (hora >= 0 && hora < 6) {
+                    estado = "SILENCIO";
+                    estadoClass = "estado-silencio";
+                    emoji = "🔴";
+                    color = "#ff4a4a";
+                } else if (hora >= 6 && hora < 9) {
+                    estado = "AMANECER";
+                    estadoClass = "estado-vigilancia";
+                    emoji = "🟡";
+                    color = "#ffaa00";
+                } else if (hora >= 18 && hora < 20) {
+                    estado = "VIGILANCIA";
+                    estadoClass = "estado-vigilancia";
+                    emoji = "🟡";
+                    color = "#ffaa00";
+                } else if (hora >= 20) {
+                    estado = "SILENCIO";
+                    estadoClass = "estado-silencio";
+                    emoji = "🔴";
+                    color = "#ff4a4a";
+                }
+                
+                return {
+                    ...base,
+                    hora: datos.time,
+                    hora24: `${datos.hour.toString().padStart(2,'0')}:${datos.minute.toString().padStart(2,'0')}:${datos.seconds.toString().padStart(2,'0')}`,
+                    estado: estado,
+                    estadoClass: estadoClass,
+                    emoji: emoji,
+                    color: color,
+                    fecha: datos.date
+                };
+                
+            } catch (error) {
+                console.error(`Error en ${base.nombre}:`, error);
+                return {
+                    ...base,
+                    error: true,
+                    hora24: "--:--:--",
+                    estado: "SIN SEÑAL",
+                    estadoClass: "estado-silencio",
+                    emoji: "⚠️",
+                    color: "#ff4a4a"
+                };
+            }
+        }
+
+        // ACTUALIZAR PANEL DE BASES
+        async function actualizarPanelBases() {
+            const container = document.getElementById('bases-container');
+            
+            const promesas = BASES.map(base => obtenerHoraBase(base));
+            const resultados = await Promise.all(promesas);
+            
+            let html = '';
+            
+            resultados.forEach(base => {
+                html += `
+                    <div class="base-card">
+                        <div class="base-nombre">
+                            <span>${base.emoji} ${base.nombre}</span>
+                            <span style="font-size: 0.7em;">${base.prioridad}</span>
+                        </div>
+                        <div class="base-hora" style="color: ${base.color};">${base.hora24}</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>${base.ciudad}</span>
+                            <span class="base-estado ${base.estadoClass}">${base.estado}</span>
+                        </div>
+                        <div style="margin-top: 8px; font-size: 0.7em; color: #666;">
+                            📍 ${base.zona}
+                        </div>
+                    </div>
+                `;
+                
+                // Actualizar popup del mapa si existe
+                const popupId = `popup-${base.zona.replace(/\//g, '-')}`;
+                const popupElement = document.getElementById(popupId);
+                if (popupElement) {
+                    popupElement.innerHTML = `Hora: ${base.hora24}<br>Estado: ${base.estado}`;
+                }
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // ACTUALIZAR HORA ZULU
+        function actualizarHoraZulu() {
+            const ahora = new Date();
+            const zulu = ahora.toLocaleTimeString('es-ES', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit',
+                timeZone: 'UTC'
+            });
+            
+            document.getElementById('zulu-header').innerHTML = `⏱️ ZULU: ${zulu}`;
+            document.getElementById('zulu-panel').innerHTML = `🕐 ZULU: ${zulu}`;
+        }
+
+        // ACTUALIZAR TODO
+        async function actualizarTodo() {
+            await actualizarPanelBases();
+        }
+
+        // INICIAR TODO
+        document.addEventListener('DOMContentLoaded', () => {
+            iniciarMapa();
+            actualizarTodo();
+            actualizarHoraZulu();
+            
+            // Actualizar hora ZULU cada segundo
+            setInterval(actualizarHoraZulu, 1000);
+            
+            // Actualizar bases cada 30 segundos
+            setInterval(actualizarTodo, 30000);
+        });
+    </script>
+</body>
+</html>

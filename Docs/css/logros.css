@@ -1,66 +1,879 @@
 /* ============================================
-   ESTILOS ESPECÍFICOS LOGROS
+   LOGROS.CSS - Call of Productivity
+   Versión completa con rangos y divisiones
    ============================================ */
 
-.achievements-page .achievements-container {
+/* HEADER MEJORADO */
+header {
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 100px;
+    padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+}
+
+.logo-icon {
+    width: 45px;
+    height: 45px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    box-shadow: 0 0 20px var(--shadow-color);
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-cop {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--color-text);
+    line-height: 1.2;
+}
+
+.logo-sub {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    letter-spacing: 2px;
+}
+
+/* NAVEGACIÓN */
+.nav-menu {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.8rem 1.2rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.nav-link i {
+    font-size: 1rem;
+}
+
+.nav-link:hover {
+    background: rgba(var(--color-accent-rgb), 0.1);
+    color: var(--color-accent);
+}
+
+.nav-link.active {
+    background: var(--gradient-primary);
+    color: var(--color-primary);
+    font-weight: 600;
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+/* PERFIL DE USUARIO */
+.user-profile {
+    position: relative;
+    cursor: pointer;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.3rem 0.3rem 0.3rem 1rem;
+    background: rgba(var(--color-accent-rgb), 0.1);
+    border: 1px solid rgba(var(--color-accent-rgb), 0.2);
+    border-radius: 50px;
+    transition: all 0.3s;
+}
+
+.user-info:hover {
+    background: rgba(var(--color-accent-rgb), 0.15);
+    border-color: var(--color-accent);
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    font-size: 1.2rem;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-greeting {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    letter-spacing: 1px;
+}
+
+.user-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* DROPDOWN */
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 250px;
+    background: var(--card-bg-hover);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.dropdown-header {
+    padding: 15px 20px;
+    background: rgba(var(--color-accent-rgb), 0.1);
+    color: var(--color-accent);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background: rgba(var(--color-accent-rgb), 0.1);
+}
+
+.dropdown-item i {
+    width: 20px;
+    color: var(--color-accent);
+}
+
+.item-label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+}
+
+.item-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* HEADER DE LOGROS */
+.achievements-header {
+    margin-bottom: 3rem;
+}
+
+.achievements-header h1 {
+    margin-bottom: 1rem;
+}
+
+.achievements-subtitle {
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+    max-width: 700px;
+}
+
+/* SISTEMA DE RANGOS */
+.rank-system-section {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+}
+
+.rank-system-section h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+}
+
+.rank-system-section h2 i {
+    color: var(--color-accent);
+    margin-right: 10px;
+}
+
+.rank-progress-container {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    padding: 1.5rem;
+}
+
+.rank-progress-info {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.current-rank-box {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: rgba(var(--color-accent-rgb), 0.1);
+    border-radius: 20px;
+    padding: 1rem 2rem;
+}
+
+.rank-icon-large {
+    width: 70px;
+    height: 70px;
+    background: rgba(var(--color-accent-rgb), 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--color-accent);
+}
+
+.rank-details {
+    text-align: left;
+}
+
+.rank-label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.3rem;
+}
+
+.rank-name {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.rank-level {
+    color: var(--color-accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.rank-xp-progress {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+.progress-label span:last-child {
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
+.progress-track {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+/* Línea de tiempo de rangos */
+.rank-timeline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.rank-node {
+    flex: 1;
+    min-width: 70px;
+    text-align: center;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 30px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s;
+}
+
+.rank-node.completed {
+    background: rgba(46, 204, 113, 0.1);
+    color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+.rank-node.current {
+    background: rgba(var(--color-accent-rgb), 0.2);
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    transform: scale(1.05);
+}
+
+.rank-node.locked {
+    opacity: 0.5;
+}
+
+/* DIVISIONES COMPETITIVAS */
+.divisions-section {
+    margin-bottom: 3rem;
+}
+
+.divisions-section h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+}
+
+.divisions-section h2 i {
+    color: var(--color-accent);
+    margin-right: 10px;
+}
+
+.divisions-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.division-card {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.division-card:hover {
+    transform: translateY(-5px);
+    border-color: currentColor;
+}
+
+.division-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.division-name {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.division-status {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 30px;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.division-status.completed {
+    background: rgba(46, 204, 113, 0.2);
+    color: #2ecc71;
+}
+
+.division-status.active {
+    background: rgba(52, 152, 219, 0.2);
+    color: #3498db;
+}
+
+.division-status.locked {
+    background: rgba(128, 128, 128, 0.2);
+    color: #909090;
+}
+
+.division-status.elite {
+    background: linear-gradient(45deg, #ff0066, #ffcc00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.division-xp {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+}
+
+/* Colores de divisiones */
+.division-card.bronze { border-left: 4px solid #cd7f32; }
+.division-card.silver { border-left: 4px solid #c0c0c0; }
+.division-card.gold { border-left: 4px solid #ffd700; }
+.division-card.platinum { border-left: 4px solid #e5e4e2; }
+.division-card.diamond { border-left: 4px solid #b9f2ff; }
+.division-card.crimson { border-left: 4px solid #dc143c; }
+.division-card.iridescent { border-left: 4px solid #ff00cc; }
+.division-card.top250 { border-left: 4px solid #ff1493; }
+
+/* Estadísticas de logros */
+.achievements-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card-glow {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s;
+}
+
+.stat-card-glow:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-3px);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(var(--color-accent-rgb), 0.1);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--color-accent);
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.2rem;
+}
+
+.stat-value {
+    display: inline-block;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    line-height: 1;
+}
+
+.stat-total {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin-left: 0.2rem;
+}
+
+.stat-progress {
+    margin-top: 0.5rem;
+}
+
+.progress-bar-small {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill-small {
+    height: 100%;
+    background: var(--color-accent);
+    border-radius: 2px;
+}
+
+/* GRID DE LOGROS */
+.achievements-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.5rem;
     margin-bottom: 3rem;
 }
 
 .achievement-card {
-    background-color: rgba(26, 26, 26, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--border-radius);
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
     padding: 1.5rem;
-    text-align: center;
-    transition: transform var(--transition-speed);
+    transition: all 0.3s;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
 }
 
 .achievement-card:hover {
     transform: translateY(-5px);
+    border-color: var(--color-accent);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.achievement-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--color-accent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.achievement-card:hover::before {
+    opacity: 1;
+}
+
+.achievement-card.unlocked {
+    border-left: 4px solid #2ecc71;
 }
 
 .achievement-card.locked {
-    opacity: 0.6;
-    filter: grayscale(0.8);
+    opacity: 0.7;
+    filter: grayscale(0.3);
+}
+
+.achievement-card.active {
+    border-left: 4px solid #f39c12;
 }
 
 .achievement-icon {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
+    background: rgba(var(--color-accent-rgb), 0.1);
     border-radius: 50%;
-    background-color: rgba(230, 36, 41, 0.2);
-    margin: 0 auto 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: var(--color-accent);
+    margin-bottom: 1rem;
 }
 
-.achievement-locked .achievement-icon {
-    background-color: rgba(128, 128, 128, 0.2);
+.achievement-card.locked .achievement-icon {
+    background: rgba(128, 128, 128, 0.1);
     color: var(--color-text-muted);
 }
 
-.achievements-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin-top: 3rem;
+.achievement-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
 }
 
-@media (max-width: 768px) {
-    .achievements-page .achievements-container {
+.achievement-info p {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.achievement-reward {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    background: rgba(var(--color-accent-rgb), 0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 30px;
+}
+
+.achievement-status {
+    margin-top: 1rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.achievement-status.unlocked {
+    color: #2ecc71;
+}
+
+.achievement-status.locked {
+    color: #909090;
+}
+
+.achievement-status.active {
+    color: #f39c12;
+}
+
+/* Logro destacado */
+.featured-achievement {
+    background: linear-gradient(135deg, rgba(var(--color-accent-rgb), 0.1) 0%, transparent 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    padding: 2rem;
+    margin-top: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.featured-achievement::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-accent), #ffd700);
+}
+
+.featured-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: linear-gradient(135deg, #ffd700, #ffaa00);
+    color: #000;
+    padding: 0.3rem 1rem;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.featured-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.featured-icon {
+    width: 100px;
+    height: 100px;
+    background: rgba(var(--color-accent-rgb), 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--color-accent);
+}
+
+.featured-info {
+    flex: 1;
+}
+
+.featured-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.featured-info p {
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.featured-reward {
+    color: var(--color-accent);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.featured-progress {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+.btn-featured {
+    background: transparent;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    padding: 0.8rem 1.5rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-featured:hover {
+    background: var(--color-accent);
+    color: var(--color-primary);
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.modal-content {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-header h2 i {
+    color: var(--color-accent);
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-accent);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+    .divisions-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .achievements-stats-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media (max-width: 576px) {
-    .achievements-page .achievements-container {
+@media (max-width: 768px) {
+    .rank-progress-info {
+        flex-direction: column;
+    }
+    
+    .current-rank-box {
+        justify-content: center;
+    }
+    
+    .divisions-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .achievements-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .featured-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .rank-timeline {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .divisions-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .achievements-container {
         grid-template-columns: 1fr;
     }
 }

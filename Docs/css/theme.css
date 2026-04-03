@@ -8,6 +8,9 @@
     --color-accent-rgb: 230, 36, 41;
     --border-radius: 4px;
     --transition-speed: 0.3s;
+    --gradient-primary: linear-gradient(135deg, #00ff9d 0%, #00cc7d 100%);
+    --shadow-color: rgba(0, 255, 157, 0.3);
+
     
     /* Variables para TEMA OSCURO (por defecto) */
     --color-primary: #0c0c0c;
@@ -44,6 +47,8 @@
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
     --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+    --gradient-primary: linear-gradient(135deg, #00a86b 0%, #008c55 100%);
+    --shadow-color: rgba(0, 168, 107, 0.2);
 }
 
 [data-theme="military-blue"] {
@@ -56,7 +61,10 @@
     --color-overlay: rgba(10, 25, 41, 0.7);
     --border-color: rgba(77, 171, 247, 0.2);
     --border-accent: rgba(77, 171, 247, 0.4);
+    --gradient-primary: linear-gradient(135deg, #4dabf7 0%, #3b7fc9 100%);
+    --shadow-color: rgba(77, 171, 247, 0.3);
 }
+
 
 [data-theme="tactical-green"] {
     --color-primary: #0d1f0d;
@@ -68,6 +76,8 @@
     --color-overlay: rgba(13, 31, 13, 0.7);
     --border-color: rgba(64, 192, 87, 0.2);
     --border-accent: rgba(64, 192, 87, 0.4);
+    --gradient-primary: linear-gradient(135deg, #40c057 0%, #2e8b57 100%);
+    --shadow-color: rgba(64, 192, 87, 0.3);
 }
 
 /* TEMA TERMINAL - VERSIÓN MEJORADA */
@@ -85,6 +95,8 @@
     /* Variables extras para mejor control */
     --terminal-glow: 0 0 10px rgba(0, 255, 0, 0.5);
     --terminal-text-glow: 0 0 5px #00ff00, 0 0 10px #00ff00;
+    --gradient-primary: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+    --shadow-color: rgba(0, 255, 0, 0.3);
 }
 
 

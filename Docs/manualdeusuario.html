@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call of Productivity - MANUAL DE USUARIO</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/manualdeusuario.css">
+    
+    <!-- Fuentes e iconos -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="manual-container">
+        <!-- HEADER DEL MANUAL -->
+        <header class="manual-header">
+            <div class="manual-brand">
+                <i class="fas fa-book-skull"></i>
+                <div>
+                    <h1>MANUAL DE USUARIO</h1>
+                    <p>Call of Productivity · Versión 1.0</p>
+                </div>
+            </div>
+                <div class="manual-actions">
+        <button class="download-btn" id="downloadPDF">
+            <i class="fas fa-file-pdf"></i> DESCARGAR PDF
+        </button>
+            <div class="manual-actions">
+                <button class="print-btn" onclick="window.print()">
+                    <i class="fas fa-print"></i> IMPRIMIR
+                </button>
+                <a href="dashboard.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> VOLVER A LA BASE
+                </a>
+            </div>
+        </header>
+
+        <!-- CONTENIDO PRINCIPAL DEL MANUAL -->
+        <div class="manual-content">
+            <!-- BARRA LATERAL - ÍNDICE -->
+            <aside class="manual-sidebar">
+                <div class="sidebar-header">
+                    <i class="fas fa-list"></i>
+                    <h3>CONTENIDO</h3>
+                </div>
+                <nav class="manual-nav">
+                    <ul>
+                        <li><a href="#introduccion" class="nav-link active"><span class="section-number">01</span> INTRODUCCIÓN</a></li>
+                        <li><a href="#primeros-pasos" class="nav-link"><span class="section-number">02</span> PRIMEROS PASOS</a>
+                            <ul class="sub-nav">
+                                <li><a href="#acceso">2.1 Acceso al sistema</a></li>
+                                <li><a href="#avatar">2.2 Selección de avatar</a></li>
+                                <li><a href="#dashboard">2.3 Centro de mando</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#misiones" class="nav-link"><span class="section-number">03</span> SISTEMA DE MISIONES</a>
+                            <ul class="sub-nav">
+                                <li><a href="#crear-mision">3.1 Crear una misión</a></li>
+                                <li><a href="#tipos-mision">3.2 Tipos de misión</a></li>
+                                <li><a href="#completar-mision">3.3 Completar misiones</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#rangos" class="nav-link"><span class="section-number">04</span> RANGOS Y PROGRESIÓN</a>
+                            <ul class="sub-nav">
+                                <li><a href="#xp">4.1 Sistema de XP</a></li>
+                                <li><a href="#ascensos">4.2 Ascensos</a></li>
+                                <li><a href="#beneficios">4.3 Beneficios por rango</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#logros" class="nav-link"><span class="section-number">05</span> LOGROS Y MEDALLAS</a></li>
+                        <li><a href="#perfil" class="nav-link"><span class="section-number">06</span> PERFIL Y CONFIGURACIÓN</a>
+                            <ul class="sub-nav">
+                                <li><a href="#personalizar">6.1 Personalizar perfil</a></li>
+                                <li><a href="#tema">6.2 Cambiar tema visual</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#preguntas" class="nav-link"><span class="section-number">07</span> PREGUNTAS FRECUENTES</a></li>
+                        <li><a href="#soporte" class="nav-link"><span class="section-number">08</span> SOPORTE TÉCNICO</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="sidebar-footer">
+                    <div class="version-info">
+                        <i class="fas fa-code-branch"></i>
+                        <span>v1.0.0 · Última actualización: 2024</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- CONTENIDO DEL MANUAL -->
+            <main class="manual-main">
+                <!-- SECCIÓN 1: INTRODUCCIÓN -->
+                <section id="introduccion" class="manual-section">
+                    <div class="section-header">
+                        <span class="section-badge">01</span>
+                        <h2>INTRODUCCIÓN</h2>
+                    </div>
+                    
+                    <div class="section-content">
+                        <div class="info-box">
+                            <i class="fas fa-info-circle"></i>
+                            <p><strong>Call of Productivity</strong> es una plataforma de productividad gamificada que transforma tus tareas diarias en misiones tácticas. No es un simple gestor de tareas, es una experiencia inmersiva de estilo militar donde tú eres el operador.</p>
+                        </div>
+                        
+                        <h3>¿Qué vas a encontrar?</h3>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i> <strong>Misiones:</strong> Tareas convertidas en operaciones tácticas</li>
+                            <li><i class="fas fa-check"></i> <strong>Rangos militares:</strong> Progresión desde Recluta hasta Comandante</li>
+                            <li><i class="fas fa-check"></i> <strong>Logros:</strong> Medallas por tu desempeño</li>
+                            <li><i class="fas fa-check"></i> <strong>Personalización:</strong> Avatares y temas visuales</li>
+                            <li><i class="fas fa-check"></i> <strong>Experiencia inmersiva:</strong> Interfaz de centro de mando</li>
+                        </ul>
+                        
+                        <div class="tip-box">
+                            <i class="fas fa-lightbulb"></i>
+                            <div>
+                                <strong>CONSEJO TÁCTICO:</strong> Para aprovechar al máximo la plataforma, piensa en tus tareas como objetivos de misión. Cada tarea completada es un paso hacia tu próximo ascenso.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 2: PRIMEROS PASOS -->
+                <section id="primeros-pasos" class="manual-section">
+                    <div class="section-header">
+                        <span class="section-badge">02</span>
+                        <h2>PRIMEROS PASOS</h2>
+                    </div>
+                    
+                    <div class="section-content">
+                        <h3 id="acceso">2.1 Acceso al sistema</h3>
+                        <div class="step-by-step">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-text">
+                                    <strong>Abre la página de inicio:</strong> Navega a index.html desde tu navegador.
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-text">
+                                    <strong>Inicia sesión:</strong> Utiliza el formulario de acceso. Por ahora, cualquier credencial funciona (demo).
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-text">
+                                    <strong>Verificación:</strong> El sistema verificará tu autenticación y te redirigirá.
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 id="avatar">2.2 Selección de avatar</h3>
+                        <p>Después del login, entrarás a la pantalla de selección de operador:</p>
+                        <div class="image-placeholder">
+                            <i class="fas fa-image"></i>
+                            <span>[Aquí irá una captura de pantalla de selección de avatar]</span>
+                        </div>
+                        <ol class="instruction-list">
+                            <<li>Verás 4 perfiles de operador disponibles (Francotirador, Asalto, Apoyo, Médico).</li>
+                            <li>Haz clic en la tarjeta del que prefieras.</li>
+                            <li>Se iluminará con un borde brillante para indicar que está seleccionado.</li>
+                            <li>Presiona "CONFIRMAR OPERADOR" para continuar.</li>
+                            <li>El sistema guardará tu elección y te redirigirá a la cinemática.</li>
+                        </ol>
+
+                        <h3 id="dashboard">2.3 Centro de mando (Dashboard)</h3>
+                        <p>Después de la cinemática de introducción, llegarás al centro de mando:</p>
+                        <div class="feature-grid">
+                            <div class="feature-card">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <h4>Panel principal</h4>
+                                <p>Resumen de misiones activas, próximo rango y logros recientes.</p>
+                            </div>
+                            <div class="feature-card">
+                                <i class="fas fa-bullseye"></i>
+                                <h4>Misiones activas</h4>
+                                <p>Lista de tareas pendientes con sus prioridades.</p>
+                            </div>
+                            <div class="feature-card">
+                                <i class="fas fa-chart-line"></i>
+                                <h4>Progreso</h4>
+                                <p>Barra de XP y distancia hasta el próximo ascenso.</p>
+                            </div>
+                            <div class="feature-card">
+                                <i class="fas fa-clock"></i>
+                                <h4>Racha operativa</h4>
+                                <p>Días consecutivos completando misiones.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 3: SISTEMA DE MISIONES -->
+                <section id="misiones" class="manual-section">
+                    <div class="section-header">
+                        <span class="section-badge">03</span>
+                        <h2>SISTEMA DE MISIONES</h2>
+                    </div>
+                    
+                    <div class="section-content">
+                        <h3 id="crear-mision">3.1 Crear una misión</h3>
+                        <div class="instruction-block">
+                            <p>Para crear una nueva misión desde el centro de mando:</p>
+                            <ol>
+                                <li>Haz clic en el botón <span class="badge">+ NUEVA MISIÓN</span> en la parte superior del dashboard.</li>
+                                <li>Completa los campos:
+                                    <ul>
+                                        <li><strong>Nombre de la misión:</strong> Título descriptivo</li>
+                                        <li><strong>Descripción:</strong> Detalles del objetivo</li>
+                                        <li><strong>Prioridad:</strong> Baja (reconocimiento), Media (asalto), Alta (crítica)</li>
+                                        <li><strong>Fecha límite:</strong> Cuándo debe completarse</li>
+                                    </ul>
+                                </li>
+                                <li>Presiona "LANZAR MISIÓN" para crearla.</li>
+                            </ol>
+                        </div>
+
+                        <h3 id="tipos-mision">3.2 Tipos de misión</h3>
+                        <table class="missions-table">
+                            <thead>
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Prioridad</th>
+                                    <th>XP Base</th>
+                                    <th>Ejemplo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Reconocimiento</td>
+                                    <td><span class="priority low">BAJA</span></td>
+                                    <td>10 XP</td>
+                                    <td>Revisar emails, organizar archivos</td>
+                                </tr>
+                                <tr>
+                                    <td>Asalto táctico</td>
+                                    <td><span class="priority medium">MEDIA</span></td>
+                                    <td>25 XP</td>
+                                    <td>Completar informe, reunión</td>
+                                </tr>
+                                <tr>
+                                    <td>Operación crítica</td>
+                                    <td><span class="priority high">ALTA</span></td>
+                                    <td>50 XP</td>
+                                    <td>Entrega final, presentación</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="completar-mision">3.3 Completar misiones</h3>
+                        <div class="tip-box warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>
+                                <strong>IMPORTANTE:</strong> Las misiones no se completan solas. Debes marcarlas manualmente.
+                            </div>
+                        </div>
+                        <ol>
+                            <li>En la página de misiones (<span class="badge">missions.html</span>), verás tu lista de misiones activas.</li>
+                            <li>Cada misión tiene un botón <span class="badge">COMPLETAR</span> al lado.</li>
+                            <li>Al hacer clic, la misión se marca como completada y recibes:
+                                <ul>
+                                    <li>XP base según prioridad</li>
+                                    <li>Bonus si se completó antes de la fecha límite</li>
+                                    <li>Posibilidad de desbloquear logros</li>
+                                </ul>
+                            </li>
+                            <li>Las misiones completadas se mueven al historial.</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 4: RANGOS Y PROGRESIÓN -->
+                <section id="rangos" class="manual-section">
+                    <div class="section-header">
+                        <span class="section-badge">04</span>
+                        <h2>RANGOS Y PROGRESIÓN</h2>
+                    </div>
+                    
+                    <div class="section-content">
+                        <h3 id="xp">4.1 Sistema de XP</h3>
+                        <p>Cada misión completada te otorga XP (Puntos de Experiencia). La cantidad depende de:</p>
+                        <ul>
+                            <li><strong>Prioridad de la misión:</strong> A mayor prioridad, más XP</li>
+                            <li><strong>Completar antes del plazo:</strong> +20% XP bonus</li>
+                            <li><strong>Racha activa:</strong> Bonus por días consecutivos</li>
+                        </ul>
+
+                        <h3 id="ascensos">4.2 Ascensos</h3>
+                        <p>Al acumular suficiente XP, asciendes de rango. La tabla de ascensos es:</p>
+                        <table class="rank-table">
+                            <thead>
+                                <tr>
+                                    <th>Rango</th>
+                                    <th>XP Requerido</th>
+                                    <th>Categoría</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Recluta</td><td>0 XP</td><td>Tropa</td></tr>
+                                <tr><td>Soldado</td><td>100 XP</td><td>Tropa</td></tr>
+                                <tr><td>Soldado de primera</td><td>250 XP</td><td>Tropa</td></tr>
+                                <tr><td>Cabo</td><td>500 XP</td><td>Suboficiales</td></tr>
+                                <tr><td>Sargento</td><td>1000 XP</td><td>Suboficiales</td></tr>
+                                <tr><td>Sargento mayor</td><td>2000 XP</td><td>Suboficiales</td></tr>
+                                <tr><td>Teniente</td><td>3500 XP</td><td>Oficiales</td></tr>
+                                <tr><td>Capitán</td><td>5000 XP</td><td>Oficiales</td></tr>
+                                <tr><td>Comandante</td><td>7500 XP</td><td>Oficiales</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="beneficios">4.3 Beneficios por rango</h3>
+                        <div class="benefits-grid">
+                            <div class="benefit-item">
+                                <span class="rank-tag">RECLUTA</span>
+                                <span>Acceso básico a misiones</span>
+                            </div>
+                            <div class="benefit-item">
+                                <span class="rank-tag">CABO</span>
+                                <span>Personalización de avatar</span>
+                            </div>
+                            <div class="benefit-item">
+                                <span class="rank-tag">SARGENTO</span>
+                                <span>Misiones prioritarias ilimitadas</span>
+                            </div>
+                            <div class="benefit-item">
+                                <span class="rank-tag">TENIENTE</span>
+                                <span>Temas visuales desbloqueados</span>
+                            </div>
+                            <div class="benefit-item">
+                                <span class="rank-tag">CAPITÁN</span>
+                                <span>Estadísticas avanzadas</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 5: LOGROS Y MEDALLAS -->
+                <section id="logros" class="manual-section">
+                    <div class="section-header">
+                        <span class="section-badge">05</span>
+                        <h2>LOGROS Y MEDALLAS</h2>
+                    </div>
+                    
+                    <div class="section-content">
+                        <p>Los logros son medallas especiales que obtienes por acciones destacadas. Se muestran en <span class="badge">Logros.html</span>.</p>
+                        
+                        <h3>Categorías de logros</h3>
+                        <div class="achievements-categories">
+                            <div class="category">
+                                <h4>🏅 COMBATE</h4>
+                                <ul>
+                                    <li><strong>Primer contacto:</strong> Completa tu primera misión</li>
+                                    <li><strong>Veterano:</strong> Completa 100 misiones</li>
+                                    <li><strong>Racha operativa:</strong> 7 días consecutivos</li>
+                                </ul>
+                            </div>
+                            <div class="category">
+                                <h4>⚡ ESPECIALIZACIÓN</h4>
+                                <ul>
+                                    <li><strong>Velocidad táctica:</strong> Completa misión en menos de 1 hora</li>
+                                    <li><strong>Resistencia:</strong> 10 misiones de alta prioridad</li>
+                                    <li><strong>Estratega:</strong> Planifica con 1 semana de antelación</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="tip-box">
+                            <i class="fas fa-trophy"></i>
+                            <div>
+                                <strong>PRO TIP:</strong> Los logros también otorgan XP bonus. Revisa la página de logros frecuentemente para ver tu progreso.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 6: PERFIL Y CONFIGURACIÓN -->
+                <section id="perfil" class="manual-section">
+                    <div class="section-header">
+                        <span class="section-badge">06</span>
+                        <h2>PERFIL Y CONFIGURACIÓN</h2>
+                    </div>
+                    
+                    <div class="section-content">
+                        <h3 id="personalizar">6.1 Personalizar perfil</h3>
+                        <p>En <span class="badge">profile.html</span> puedes gestionar tu identidad táctica:</p>
+                        <ol>
+                            <li><strong>Cambiar avatar:</strong> Selecciona entre los operadores disponibles</li>
+                            <li><strong>Nombre en clave:</strong> Edita tu identificador</li>
+                            <li><strong>Especialidad:</strong> Ajusta tu rol (desbloquea bonificaciones)</li>
+                            <li><strong>Estadísticas:</strong> Visualiza tu historial de misiones</li>
+                        </ol>
+
+                        <h3 id="tema">6.2 Cambiar tema visual</h3>
+                        <p>En <span class="badge">settings.html</span> puedes ajustar la apariencia:</p>
+                        <ul>
+                            <li><strong>Tema oscuro/claro:</strong> Alterna entre modos</li>
+                            <li><strong>Color de acento:</strong> Verde militar, azul acero o gris táctico</li>
+                            <li><strong>Brillo HUD:</strong> Intensidad de los elementos glow</li>
+                        </ul>
+                        
+                        <div class="image-placeholder">
+                            <i class="fas fa-image"></i>
+                            <span>[Captura de pantalla de settings.html]</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 7: PREGUNTAS FRECUENTES -->
+                <section id="preguntas" class="manual-section">
+                    <div class="section-header">
+                        <span class="section-badge">07</span>
+                        <h2>PREGUNTAS FRECUENTES</h2>
+                    </div>
+                    
+                    <div class="section-content">
+                        <div class="faq-list">
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-question-circle"></i>
+                                    <strong>¿Cómo guardo mi progreso?</strong>
+                                </div>
+                                <div class="faq-answer">
+                                    El progreso se guarda automáticamente en localStorage. No necesitas hacer nada manualmente. Al cerrar y volver a abrir el navegador, tu progreso estará ahí.
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-question-circle"></i>
+                                    <strong>¿Puedo usar Call of Productivity en móvil?</strong>
+                                </div>
+                                <div class="faq-answer">
+                                    Sí, la interfaz es responsive y se adapta a dispositivos móviles, aunque la experiencia óptima es en ordenador.
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-question-circle"></i>
+                                    <strong>¿Qué pasa si no completo una misión?</strong>
+                                </div>
+                                <div class="faq-answer">
+                                    Las misiones no tienen penalización por no completarse. Puedes reprogramarlas o eliminarlas. El sistema está diseñado para motivar, no para castigar.
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-question-circle"></i>
+                                    <strong>¿Cómo reinicio mi progreso?</strong>
+                                </div>
+                                <div class="faq-answer">
+                                    Puedes borrar los datos de localStorage desde las herramientas de desarrollo del navegador (F12 → Aplicación → Almacenamiento → localStorage → borrar).
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-question-circle"></i>
+                                    <strong>¿Habrá backend con bases de datos?</strong>
+                                </div>
+                                <div class="faq-answer">
+                                    Actualmente es frontend puro. La versión futura incluirá backend real con persistencia en base de datos y funcionalidades multijugador.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 8: SOPORTE TÉCNICO -->
+                <section id="soporte" class="manual-section">
+                    <div class="section-header">
+                        <span class="section-badge">08</span>
+                        <h2>SOPORTE TÉCNICO</h2>
+                    </div>
+                    
+                    <div class="section-content">
+                        <div class="support-grid">
+                            <div class="support-card">
+                                <i class="fas fa-bug"></i>
+                                <h4>Reportar errores</h4>
+                                <p>Si encuentras algún problema técnico:</p>
+                                <ul>
+                                    <li>Describe qué estabas haciendo</li>
+                                    <li>Qué ocurrió realmente</li>
+                                    <li>Captura de pantalla si es posible</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="support-card">
+                                <i class="fas fa-lightbulb"></i>
+                                <h4>Sugerencias</h4>
+                                <p>¿Ideas para mejorar? Compártelas:</p>
+                                <ul>
+                                    <li>Nuevos tipos de misión</li>
+                                    <li>Logros adicionales</li>
+                                    <li>Mejoras de interfaz</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="support-card">
+                                <i class="fas fa-question"></i>
+                                <h4>Contacto</h4>
+                                <p>Para soporte directo:</p>
+                                <div class="contact-info">
+                                    <span><i class="fas fa-envelope"></i> soporte@callofproductivity.com</span>
+                                    <span><i class="fas fa-discord"></i> Discord: próximamente</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PIE DE PÁGINA DEL MANUAL -->
+                <div class="manual-footer">
+                    <p>Call of Productivity v1.0 · Manual de usuario · Todos los derechos reservados</p>
+                    <p class="disclaimer">Este manual es parte del proyecto Call of Productivity. Prohibida su reproducción sin autorización.</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/theme.js"></script>
+    <script src="js/manual-de-usuario.js"></script>
+</body>
+</html>

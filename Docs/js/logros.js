@@ -1,197 +1,237 @@
 // ============================================
-// FUNCIONES JAVASCRIPT PARA LOGROS
+// LOGROS.JS - Call of Productivity
+// Versión completa con sistema de logros y rangos
 // ============================================
 
-// Función para inicializar la página de logros
-function initLogros() {
-    console.log('Página de logros inicializada');
+// Configuración de Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyA84yn9sEpKXC9CkLSpXSFWChphQivyjQA",
+    authDomain: "call-of-duty-ba8c6.firebaseapp.com",
+    projectId: "call-of-duty-ba8c6",
+    storageBucket: "call-of-duty-ba8c6.firebasestorage.app",
+    messagingSenderId: "332396788517",
+    appId: "1:332396788517:web:9b16dba369dda189dd78cc"
+};
+
+try {
+    firebase.initializeApp(firebaseConfig);
+    console.log('✅ Firebase inicializado');
+} catch (e) {
+    console.log('⚠️ Firebase no disponible');
+}
+
+// ============================================
+// VARIABLES GLOBALES
+// ============================================
+let achievementsData = {
+    total: 25,
+    unlocked: 12,
+    inProgress: 1,
+    totalXP: 3650,
+    maxStreak: 15,
+    completionRate: 48
+};
+
+// ============================================
+// INICIALIZACIÓN
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Página de logros iniciando...');
     
-    // Cargar logros del usuario
-    loadAchievements();
+    // Cargar datos guardados
+    loadAchievementsData();
     
-    // Configurar eventos de logros
+    // Inicializar eventos
     setupAchievementEvents();
     
     // Animar barras de progreso
     animateProgressBars();
-}
+    
+    // Crear partículas
+    createParticles();
+    
+    // Actualizar estadísticas en UI
+    updateStatsUI();
+});
 
-// Función para cargar logros
-function loadAchievements() {
-    // Aquí tu compañero conectará con Supabase para obtener los logros
-    // getAchievementsFromSupabase().then(achievements => {
-    //     updateAchievementsUI(achievements);
-    // });
-    
-    // Datos de ejemplo (temporal)
-    const achievementsData = {
-        total: 12,
-        unlocked: 8,
-        locked: 4,
-        totalXP: 3650,
-        nextAchievement: 'VELOCIDAD RELÁMPAGO',
-        nextRequirement: 'Completa 5 misiones en un día',
-        progress: 48
-    };
-    
-    updateAchievementsUI(achievementsData);
-}
+// ============================================
+// CARGA DE DATOS
+// ============================================
 
-// Función para actualizar la UI con logros
-function updateAchievementsUI(data) {
-    // Actualizar estadísticas
-    const statCards = document.querySelectorAll('.achievements-stats .stat-card .stat-value');
-    const statDetails = document.querySelectorAll('.achievements-stats .stat-card .stat-details');
-    
-    if (statCards[0]) statCards[0].textContent = `${data.unlocked}/${data.total}`;
-    if (statCards[1]) statCards[1].textContent = data.totalXP.toLocaleString();
-    if (statCards[2]) statCards[2].textContent = data.nextAchievement;
-    
-    if (statDetails[2]) statDetails[2].textContent = data.nextRequirement;
-    
-    // Actualizar barra de progreso
-    const progressBar = document.querySelector('.achievements-stats .progress-fill[data-width]');
-    if (progressBar) {
-        progressBar.style.width = `${data.progress}%`;
+function loadAchievementsData() {
+    const savedData = localStorage.getItem('achievements_data');
+    if (savedData) {
+        try {
+            const data = JSON.parse(savedData);
+            achievementsData = { ...achievementsData, ...data };
+        } catch(e) {
+            console.error('Error loading achievements data:', e);
+        }
     }
     
-    // Aquí podrías actualizar también el estado individual de cada logro
-    // basado en los datos de Supabase
+    updateStatsUI();
 }
 
-// Función para configurar eventos de logros
+function updateStatsUI() {
+    const unlockedCount = document.getElementById('unlockedCount');
+    const totalXp = document.getElementById('totalXp');
+    const maxStreak = document.getElementById('maxStreak');
+    const completionRate = document.getElementById('completionRate');
+    const progressFill = document.querySelector('.progress-fill-small');
+    
+    if (unlockedCount) unlockedCount.textContent = achievementsData.unlocked;
+    if (totalXp) totalXp.textContent = achievementsData.totalXP.toLocaleString();
+    if (maxStreak) maxStreak.textContent = achievementsData.maxStreak;
+    if (completionRate) completionRate.textContent = achievementsData.completionRate;
+    
+    if (progressFill) {
+        progressFill.style.width = `${achievementsData.completionRate}%`;
+    }
+}
+
+// ============================================
+// EVENTOS DE LOGROS
+// ============================================
+
 function setupAchievementEvents() {
     const achievementCards = document.querySelectorAll('.achievement-card');
     
     achievementCards.forEach(card => {
-        // Evento hover
         card.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-5px)';
-            this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)';
         });
         
         card.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0)';
-            this.style.boxShadow = 'none';
         });
         
-        // Evento click
-        card.addEventListener('click', function() {
-            showAchievementDetails(this);
+        card.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const id = this.getAttribute('data-id');
+            const title = this.querySelector('h3').textContent;
+            const description = this.querySelector('p').textContent;
+            const reward = this.querySelector('.achievement-reward')?.textContent || '+0 XP';
+            const isUnlocked = this.classList.contains('unlocked');
+            const isActive = this.classList.contains('active');
+            const progress = this.querySelector('.achievement-status')?.textContent || '';
+            
+            showAchievementDetail(title, description, reward, isUnlocked, isActive, progress);
         });
     });
 }
 
-// Función para mostrar detalles del logro
-function showAchievementDetails(card) {
-    const title = card.querySelector('h3').textContent;
-    const description = card.querySelector('p').textContent;
-    const xp = card.querySelector('.mission-xp').textContent;
-    const isLocked = card.classList.contains('locked');
+function showAchievementDetail(title, description, reward, isUnlocked, isActive, progress) {
+    const modal = document.getElementById('achievementModal');
+    const modalBody = document.getElementById('achievementModalBody');
     
-    let message = `LOGRO: ${title}\n\n${description}\n\nRecompensa: ${xp}`;
+    if (!modal || !modalBody) return;
     
-    if (isLocked) {
-        message += '\n\n🔒 ESTADO: BLOQUEADO\nCompleta los requisitos para desbloquear este logro.';
-    } else {
-        message += '\n\n✅ ESTADO: DESBLOQUEADO\n¡Felicidades por este logro!';
-    }
+    const status = isUnlocked ? 'DESBLOQUEADO' : (isActive ? 'EN PROGRESO' : 'BLOQUEADO');
+    const statusColor = isUnlocked ? '#2ecc71' : (isActive ? '#f39c12' : '#909090');
+    const icon = isUnlocked ? 'fa-check-circle' : (isActive ? 'fa-spinner fa-spin' : 'fa-lock');
     
-    // Mostrar modal o alert con detalles
-    mostrarDetalleLogro(title, message, isLocked);
-}
-
-// Función para mostrar detalle del logro en modal
-function mostrarDetalleLogro(titulo, mensaje, bloqueado) {
-    // Crear modal de detalles
-    const modalHTML = `
-        <div class="modal-overlay" id="achievementDetailModal">
-            <div class="militar-modal">
-                <div class="modal-header">
-                    <h3><i class="fas fa-${bloqueado ? 'lock' : 'trophy'}"></i> ${titulo}</h3>
-                    <button class="modal-close" onclick="cerrarDetalleLogro()">&times;</button>
+    modalBody.innerHTML = `
+        <div style="text-align: center;">
+            <div style="width: 100px; height: 100px; background: rgba(var(--color-accent-rgb), 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                <i class="fas ${isUnlocked ? 'fa-trophy' : (isActive ? 'fa-hourglass-half' : 'fa-lock')}" style="font-size: 3rem; color: ${statusColor};"></i>
+            </div>
+            
+            <h3 style="margin-bottom: 0.5rem;">${title}</h3>
+            <p style="color: var(--color-text-muted); margin-bottom: 1rem;">${description}</p>
+            
+            <div style="background: rgba(var(--color-accent-rgb), 0.1); border-radius: 15px; padding: 1rem; margin-bottom: 1rem;">
+                <span style="color: var(--color-accent); font-weight: 600;">${reward}</span>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <span style="display: inline-block; background: ${statusColor}20; color: ${statusColor}; padding: 0.3rem 1rem; border-radius: 30px; font-size: 0.8rem; font-weight: 600;">
+                    <i class="fas ${icon}"></i> ${status}
+                </span>
+            </div>
+            
+            ${progress && !isUnlocked ? `
+            <div style="margin-top: 1rem;">
+                <div style="font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 0.3rem;">Progreso</div>
+                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                    <div style="width: ${extractProgress(progress)}%; height: 100%; background: var(--color-accent); border-radius: 3px;"></div>
                 </div>
-                <div class="modal-body">
-                    <div style="white-space: pre-line; line-height: 1.6;">${mensaje}</div>
-                    ${bloqueado ? 
-                        '<div class="modal-actions" style="justify-content: center; margin-top: 2rem;">' +
-                        '<button class="btn-primary" onclick="cerrarDetalleLogro()">ENTENDIDO</button>' +
-                        '</div>' : 
-                        '<div class="modal-actions" style="justify-content: center; margin-top: 2rem;">' +
-                        '<button class="btn-primary" onclick="compartirLogro()"><i class="fas fa-share"></i> COMPARTIR</button>' +
-                        '</div>'
-                    }
-                </div>
+                <div style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 0.3rem;">${progress}</div>
+            </div>
+            ` : ''}
+            
+            <div style="margin-top: 2rem;">
+                <button class="btn-primary" onclick="closeAchievementModal()" style="width: 100%;">
+                    <i class="fas fa-check"></i> ENTENDIDO
+                </button>
             </div>
         </div>
     `;
     
-    // Agregar modal al DOM
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    modal.style.display = 'flex';
 }
 
-// Función para cerrar detalle del logro
-function cerrarDetalleLogro() {
-    const modal = document.getElementById('achievementDetailModal');
+function extractProgress(progressText) {
+    const match = progressText.match(/(\d+)\/(\d+)/);
+    if (match) {
+        return (parseInt(match[1]) / parseInt(match[2]) * 100);
+    }
+    return 0;
+}
+
+function closeAchievementModal() {
+    const modal = document.getElementById('achievementModal');
     if (modal) {
-        modal.remove();
+        modal.style.display = 'none';
     }
 }
 
-// Función para compartir logro
-function compartirLogro() {
-    // Aquí tu compañero puede implementar compartir en redes sociales
-    mostrarNotificacion('Funcionalidad de compartir - Próximamente', 'info');
-}
+// ============================================
+// ANIMACIONES
+// ============================================
 
-// Función para animar barras de progreso
 function animateProgressBars() {
-    const progressBars = document.querySelectorAll('.progress-fill');
+    const progressBars = document.querySelectorAll('.progress-fill, .progress-fill-small');
     
     progressBars.forEach(bar => {
-        const width = bar.getAttribute('data-width') || '0';
-        
-        // Animar después de un pequeño delay
-        setTimeout(() => {
-            bar.style.width = `${width}%`;
-        }, 300);
+        const width = bar.style.width;
+        if (width === '0%' || width === '') {
+            const targetWidth = bar.getAttribute('data-width') || '48%';
+            setTimeout(() => {
+                bar.style.width = targetWidth;
+            }, 300);
+        }
     });
 }
 
-// Función para mostrar notificación
-function mostrarNotificacion(mensaje, tipo = 'info') {
-    // Crear elemento de notificación
-    const notificacion = document.createElement('div');
-    notificacion.className = `notificacion notificacion-${tipo}`;
+// ============================================
+// PARTÍCULAS
+// ============================================
+
+function createParticles() {
+    const container = document.getElementById('particles');
+    if (!container) return;
     
-    // Icono según tipo
-    let icon = 'info-circle';
-    if (tipo === 'success') icon = 'check-circle';
-    if (tipo === 'error') icon = 'exclamation-circle';
+    container.innerHTML = '';
     
-    notificacion.innerHTML = `
-        <i class="fas fa-${icon}"></i>
-        <span>${mensaje}</span>
-    `;
-    
-    // Agregar al DOM
-    document.body.appendChild(notificacion);
-    
-    // Mostrar con animación
-    setTimeout(() => {
-        notificacion.classList.add('show');
-    }, 10);
-    
-    // Ocultar después de 3 segundos
-    setTimeout(() => {
-        notificacion.classList.remove('show');
-        setTimeout(() => {
-            notificacion.remove();
-        }, 300);
-    }, 3000);
+    for (let i = 0; i < 25; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        const size = Math.random() * 80 + 40;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.animationDelay = `${Math.random() * 8}s`;
+        particle.style.animationDuration = `${12 + Math.random() * 10}s`;
+        
+        container.appendChild(particle);
+    }
 }
 
-// Inicializar cuando el DOM esté listo
-if (document.getElementById('achievements-page')) {
-    document.addEventListener('DOMContentLoaded', initLogros);
-}
+// ============================================
+// FUNCIONES GLOBALES
+// ============================================
+
+window.showAchievementDetail = showAchievementDetail;
+window.closeAchievementModal = closeAchievementModal;
